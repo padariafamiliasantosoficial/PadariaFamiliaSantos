@@ -1,5 +1,11 @@
 
 <?php
+$host = getenv('DB_HOST');
+$port = getenv('DB_PORT');
+$dbname = getenv('DB_NAME');
+$user = getenv('DB_USER');
+$password = getenv('DB_PASSWORD');
+$pdo = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $user, $password);
 // Configurações de conexão com o banco (substitua com suas credenciais reais)
 $host = 'dpg-d2hnjkemcj7s73bsf840-a.oregon-postgres.render.com';  // Ou '127.0.0.1'
 $port = '5432';
@@ -36,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Mensagem de sucesso e redirecionamento
         echo "Dados enviados com sucesso! Você será redirecionado.";
-        header('Site.Index');  // Substitua pelo nome do seu arquivo HTML
+        header("Location: index.html");  // Substitua pelo nome do seu arquivo HTML
         exit;
     } catch (PDOException $e) {
         // Tratamento de erros (ex: email duplicado por ser unique)
@@ -49,5 +55,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 } else {
     echo "Acesso inválido.";
 }
-$pdo = new PDO("pgsql:host=$host;port=$port;dbname=$dbname;sslmode=require", $user, $password);
+
 ?>
