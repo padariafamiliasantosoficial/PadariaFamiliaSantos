@@ -1164,8 +1164,7 @@ footer span {
     margin: 0;
     padding-left: 20px;
     padding-bottom: 15px;
-    width: 100%;
-  
+    max-width: 1920px;
 }
 @media (min-width: 1401px) {
     body {

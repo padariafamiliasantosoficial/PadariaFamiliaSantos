@@ -31,10 +31,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo '<!DOCTYPE html>
 <html>
 <head>
-    <title>Sucesso</title>
+    <title>Enviado</title>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
-        #countdown { font-size: 24px; color: #28a745; }
+        #countdown { font-size: 24px; color: #E38417; }
     </style>
 </head>
 <body>
