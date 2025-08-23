@@ -15,3 +15,5 @@ EXPOSE 80
 
 # Comando para iniciar o Apache
 CMD ["apache2-foreground"]
+
+RUN a2enmod rewrite
