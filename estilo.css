@@ -558,13 +558,12 @@ form {
 }
 .mapbox iframe {
     padding: 10px;
-    width: 450px;
+    width: 100%;
     height: 275px;
     margin-left: 0;
     margin-top: 15px;
     position: relative;
     border-radius: 1%;
-  
 }
 .info-produto {
     display: none;
@@ -1185,10 +1184,6 @@ footer span {
     }
 }
 @media (max-width: 1300px) {
-    body {
-        max-width: 1300px;
-        margin: 0 auto;
-    }
     nav {
         margin-right: 30px;
     }
@@ -1267,8 +1262,8 @@ footer span {
         width: 200px;
     }
     .mapbox iframe {
-        max-width: 300px;
-        min-height: 360px;
+        width: 100%;
+        height: 300px;
         margin-top: 10px;
     }
     .categoria-detalhes {
@@ -1436,10 +1431,6 @@ form {
 }
 }
 @media (max-width: 900px) {
-    body {
-        max-width: 900px;
-        margin: 0 auto;
-    }
     header {
         padding: 2px;
 }
@@ -1726,10 +1717,6 @@ form {
 }
 }
 @media (max-width: 880px) {
-    body {
-        max-width: 880px;
-        margin: 0 auto;
-    }
     header {
         padding: 2px;
     }
@@ -2010,10 +1997,6 @@ form {
 }
 }
 @media (max-width: 840px) {
-    body {
-        max-width: 840px;
-        margin: 0 auto;
-    }
     header {
         padding: 2px;
     }
@@ -2269,10 +2252,6 @@ form {
 }
 }
 @media (max-width: 770px) {
-    body {
-        max-width: 770px;
-        margin: 0 auto;
-    }
     /*bolos*/
     .swiper {
         width: 450px;
@@ -2414,10 +2393,6 @@ form {
 }
 }
 @media (max-width: 500px) {
-    body {
-        max-width: 500px;
-        margin: 0 auto;
-    }
     .alfa-slab-one-regular {
         font-weight: 400;
     }
@@ -2646,7 +2621,7 @@ form {
         font-size: 12px;
     }
     .mapbox iframe {
-        width: 300px;
+        width: 100%;
         height: 160px;
     }
     footer {
@@ -2671,10 +2646,6 @@ form {
 }
 }
 @media (max-width: 450px) {
-    body {
-        max-width: 450px;
-        margin: 0 auto;
-    }
     header {
         width: 100vw;
     }
@@ -2890,7 +2861,7 @@ form {
         font-size: 10px;
     }
     .mapbox iframe {
-        width: 300px;
+        width: 100%;
         height: 160px;
     }
     footer {
@@ -3029,10 +3000,6 @@ form {
     font-size: 14px;
 }
 @media (max-width: 400px) {
-    body {
-        max-width: 400px;
-        margin: 0 auto;
-    }
     #sobre img,
     #contato img,
     #mapa img {
@@ -3368,10 +3335,7 @@ form {
 }
 }
 @media (max-width: 360px) {
-    body {
-        max-width: 360px;
-        margin: 0 auto;
-    }
+    
     .card h3, .card h4 {
         padding: 8px;
     }
@@ -3752,10 +3716,6 @@ form {
 
 }
 @media (max-width: 320px) {
-    body {
-        max-width: 320px;
-        margin: 0 auto;
-    }
     nav {
         display: none;
     }
