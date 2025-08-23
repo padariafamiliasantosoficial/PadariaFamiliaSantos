@@ -27,9 +27,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare("INSERT INTO formulario (nome, email) VALUES (:nome, :email)");
         $stmt->execute([':nome' => $nome, ':email' => $email]);
 
-        echo "Dados enviados com sucesso! Você será redirecionado.";
+        // Redireciona imediatamente
         header("Location: index.html");
-        exit;
+        exit; // Garante que nada mais seja executado
     } catch (PDOException $e) {
         if ($e->getCode() == '23505') {
             echo "Esse email já está cadastrado.";
