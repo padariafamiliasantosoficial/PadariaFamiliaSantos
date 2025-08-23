@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([':nome' => $nome, ':email' => $email]);
 
         // Redireciona imediatamente
-        header("Location: index.html");
+        header("Location: https://padariafamiliasantos.onrender.com/");
         exit; // Garante que nada mais seja executado
     } catch (PDOException $e) {
         if ($e->getCode() == '23505') {
