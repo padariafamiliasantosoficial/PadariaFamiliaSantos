@@ -27,16 +27,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare("INSERT INTO formulario (nome, email) VALUES (:nome, :email)");
         $stmt->execute([':nome' => $nome, ':email' => $email]);
 
-        // Redireciona imediatamente
-        header("Location: https://padariafamiliasantos.onrender.com/");
-        exit; // Garante que nada mais seja executado
+        // Exibe mensagem de sucesso com redirecionamento após 3 segundos
+        echo '<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="refresh" content="3;url=https://padariafamiliasantos.onrender.com/">
+    <title>Sucesso</title>
+</head>
+<body>
+    <p>Dados enviados com sucesso! Você será redirecionado em 3 segundos...</p>
+</body>
+</html>';
+        exit;
     } catch (PDOException $e) {
         if ($e->getCode() == '23505') {
             echo "Esse email já está cadastrado.";
         } else {
             echo "Erro ao conectar ou inserir dados: " . $e->getMessage();
         }
-        exit; // Para o script após exibir o erro
+        exit;
     }
 } else {
     echo "Acesso inválido.";
