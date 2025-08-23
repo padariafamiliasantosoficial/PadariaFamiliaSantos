@@ -27,15 +27,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare("INSERT INTO formulario (nome, email) VALUES (:nome, :email)");
         $stmt->execute([':nome' => $nome, ':email' => $email]);
 
-        // Exibe mensagem de sucesso com redirecionamento após 3 segundos
+        // Exibe mensagem com contagem regressiva
         echo '<!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="refresh" content="3;url=https://padariafamiliasantos.onrender.com/">
     <title>Sucesso</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+        #countdown { font-size: 24px; color: #28a745; }
+    </style>
 </head>
 <body>
-    <p>Dados enviados com sucesso! Você será redirecionado em 3 segundos...</p>
+    <p>Dados enviados com sucesso!</p>
+    <p>Você será redirecionado em <span id="countdown">3</span> segundos...</p>
+    <script>
+        let timeLeft = 3;
+        const countdownElement = document.getElementById("countdown");
+        const timer = setInterval(() => {
+            timeLeft--;
+            countdownElement.textContent = timeLeft;
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                window.location.href = "https://padariafamiliasantos.onrender.com/";
+            }
+        }, 1000);
+    </script>
 </body>
 </html>';
         exit;
