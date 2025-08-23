@@ -557,14 +557,25 @@ form {
     margin: 0 auto; /* Centraliza o iframe */
   
 }
-.mapbox iframe {
-    padding: 10px;
-    max-width: 100%;
-    height: 275px;
-    margin-left: 0;
-    margin-top: 15px;
+.mapbox-container {  /* New wrapper div around the iframe */
     position: relative;
+    overflow: hidden;
+    width: 100%;
+    padding-top: 56.25%;  /* Adjust for your map's aspect ratio, e.g., 56.25% for 16:9 */
+    box-sizing: border-box;
+}
+
+.mapbox iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    padding: 10px;
+    margin: 15px 0 0 0;
     border-radius: 1%;
+    box-sizing: border-box;
 }
 .info-produto {
     display: none;
@@ -1549,7 +1560,7 @@ form {
         width: 200px;
     }
     .mapbox iframe {
-        width: 650px;
+        width: 100%;
         height: 180px;
         margin-top: 10px;
     }
@@ -1829,8 +1840,7 @@ form {
         width: 200px;
     }
     .mapbox iframe {
-        min-width: 700px;
-        height: 75px;
+        height: 180px;
         margin-top: 10px;
     }
     .comentario-form {
@@ -3987,4 +3997,146 @@ form {
     margin-bottom: 10px;
 
 }
-}}
+/*trecho de correções globais para mobiles*/ 
+
+@media (max-width: 500px), (max-width: 450px), (max-width: 400px), (max-width: 360px), (max-width: 320px) {
+    html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        overflow-x: hidden;
+        box-sizing: border-box;
+    }
+    header {
+        width: 100vw;
+        padding: 2px;
+        box-sizing: border-box;
+    }
+    #menu {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        margin: 0 auto;
+        padding: 0 10px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+    .card {
+        width: 100%;
+        max-width: 350px;
+        aspect-ratio: 350/500;
+        box-sizing: border-box;
+    }
+    .swiper {
+        width: 100%;
+        max-width: 100%;
+        height: 240px;
+        box-sizing: border-box;
+    }
+    .card-swiper {
+        width: 100%;
+        max-width: 100%;
+        height: 240px;
+        box-sizing: border-box;
+    }
+    #catalogo {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        padding: 10px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+    .categoria {
+        width: 100%;
+        height: 120px;
+        box-sizing: border-box;
+    }
+    .categoria[data-categoria="Menu"] {
+        height: 250px;
+        width: 100%;
+    }
+    .sobre-apresentacao, .sobre-form {
+        width: 100%;
+        max-width: min(100%, 360px);
+        margin: 10px auto;
+        box-sizing: border-box;
+    }
+    .mapbox iframe {
+        width: 100%;
+        max-width: 100%;
+        height: 160px;
+        box-sizing: border-box;
+    }
+    .lista-interativa {
+        width: 80vw; /* Usa 80% da largura da viewport */
+        max-width: 320px;
+        height: 400px;
+        right: -100vw; /* Garante que fique fora da tela */
+        top: 100px;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+    .lista-interativa.open {
+        right: 0;
+    }
+    .carrinho {
+        top: 120px;
+        right: 10px; /* Ajustado para evitar overflow */
+        padding: 15px;
+    }
+    .categoria-detalhes {
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+        gap: 5px;
+        padding: 10px;
+        padding-top: 80px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+    .categoria-detalhes h2 {
+        font-size: 12px;
+        padding: 8px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .info-produto {
+        grid-template-columns: 1fr 1fr;
+        margin: 0 auto;
+        padding: 10px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+    .info-produto img {
+        width: 100%;
+        max-width: 180px;
+        height: auto;
+        aspect-ratio: 180/250;
+    }
+    .texto-apresentacao {
+        width: 100%;
+        max-width: 200px;
+        font-size: 12px;
+    }
+    .container-form {
+        max-width: 100%;
+        padding: 5px;
+        box-sizing: border-box;
+    }
+    .grid {
+        grid-template-columns: 1fr;
+        width: 100%;
+        max-width: 100%;
+    }
+    .nome, .email-form, .assunto-form, .comentario-form {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+    .botaobox {
+        width: 100%;
+        max-width: 260px;
+        box-sizing: border-box;
+    }
+}}}
