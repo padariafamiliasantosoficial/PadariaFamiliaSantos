@@ -36,8 +36,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             echo "Erro ao conectar ou inserir dados: " . $e->getMessage();
         }
+        exit; // Para o script após exibir o erro
     }
 } else {
     echo "Acesso inválido.";
+    exit;
 }
 ?>
