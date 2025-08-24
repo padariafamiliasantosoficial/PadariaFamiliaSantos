@@ -24,7 +24,8 @@ header {
     position: fixed;
     margin: 0;
     z-index: 1000;
-    width: 100vw; /* Corrigido de 1920px para responsividade */
+    width: 100vw;
+    max-width: 1920px;
     justify-content: space-between;
     align-items: center;
     box-sizing: border-box;
