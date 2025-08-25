@@ -25,5 +25,8 @@ RUN chown -R www-data:www-data /var/www/html \
 # Expõe a porta padrão do Apache
 EXPOSE 80
 
+RUN sed -i 's/AllowOverride None/AllowOverride All/' /etc/apache2/sites-enabled/000-default.conf
+
 # Comando para iniciar o Apache
 CMD ["apache2-foreground"]
+
