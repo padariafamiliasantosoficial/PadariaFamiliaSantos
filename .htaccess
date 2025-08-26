@@ -1,0 +1,9 @@
+RewriteEngine On
+
+# Ignora se o request já for para um arquivo ou diretório existente (evita loops)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Verifica se o arquivo com .html existe e reescreve a URL para servi-lo
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.*)$ $1.html [L]
