@@ -372,7 +372,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const infoProduto = document.querySelector('.info-produto');
     const categoriaDetalhes = document.querySelector('.categoria-detalhes');
 
-    if (window.location.pathname.includes('produtos.html')) {
+    if (window.location.pathname.includes('produtos')) {
         if (!infoProduto) {
             console.error("Elemento .info-produto não encontrado no DOM");
             return;
