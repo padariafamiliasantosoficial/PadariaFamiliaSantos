@@ -176,7 +176,7 @@ function exibirProdutosPorCategoria(categoria) {
         `;
         card.addEventListener('click', (e) => {
             if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT') {
-                window.location.href = `Produtos.html?id=${produto.id}`;
+                window.location.href = `produtos.html?id=${produto.id}`;
             }
         });
         container.appendChild(card);
@@ -372,7 +372,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const infoProduto = document.querySelector('.info-produto');
     const categoriaDetalhes = document.querySelector('.categoria-detalhes');
 
-    if (window.location.pathname.includes('Produtos.html')) {
+    if (window.location.pathname.includes('produtos.html')) {
         if (!infoProduto) {
             console.error("Elemento .info-produto não encontrado no DOM");
             return;
