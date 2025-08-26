@@ -67,42 +67,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo "Acesso inválido.";
     exit;
 }
-
-// tirar .html da URL
-$host = getenv('DB_HOST');
-$port = getenv('DB_PORT');
-$dbname = getenv('DB_NAME');
-$user = getenv('DB_USER');
-$password = getenv('DB_PASSWORD');
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Seu código de tratamento do formulário permanece igual...
-    // (omitido por brevidade, mas mantenha como está)
-} else {
-    // Código para roteamento de URLs (remover .html)
-    $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-    $uri = trim($uri, '/');
-
-    // Tratamento especial para a raiz (/)
-    if ($uri === '') {
-        $html_file = 'index.html';
-    } else {
-        $html_file = $uri . '.html';
-    }
-
-    // Se não terminar com extensão e o arquivo .html existir, serve-o
-    if (!preg_match('/\.[a-zA-Z0-9]+$/', $uri) && file_exists($html_file)) {
-        readfile($html_file);
-        exit;
-    }
-
-    // Para outros arquivos (CSS, JS, imagens, PHP), deixa o servidor processar
-    if (file_exists($uri)) {
-        return false;
-    }
-
-    // Caso contrário, 404
-    http_response_code(404);
-    echo 'Página não encontrada';
-}
 ?>
