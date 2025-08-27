@@ -1,5 +1,8 @@
-# Redireciona /index para /Home (limpa a URL da homepage)
+# Redireciona /index para /Home
 RewriteRule ^index$ /Home [R=301,L]
+
+# Serve o conteúdo de index.html quando acessar /Home (rewrite interno)
+RewriteRule ^Home$ index.html [L]
 
 RewriteEngine On
 
