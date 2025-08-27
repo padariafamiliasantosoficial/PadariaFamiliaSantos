@@ -285,7 +285,7 @@ function exibirCarrinho() {
         finalizarCompra.onclick = function() {
             const mensagemElement = document.getElementById('mensagem');
             if (mensagemElement) {
-                mensagemElement.innerHTML = 'Função indisponível no momento, <a href="sobre" class="saiba-mais">SAIBA MAIS</a>';
+                mensagemElement.innerHTML = 'Função indisponível no momento, <a href="Sobre" class="saiba-mais">SAIBA MAIS</a>';
             }
         
         };
@@ -372,7 +372,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const infoProduto = document.querySelector('.info-produto');
     const categoriaDetalhes = document.querySelector('.categoria-detalhes');
 
-    if (window.location.pathname.includes('produtos')) {
+    if (window.location.pathname.includes('Produtos')) {
         if (!infoProduto) {
             console.error("Elemento .info-produto não encontrado no DOM");
             return;
@@ -612,6 +612,4 @@ document.getElementById("contato-form").addEventListener("submit", function(even
             alert("❌ Ocorreu um erro ao enviar o e-mail.");
         });
 });
-
-
 
