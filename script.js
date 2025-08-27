@@ -176,7 +176,7 @@ function exibirProdutosPorCategoria(categoria) {
         `;
         card.addEventListener('click', (e) => {
             if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT') {
-                window.location.href = `produtos?id=${produto.id}`;
+                window.location.href = `Produtos?id=${produto.id}`;
             }
         });
         container.appendChild(card);
