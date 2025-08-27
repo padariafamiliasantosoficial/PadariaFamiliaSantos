@@ -1,3 +1,6 @@
+# Redireciona /index para /Home (limpa a URL da homepage)
+RewriteRule ^index$ /Home [R=301,L]
+
 RewriteEngine On
 
 # Ignora se o request já for para um arquivo ou diretório existente (evita loops)
