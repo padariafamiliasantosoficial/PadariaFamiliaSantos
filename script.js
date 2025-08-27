@@ -285,7 +285,7 @@ function exibirCarrinho() {
         finalizarCompra.onclick = function() {
             const mensagemElement = document.getElementById('mensagem');
             if (mensagemElement) {
-                mensagemElement.innerHTML = 'Função indisponível no momento, <a href="Sobre" class="saiba-mais">SAIBA MAIS</a>';
+                mensagemElement.innerHTML = 'Função indisponível no momento, <a href="sobre" class="saiba-mais">SAIBA MAIS</a>';
             }
         
         };
@@ -612,5 +612,6 @@ document.getElementById("contato-form").addEventListener("submit", function(even
             alert("❌ Ocorreu um erro ao enviar o e-mail.");
         });
 });
+
 
 
