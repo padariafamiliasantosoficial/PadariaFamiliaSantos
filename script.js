@@ -193,8 +193,7 @@ function exibirProdutosPorCategoria(categoria) {
             adicionarAoCarrinho(produto.id, quantidade);
         });
     });
-}
-document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', () => {
     if (window.location.pathname.startsWith('/Produtos/')) {  // Verifica se está na página de produtos com slug
         const pathParts = window.location.pathname.split('/');  // Ex.: ['', 'Produtos', 'pao-de-queijo']
         const slug = pathParts[pathParts.length - 1];  // Pega o último segmento (slug)
@@ -228,6 +227,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // exibirProdutosPorCategoria('Menu'); // Exemplo
     }
 });
+}
+
 // Função para adicionar ao carrinho
 function adicionarAoCarrinho(id, quantidade = 1) {
     const produto = produtos.find(p => p.id == id);
