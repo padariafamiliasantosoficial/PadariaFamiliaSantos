@@ -299,12 +299,12 @@ document.addEventListener('DOMContentLoaded', () => {
     exibirCarrinho();
 
     // Manipulação de cliques nos cards e no carrossel
-    document.querySelectorAll('.card, .card-swiper').forEach(card => {
+    document.querySelectorAll('.card, .card-swiper').forEach(card => {  // Inclua .card-swiper se os do swiper também forem clicáveis
         card.addEventListener('click', () => {
-            const productId = card.getAttribute('data-id');
-            const produto = produtos.find(p => p.id == productId);
+            const id = card.getAttribute('data-id');
+            const produto = produtos.find(p => p.id == id);  // Encontra o produto pelo ID
             if (produto) {
-                window.location.href = `/Produtos/${produto.slug}`;
+                window.location.href = `Produtos/${produto.slug}`;  // Nova URL: /Produtos/pao-de-queijo
             }
         });
     });
@@ -318,7 +318,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const productId = card.getAttribute('data-id');
             const produto = produtos.find(p => p.id == productId);
             if (produto) {
-                window.location.href = `/Produtos/${produto.slug}`;
+                window.location.href = `Produtos/${produto.slug}`;
             }
         });
     });
