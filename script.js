@@ -36,22 +36,6 @@ if (document.querySelector('.swiper')) {
     }
 }
 
-        // Opcional: Pausar autoplay ao clicar nas setas
-        const nextButton = document.querySelector('.swiper-button-next');
-const prevButton = document.querySelector('.swiper-button-prev');
-
-if (nextButton && prevButton) {
-    nextButton.addEventListener('click', () => {
-        swiper.autoplay.stop(); // Para o autoplay
-        swiper.params.speed = 500; // Define a velocidade da transição (2,5 segundos)
-    });
-    prevButton.addEventListener('click', () => {
-        swiper.autoplay.stop(); // Para o autoplay
-        swiper.params.speed = 500; // Define a velocidade da transição (2,5 segundos)
-    });
-}
-
-
 ///PARTE 2
 
 // Array de produtos
@@ -102,43 +86,21 @@ function salvarCarrinho() {
     localStorage.setItem('carrinho', JSON.stringify(carrinho));
 }
 
-// Swiper
-if (document.querySelector('.swiper')) {
-    const swiper = new Swiper('.swiper', {
-        loop: true,
-        autoplay: {
-            delay: 0,
-            disableOnInteraction: false,
-        },
-        speed: 5000,
-        slidesPerView: 'auto',
-        spaceBetween: 10,
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-        scrollbar: {
-            el: '.swiper-scrollbar',
-        },
-    });
-
-    const nextButton = document.querySelector('.swiper-button-next');
-    const prevButton = document.querySelector('.swiper-button-prev');
-
-    if (nextButton && prevButton) {
-        nextButton.addEventListener('click', () => {
-            swiper.autoplay.stop();
-            swiper.params.speed = 500;
-        });
-        prevButton.addEventListener('click', () => {
-            swiper.autoplay.stop();
-            swiper.params.speed = 500;
-        });
+// Função para fechar os detalhes do produto
+function fecharProdutoDetalhes() {
+    const infoProduto = document.querySelector('.info-produto');
+    const categoriaDetalhes = document.querySelector('.categoria-detalhes');
+    if (infoProduto) {
+        infoProduto.style.display = 'none';
     }
+    if (categoriaDetalhes) {
+        categoriaDetalhes.classList.remove('info-visivel');
+    }
+    // Limpa a URL
+    const newUrl = new URL(window.location);
+    newUrl.search = '';
+    newUrl.pathname = '/Produtos';
+    history.pushState({}, '', newUrl.toString());
 }
 
 // Função para exibir produtos por categoria
@@ -187,22 +149,23 @@ function exibirProdutosPorCategoria(categoria) {
         });
     });
 }
+
 function exibirProdutoDetalhes(id) {
     const produto = produtos.find(p => p.id === id);
     const infoProduto = document.querySelector('.info-produto');
     const categoriaDetalhes = document.querySelector('.categoria-detalhes');
 
     if (produto && infoProduto) {
-        // Preenche os detalhes do produto
-        document.getElementById('produto-imagem').src = produto.imagem;
-        document.getElementById('produto-imagem').alt = produto.nome;
-        document.getElementById('produto-nome').textContent = produto.nome;
-        document.getElementById('produto-descricao').textContent = produto.descricao;
-        document.getElementById('produto-preco').textContent = `Preço: R$ ${produto.preco.toFixed(2)}`;
-        document.getElementById('add-cart').textContent = 'Adicionar ao Carrinho';
+        // Preenche os detalhes do produto (IDs corrigidos)
+        document.getElementById('imagem-produto').src = produto.imagem;
+        document.getElementById('imagem-produto').alt = produto.nome;
+        document.getElementById('nome-produto').textContent = produto.nome;
+        document.getElementById('descricao-produto').textContent = produto.descricao;
+        document.getElementById('preco-produto').textContent = `Preço: R$ ${produto.preco.toFixed(2)}`;
+        document.getElementById('btn-adicionar').textContent = 'Adicionar ao Carrinho';
 
         // Reseta o input de quantidade
-        const qntdInput = document.getElementById('qntd');
+        const qntdInput = document.getElementById('quantidade');
         if (qntdInput) {
             qntdInput.value = '1';
             qntdInput.min = '1';
@@ -222,9 +185,71 @@ function exibirProdutoDetalhes(id) {
 
         // Atualiza a URL com o slug (sem recarregar)
         const newUrl = new URL(window.location);
-newUrl.pathname = '/produtos/' + produto.slug;
-newUrl.search = '';
-history.pushState({ produto: produto.slug }, '', newUrl.toString());
+        newUrl.pathname = '/produtos/' + produto.slug;
+        newUrl.search = '';
+        history.pushState({ produto: produto.slug }, '', newUrl.toString());
+
+        // Configura os eventos de quantidade
+        if (qntdInput) {
+            function alterarQuantidadeDetalhes(valor) {
+                let novaQuantidade;
+                const input = document.getElementById('quantidade');
+                const mensagemElement = document.getElementById('mensagem') || document.createElement('p');
+                mensagemElement.id = 'mensagem';
+                if (!document.getElementById('mensagem')) {
+                    infoProduto.appendChild(mensagemElement);
+                }
+
+                if (typeof valor === 'string') {
+                    novaQuantidade = parseInt(valor);
+                    if (isNaN(novaQuantidade)) {
+                        input.value = input.value || 1;
+                        mensagemElement.innerText = "Por favor, insira um número válido.";
+                        setTimeout(() => { mensagemElement.innerText = ""; }, 3000);
+                        return;
+                    }
+                } else {
+                    novaQuantidade = (parseInt(input.value) || 1) + valor;
+                }
+
+                novaQuantidade = Math.max(1, Math.min(100, novaQuantidade));
+                input.value = novaQuantidade;
+                mensagemElement.innerText = "";
+            }
+
+            // Remove eventos anteriores para evitar duplicação
+            const addCart = document.getElementById('btn-adicionar');
+            const btnMenos = document.getElementById('btn-menos');
+            const btnMais = document.getElementById('btn-mais');
+            const newAddCart = addCart.cloneNode(true);
+            const newBtnMenos = btnMenos.cloneNode(true);
+            const newBtnMais = btnMais.cloneNode(true);
+            addCart.parentNode.replaceChild(newAddCart, addCart);
+            btnMenos.parentNode.replaceChild(newBtnMenos, btnMenos);
+            btnMais.parentNode.replaceChild(newBtnMais, btnMais);
+
+            newAddCart.addEventListener('click', () => {
+                alterarQuantidadeDetalhes(qntdInput.value);
+                const quantidade = parseInt(qntdInput.value) || 1;
+                adicionarAoCarrinho(produto.id, quantidade);
+            });
+
+            newBtnMenos.addEventListener('click', () => {
+                alterarQuantidadeDetalhes(-1);
+            });
+
+            newBtnMais.addEventListener('click', () => {
+                alterarQuantidadeDetalhes(1);
+            });
+
+            qntdInput.addEventListener('change', () => {
+                alterarQuantidadeDetalhes(qntdInput.value);
+            });
+
+            qntdInput.addEventListener('input', function() {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+        }
     } else {
         // Esconde a seção se o produto não for encontrado
         if (infoProduto) {
@@ -235,6 +260,7 @@ history.pushState({ produto: produto.slug }, '', newUrl.toString());
         }
     }
 }
+
 // Função para adicionar ao carrinho
 function adicionarAoCarrinho(id, quantidade = 1) {
     const produto = produtos.find(p => p.id == id);
@@ -411,31 +437,31 @@ function toggleCart() {
 // Inicialização
 document.addEventListener('DOMContentLoaded', () => {
     // Lida com navegação de voltar/avançar
-window.addEventListener('popstate', () => {
-    const params = new URLSearchParams(window.location.search);
-    const productSlug = params.get('produto');
-    const productId = params.get('id');
-    let produto = null;
+    window.addEventListener('popstate', () => {
+        const params = new URLSearchParams(window.location.search);
+        const productSlug = params.get('produto');
+        const productId = params.get('id');
+        let produto = null;
 
-    if (productSlug) {
-        produto = produtos.find(p => p.slug === productSlug);
-    } else if (productId) {
-        produto = produtos.find(p => p.id == productId);
-    }
+        if (productSlug) {
+            produto = produtos.find(p => p.slug === productSlug);
+        } else if (productId) {
+            produto = produtos.find(p => p.id == productId);
+        }
 
-    if (produto) {
-        exibirProdutoDetalhes(produto.id);
-    } else {
-        const infoProduto = document.querySelector('.info-produto');
-        const categoriaDetalhes = document.querySelector('.categoria-detalhes');
-        if (infoProduto) {
-            infoProduto.style.display = 'none';
+        if (produto) {
+            exibirProdutoDetalhes(produto.id);
+        } else {
+            const infoProduto = document.querySelector('.info-produto');
+            const categoriaDetalhes = document.querySelector('.categoria-detalhes');
+            if (infoProduto) {
+                infoProduto.style.display = 'none';
+            }
+            if (categoriaDetalhes) {
+                categoriaDetalhes.classList.remove('info-visivel');
+            }
         }
-        if (categoriaDetalhes) {
-            categoriaDetalhes.classList.remove('info-visivel');
-        }
-    }
-});
+    });
     const params = new URLSearchParams(window.location.search);
     const productId = params.get('id');
     const productSlug = params.get('produto');
@@ -459,63 +485,6 @@ window.addEventListener('popstate', () => {
 
         if (produto) {
             exibirProdutoDetalhes(produto.id);
-            
-            // Configura os botões e eventos de quantidade
-            const qntdInput = document.getElementById('qntd');
-            if (qntdInput) {
-                qntdInput.value = '1';
-                qntdInput.min = '1';
-                qntdInput.max = '100';
-
-                // Função para alterar quantidade na página de detalhes
-                function alterarQuantidadeDetalhes(valor) {
-                    let novaQuantidade;
-                    const input = document.getElementById('qntd');
-                    const mensagemElement = document.getElementById('mensagem') || document.createElement('p');
-                    mensagemElement.id = 'mensagem';
-                    if (!document.getElementById('mensagem')) {
-                        infoProduto.appendChild(mensagemElement);
-                    }
-
-                    if (typeof valor === 'string') {
-                        novaQuantidade = parseInt(valor);
-                        if (isNaN(novaQuantidade)) {
-                            input.value = input.value || 1;
-                            mensagemElement.innerText = "Por favor, insira um número válido.";
-                            setTimeout(() => { mensagemElement.innerText = ""; }, 3000);
-                            return;
-                        }
-                    } else {
-                        novaQuantidade = (parseInt(input.value) || 1) + valor;
-                    }
-
-                    novaQuantidade = Math.max(1, Math.min(100, novaQuantidade));
-                    input.value = novaQuantidade;
-                    mensagemElement.innerText = "";
-                }
-
-                document.getElementById('add-cart').addEventListener('click', () => {
-                    alterarQuantidadeDetalhes(qntdInput.value);
-                    const quantidade = parseInt(qntdInput.value) || 1;
-                    adicionarAoCarrinho(produto.id, quantidade);
-                });
-
-                document.getElementById('btn-menos').addEventListener('click', () => {
-                    alterarQuantidadeDetalhes(-1);
-                });
-
-                document.getElementById('btn-mais').addEventListener('click', () => {
-                    alterarQuantidadeDetalhes(1);
-                });
-
-                qntdInput.addEventListener('change', () => {
-                    alterarQuantidadeDetalhes(qntdInput.value);
-                });
-
-                qntdInput.addEventListener('input', function() {
-                    this.value = this.value.replace(/[^0-9]/g, '');
-                });
-            }
         } else {
             infoProduto.style.display = 'none';
             if (categoriaDetalhes) {
@@ -537,40 +506,23 @@ window.addEventListener('popstate', () => {
         exibirProdutosPorCategoria('Menu');
     }
 
+    // Para a página inicial (index.html)
+    if (window.location.pathname.includes('Home') || window.location.pathname === '/') {
+        document.querySelectorAll('.produto').forEach(produtoElement => {
+            const nome = produtoElement.querySelector('h3').textContent.trim();
+            const produto = produtos.find(p => p.nome === nome);
+            if (produto) {
+                produtoElement.addEventListener('click', () => {
+                    window.location.href = `/produtos/${produto.slug}`;
+                });
+            }
+        });
+    }
+
     exibirCarrinho();
 });
 
-
-// Adicionar menu pequeno para telas menores
-    // Seleciona o ícone e o menu
-
-    // Função para criar e adicionar o menu mobile à página
-
-
-// Chama a função para criar o menu (pode colocar isso no final do script ou no onload)
-        let btnMenu = document.getElementById('icone-mobile')
-        let menuMob = document.getElementById('container-mobile')
-    
-    btnMenu.addEventListener('click', toggleMenu)
-    
-
 // Função para alternar visibilidade do menu mobile
-function toggleMenu() {
-    const menuMob = document.getElementById('container-mobile');
-    const overlay = document.querySelector('.overlay');
-    menuMob.classList.toggle('abrir-menu');
-    overlay.classList.toggle('show');
-}
-
-// Função para abrir o carrinho a partir do menu mobile
-function openCartFromMenu() {
-    // Fecha o menu mobile
-    const menuMob = document.getElementById('container-mobile');
-    menuMob.classList.remove('abrir-menu');
-
-    // Abre o carrinho
-    toggleCart();
-}
 function toggleMenu() {
     const menuMob = document.getElementById('container-mobile');
     const overlay = document.querySelector('.overlay');
@@ -619,10 +571,10 @@ function closeSidePanels() {
 }
 document.querySelector('.overlay').addEventListener('click', closeSidePanels);
 
-    let fecharMenu = document.getElementById('fechar');
+let fecharMenu = document.getElementById('fechar');
 fecharMenu.addEventListener('click', toggleMenu);
 
-    //ENVIAR EMAIL
+//ENVIAR EMAIL
 
 emailjs.init("R_s1_9hjc-TF4dqml");
 
@@ -671,3 +623,17 @@ document.getElementById("contato-form").addEventListener("submit", function(even
         });
 });
 
+let btnMenu = document.getElementById('icone-mobile')
+let menuMob = document.getElementById('container-mobile')
+
+btnMenu.addEventListener('click', toggleMenu)
+
+// Função para abrir o carrinho a partir do menu mobile
+function openCartFromMenu() {
+    // Fecha o menu mobile
+    const menuMob = document.getElementById('container-mobile');
+    menuMob.classList.remove('abrir-menu');
+
+    // Abre o carrinho
+    toggleCart();
+}
