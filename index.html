@@ -251,7 +251,7 @@
     <section id="formulario">
         <div class="container-form">
             <h2>Deixe sua mensagem!</h2>
-            <p>Sugestões, reclamações e elogios são bem-vindos. Escreva suas perguntas nos comentários ou clique em <strong style="cursor: pointer">"<u><a href="Sobre.html">Saiba mais!</a></u>"</strong></style></p>
+            <p>Sugestões, reclamações e elogios são bem-vindos. Escreva suas perguntas nos comentários ou clique em <strong style="cursor: pointer">"<u><a href="Sobre">Saiba mais!</a></u>"</strong></style></p>
             <form action="formulario.php" method="post" id="contato-form">
                 <div class="grid">
                 <div class="nome">
@@ -343,14 +343,14 @@
         card.addEventListener('click', () => {
     
             const productId = card.getAttribute('data-id');
-            window.location.href = `produtos.html?id=${productId}`;
+            window.location.href = `Produtos?id=${productId}`;
         });
     });
     document.querySelectorAll('.categoria').forEach(icon => {
     icon.style.cursor = 'pointer'; 
     icon.addEventListener('click', () => {
         const categoria = icon.getAttribute('data-categoria'); // Obtém a categoria do atributo data-categoria
-        window.location.href = `produtos.html?tipo=${categoria}`; // Redireciona para detalhes.html com o parâmetro tipo
+        window.location.href = `Produtos?tipo=${categoria}`; // Redireciona para detalhes.html com o parâmetro tipo
     });
 });
     document.querySelectorAll('.card-swiper .titulo-bolos').forEach(header => {
@@ -359,7 +359,7 @@
             e.stopPropagation();
             const card = header.closest('.card-swiper'); // Encontra o .card-swiper pai
             const productId = card.getAttribute('data-id');
-            window.location.href = `produtos.html?id=${productId}`;
+            window.location.href = `Produtos?id=${productId}`;
         });
     });
 
