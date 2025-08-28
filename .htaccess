@@ -1,22 +1,14 @@
-# Ativa o motor de reescrita
 RewriteEngine On
-
 # Redireciona /index para /Home
 RewriteRule ^index$ /Home [R=301,L]
-
 # Serve o conteúdo de index.html quando acessar /Home
 RewriteRule ^Home$ index.html [L]
-
-# Reescrita para URLs com slugs em Produtos
+# Reescrita para URLs de produtos
+RewriteRule ^Produtos/(.*)$ Produtos.html [L]
 RewriteRule ^Produtos/([a-z0-9-]+)$ Produtos.html [L]
-
-# Reescrita para URLs de categorias
-RewriteRule ^(Bolos|Paes|Salgados|Sobremesas|Menu)$ Produtos.html [L]
-
-# Ignora se o request for para um arquivo ou diretório existente (evita loops)
+# Ignora se o request for para um arquivo ou diretório existente
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-
 # Verifica se o arquivo com .html existe e reescreve a URL para servi-lo
 RewriteCond %{REQUEST_FILENAME}.html -f
 RewriteRule ^(.*)$ $1.html [L]
