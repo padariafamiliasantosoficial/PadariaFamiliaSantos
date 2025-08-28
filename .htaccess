@@ -1,3 +1,4 @@
+RewriteRule ^produtos/([a-z0-9-]+)$ /Produtos.html?produto=$1 [L,QSA]
 # Redireciona /index para /Home
 RewriteRule ^index$ /Home [R=301,L]
 
