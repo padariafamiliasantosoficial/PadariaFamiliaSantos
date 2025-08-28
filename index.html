@@ -343,7 +343,7 @@
         card.addEventListener('click', () => {
     
             const productId = card.getAttribute('data-id');
-            window.location.href = `Produtos?id=${productId}`;
+            window.location.href = `Produtos/${produto.slug}`;
         });
     });
     document.querySelectorAll('.categoria').forEach(icon => {
@@ -359,7 +359,7 @@
             e.stopPropagation();
             const card = header.closest('.card-swiper'); // Encontra o .card-swiper pai
             const productId = card.getAttribute('data-id');
-            window.location.href = `Produtos?id=${productId}`;
+            window.location.href = `Produtos/${produto.slug}`;
         });
     });
 
