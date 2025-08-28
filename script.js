@@ -54,13 +54,7 @@ if (nextButton && prevButton) {
 
 
 ///PARTE 2
-    function toSlug(name) {
-    return name.toLowerCase()
-        .normalize('NFD')  // Remove acentos (ex.: "ç" vira "c")
-        .replace(/[\u0300-\u036f]/g, '')
-        .replace(/[^a-z0-9]+/g, '-')  // Substitui espaços e caracteres especiais por "-"
-        .replace(/^-|-$/g, '');  // Remove hifens no início/fim
-}
+
 // Array de produtos
 const produtos = [
     { id: 1, nome: 'Pão de Queijo', preco: 0.50, imagem: 'imagens/paodequeijo.jpg', descricao: 'Delicioso por fora, macio por dentro! Nosso pão de queijo é feito com ingredientes selecionados e muito queijo de verdade, perfeito para acompanhar um café ou como lanche rápido.', categoria: 'Salgados' },
@@ -193,40 +187,6 @@ function exibirProdutosPorCategoria(categoria) {
             adicionarAoCarrinho(produto.id, quantidade);
         });
     });
-    document.addEventListener('DOMContentLoaded', () => {
-    if (window.location.pathname.startsWith('/Produtos/')) {  // Verifica se está na página de produtos com slug
-        const pathParts = window.location.pathname.split('/');  // Ex.: ['', 'Produtos', 'pao-de-queijo']
-        const slug = pathParts[pathParts.length - 1];  // Pega o último segmento (slug)
-        
-        const produto = produtos.find(p => p.slug === slug);  // Encontra o produto pelo slug
-        
-        if (produto) {
-            // Aqui, exiba os detalhes do produto individualmente (em vez da lista toda)
-            // Exemplo: limpe o container e adicione um card grande com imagem, descrição, preço, etc.
-            const container = document.getElementById('produtos-filtrados');  // Ou o ID do seu container
-            container.innerHTML = '';  // Limpa a lista
-            const card = document.createElement('div');
-            card.classList.add('card-detalhe');  // Adicione uma classe CSS para estilizar como detalhe
-            card.innerHTML = `
-                <img src="${produto.imagem}" alt="${produto.nome}">
-                <h3>${produto.nome}</h3>
-                <h4>Preço: R$ ${produto.preco.toFixed(2).replace('.', ',')}</h4>
-                <p>${produto.descricao}</p>
-                <button class="add-to-cart" data-id="${produto.id}">Adicionar ao Carrinho</button>
-            `;
-            container.appendChild(card);
-            
-            // Adicione lógica para o botão de adicionar ao carrinho, se necessário
-        } else {
-            // Produto não encontrado: exiba erro ou redirecione para lista geral
-            alert('Produto não encontrado!');
-            window.location.href = '/Produtos';  // Volta para a lista de produtos
-        }
-    } else {
-        // Lógica normal para exibir lista por categoria (se não houver slug)
-        // exibirProdutosPorCategoria('Menu'); // Exemplo
-    }
-});
 }
 
 // Função para adicionar ao carrinho
