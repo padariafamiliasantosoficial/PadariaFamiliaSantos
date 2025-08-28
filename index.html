@@ -299,12 +299,14 @@ document.addEventListener('DOMContentLoaded', () => {
     exibirCarrinho();
 
     // Manipulação de cliques nos cards e no carrossel
-    document.querySelectorAll('.card, .card-swiper').forEach(card => {  // Inclua .card-swiper se os do swiper também forem clicáveis
+    document.addEventListener('DOMContentLoaded', () => {
+    // Manipulação de cliques nos cards e no carrossel
+    document.querySelectorAll('.card, .card-swiper').forEach(card => {
         card.addEventListener('click', () => {
-            const id = card.getAttribute('data-id');
-            const produto = produtos.find(p => p.id == id);  // Encontra o produto pelo ID
+            const productId = card.getAttribute('data-id');
+            const produto = produtos.find(p => p.id == productId);
             if (produto) {
-                window.location.href = `Produtos/${produto.slug}`;  // Nova URL: /Produtos/pao-de-queijo
+                window.location.href = `/Produtos/${produto.slug}`;
             }
         });
     });
@@ -318,7 +320,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const productId = card.getAttribute('data-id');
             const produto = produtos.find(p => p.id == productId);
             if (produto) {
-                window.location.href = `Produtos/${produto.slug}`;
+                window.location.href = `/Produtos/${produto.slug}`;
             }
         });
     });
@@ -327,10 +329,12 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.categoria').forEach(icon => {
         icon.addEventListener('click', () => {
             const categoria = icon.getAttribute('data-categoria');
+            // Ajusta 'Pães' para 'Paes' para consistência com .htaccess
             const urlCategoria = categoria === 'Pães' ? 'Paes' : categoria;
             window.location.href = `/${urlCategoria}`;
         });
     });
+});
 });
 
 </script>
