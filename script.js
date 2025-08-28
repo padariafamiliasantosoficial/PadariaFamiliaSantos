@@ -508,7 +508,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Para a página inicial (index.html)
     if (window.location.pathname.includes('Home') || window.location.pathname === '/') {
-        document.querySelectorAll('.produto').forEach(produtoElement => {
+        document.querySelectorAll('.card, .card-swiper').forEach(produtoElement => {
             const nome = produtoElement.querySelector('h3').textContent.trim();
             const produto = produtos.find(p => p.nome === nome);
             if (produto) {
