@@ -196,18 +196,16 @@ if (document.querySelector('.swiper')) {
 
 // Função para exibir produtos por categoria
 function exibirProdutosPorCategoria(categoria) {
-    const container = document.querySelector('#produtos-filtrados') || document.querySelector('.menu-categoria');
+    const container = document.getElementById('produtos-filtrados');
     if (!container) {
-        console.error("Container de produtos não encontrado (#produtos-filtrados ou .menu-categoria)");
+        console.error("Elemento #produtos-filtrados não encontrado no DOM");
         return;
     }
-    container.innerHTML = ''; // Limpa o conteúdo anterior
-
-    const produtosFiltrados = categoria === 'Menu' ? produtos : produtos.filter(p => p.categoria === categoria);
-
+    container.innerHTML = '';
+    let produtosFiltrados = categoria === 'Menu' ? produtos : produtos.filter(p => p.categoria === categoria);
     produtosFiltrados.forEach(produto => {
         const card = document.createElement('div');
-        card.className = 'product-card card'; // Combina classes de ambos
+        card.className = 'product-card';
         card.setAttribute('data-id', produto.id);
         card.innerHTML = `
             <div class="product-content">
@@ -217,23 +215,21 @@ function exibirProdutosPorCategoria(categoria) {
                         <h3>${produto.nome}</h3>
                         <h4>Preço: R$ ${produto.preco.toFixed(2)}</h4>
                     </div>
-                    <a href="/produto/${produto.slug}" class="ver-detalhes">Ver detalhes</a>
-                    <button class="add-cart" type="button" onclick="adicionarAoCarrinho(${produto.id}, parseInt(document.querySelector('#qntd-${produto.id}').value) || 1)">Adicionar ao Carrinho</button>
+                    <button class="add-cart" type="button">Adicionar ao Carrinho</button>
                     <div class="container-cart-qntd">
                         <button class="btn-menos" onclick="alterarQuantidade(${produto.id}, -1, false)">-</button>
-                        <input class="quantidade" id="qntd-${produto.id}" type="number" value="1" min="1" onchange="alterarQuantidade(${produto.id}, this.value, false)">
+                        <input class="quantidade" type="number" value="1" min="1" onchange="alterarQuantidade(${produto.id}, this.value, false)">
                         <button class="btn-mais" onclick="alterarQuantidade(${produto.id}, 1, false)">+</button>
                     </div>
                 </div>
             </div>
         `;
         card.addEventListener('click', (e) => {
-            if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT' && e.target.className !== 'ver-detalhes') {
-                window.location.href = `/produto/${produto.slug}`;
+            if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT') {
+                window.location.href = `Produtos?id=${produto.id}`;
             }
         });
         container.appendChild(card);
-
 
         const btnAdd = card.querySelector('.add-cart');
         btnAdd.addEventListener('click', e => {
