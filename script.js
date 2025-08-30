@@ -106,18 +106,20 @@ function exibirDetalhesProduto(slugOrId) {
     if (typeof slugOrId === 'string') {
         produto = encontrarProdutoPorSlug(slugOrId);
     } else {
-        produto = produtos.find(p => p.id === slugOrId); // Fallback para ID
+        produto = produtos.find(p => p.id === slugOrId);
     }
     
     if (produto) {
-        // ... (seu código existente para popular os detalhes no DOM)
+        // ... (o código existente para popular os detalhes no DOM)
         
-        // Atualiza a URL para slug (se ainda não estiver)
-        if (!window.location.pathname.startsWith(`/produto/${produto.slug}`)) {
-            history.pushState({ slug: produto.slug }, '', `/produto/${produto.slug}`);
+        // Muda a URL sem recarregar (se não for a URL atual)
+        const novaUrl = `/produto/${produto.slug}`;
+        if (window.location.pathname !== novaUrl) {
+            history.pushState({ slug: produto.slug }, '', novaUrl);
         }
-    } else {
-        console.error('Produto não encontrado');
+        
+        // Exibe o modal/infoProduto
+        infoProduto.style.display = 'block';
     }
 }
 
@@ -194,7 +196,41 @@ if (document.querySelector('.swiper')) {
 
 // Função para exibir produtos por categoria
 // Exemplo corrigido dentro de exibirProdutosPorCategoria(categoria)
-// Função para exibir produtos por categoria (versão corrigida e única)
+function exibirProdutosPorCategoria(categoria) {
+    const container = document.querySelector('.swiper-wrapper'); // Ajuste para o seu container
+    container.innerHTML = ''; // Limpa anterior
+
+    const produtosFiltrados = produtos.filter(p => p.categoria === categoria || categoria === 'Menu');
+    
+    produtosFiltrados.forEach(produto => {
+        const slide = document.createElement('div');
+        slide.classList.add('swiper-slide', 'product-card');
+        slide.dataset.slug = produto.slug; // Armazena slug para cliques
+        
+        slide.innerHTML = `
+            <img src="${produto.imagem}" alt="${produto.nome}">
+            <h3>${produto.nome}</h3>
+            <p>Preço: R$ ${produto.preco.toFixed(2)}</p>
+            <a href="/produto/${produto.slug}" class="detalhes-link">Ver Detalhes</a>
+            <!-- Ou botões de adicionar ao carrinho, etc. -->
+        `;
+        
+        container.appendChild(slide);
+    });
+
+    // Inicialize o Swiper novamente se necessário
+    // swiper.update(); // Se usar Swiper
+
+    // Adicione event listeners para cliques nos links (prevenindo recarga se quiser SPA)
+    document.querySelectorAll('.detalhes-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const slug = link.closest('.product-card').dataset.slug;
+            exibirDetalhesProduto(slug); // Chama com slug
+            history.pushState({ slug }, '', `/produto/${slug}`); // Atualiza URL sem recarregar
+        });
+    });
+}
 function exibirProdutosPorCategoria(categoria) {
     const container = document.getElementById('produtos-filtrados');
     if (!container) {
@@ -203,11 +239,10 @@ function exibirProdutosPorCategoria(categoria) {
     }
     container.innerHTML = '';
     let produtosFiltrados = categoria === 'Menu' ? produtos : produtos.filter(p => p.categoria === categoria);
-    
     produtosFiltrados.forEach(produto => {
         const card = document.createElement('div');
         card.className = 'product-card';
-        card.dataset.slug = produto.slug; // Armazena slug para cliques
+        card.setAttribute('data-id', produto.id);
         card.innerHTML = `
             <div class="product-content">
                 <div class="product-image-container">
@@ -225,17 +260,13 @@ function exibirProdutosPorCategoria(categoria) {
                 </div>
             </div>
         `;
-        
-        // Listener para clique no card inteiro (exceto botões/input) - usa slug e pushState
         card.addEventListener('click', (e) => {
             if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT') {
-                e.preventDefault(); // Evita redirecionamento padrão
-                exibirDetalhesProduto(produto.slug); // Chama com slug
-                history.pushState({ slug: produto.slug }, '', `/produto/${produto.slug}`); // Atualiza URL sem recarregar
+                window.location.href = `Produtos?id=${produto.id}`;
             }
         });
-        
-        // Listener para "Adicionar ao Carrinho"
+        container.appendChild(card);
+
         const btnAdd = card.querySelector('.add-cart');
         btnAdd.addEventListener('click', e => {
             e.stopPropagation();
@@ -243,12 +274,7 @@ function exibirProdutosPorCategoria(categoria) {
             const quantidade = parseInt(card.querySelector('.quantidade').value) || 1;
             adicionarAoCarrinho(produto.id, quantidade);
         });
-        
-        container.appendChild(card);
     });
-    
-    // Se usar Swiper no container, atualize aqui
-    // if (swiper) swiper.update();
 }
 
 // Função para adicionar ao carrinho
@@ -447,24 +473,11 @@ document.addEventListener('DOMContentLoaded', () => {
         produto = produtos.find(p => p.id == productId);
     }
 
-    if (window.location.pathname === '/Home' || window.location.pathname === '/' || window.location.pathname.includes('index')) {
-    // Adiciona listeners aos produtos estáticos no index.html
-    produtos.forEach(produto => {
-        const elementosNome = document.querySelectorAll('p');
-        elementosNome.forEach(p => {
-            if (p.textContent.trim() === produto.nome) {
-                const card = p.closest('div'); // Assume que o parent é o container do produto
-                if (card) {
-                    card.style.cursor = 'pointer'; // Indica que é clicável
-                    card.addEventListener('click', (e) => {
-                        if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT') { // Evita interferir em outros elementos
-                            window.location.href = `/produto/${produto.slug}`;
-                        }
-                    });
-                }
-            }
-        });
-    });
+    if (window.location.pathname.includes('Produtos') || path.startsWith('/produto/')) {
+        if (!infoProduto) {
+            console.error("Elemento .info-produto não encontrado no DOM");
+            return;
+        }
 
         if (produto) {
             document.getElementById('produto-imagem').src = produto.imagem;
