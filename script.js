@@ -447,11 +447,24 @@ document.addEventListener('DOMContentLoaded', () => {
         produto = produtos.find(p => p.id == productId);
     }
 
-    if (window.location.pathname.includes('Produtos') || path.startsWith('/produto/')) {
-        if (!infoProduto) {
-            console.error("Elemento .info-produto não encontrado no DOM");
-            return;
-        }
+    if (window.location.pathname === '/Home' || window.location.pathname === '/' || window.location.pathname.includes('index')) {
+    // Adiciona listeners aos produtos estáticos no index.html
+    produtos.forEach(produto => {
+        const elementosNome = document.querySelectorAll('p');
+        elementosNome.forEach(p => {
+            if (p.textContent.trim() === produto.nome) {
+                const card = p.closest('div'); // Assume que o parent é o container do produto
+                if (card) {
+                    card.style.cursor = 'pointer'; // Indica que é clicável
+                    card.addEventListener('click', (e) => {
+                        if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT') { // Evita interferir em outros elementos
+                            window.location.href = `/produto/${produto.slug}`;
+                        }
+                    });
+                }
+            }
+        });
+    });
 
         if (produto) {
             document.getElementById('produto-imagem').src = produto.imagem;
