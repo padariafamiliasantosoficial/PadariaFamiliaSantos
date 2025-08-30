@@ -226,7 +226,7 @@ function exibirProdutosPorCategoria(categoria) {
         `;
         card.addEventListener('click', (e) => {
             if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT') {
-                window.location.href = `/produto/${produto.slug}`;
+                window.location.href = `Produtos?id=${produto.id}`;
             }
         });
         container.appendChild(card);
@@ -417,7 +417,10 @@ function toggleCart() {
 // Inicialização
 document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
-    let tipo = params.get('tipo');
+    const tipo = params.get('tipo');
+    const infoProduto = document.querySelector('.info-produto');
+    const categoriaDetalhes = document.querySelector('.categoria-detalhes');
+
     let produto = null;
 
     // Verifica se é uma URL com slug (/produto/slug)
@@ -434,9 +437,6 @@ document.addEventListener('DOMContentLoaded', () => {
         produto = produtos.find(p => p.id == productId);
     }
 
-    const infoProduto = document.querySelector('.info-produto');
-    const categoriaDetalhes = document.querySelector('.categoria-detalhes');
-
     if (window.location.pathname.includes('Produtos') || path.startsWith('/produto/')) {
         if (!infoProduto) {
             console.error("Elemento .info-produto não encontrado no DOM");
@@ -444,19 +444,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (produto) {
-            // Exibe detalhes do produto
             document.getElementById('produto-imagem').src = produto.imagem;
             document.getElementById('produto-imagem').alt = produto.nome;
             document.getElementById('produto-nome').textContent = produto.nome;
             document.getElementById('produto-descricao').textContent = produto.descricao;
             document.getElementById('produto-preco').textContent = `Preço: R$ ${produto.preco.toFixed(2)}`;
             document.getElementById('add-cart').textContent = 'Adicionar ao Carrinho';
-
+            
             const qntdInput = document.getElementById('qntd');
             qntdInput.value = '1';
-            qntdInput.min = '1';
-            qntdInput.max = '100';
-
+            qntdInput.min = '1';  // Adiciona atributo min
+            qntdInput.max = '100'; // Adiciona atributo max
+            
             infoProduto.style.display = 'grid';
 
             // Adicionar classes para reduzir padding
@@ -467,70 +466,73 @@ document.addEventListener('DOMContentLoaded', () => {
                 infoProduto.classList.add('info-produto-visivel');
             }
 
-            // Funções para quantidade (mantidas como no seu código)
+            // Função para alterar quantidade na página de detalhes (similar a alterarQuantidade)
             function alterarQuantidadeDetalhes(valor) {
                 let novaQuantidade;
                 const input = document.getElementById('qntd');
-                const mensagemElement = document.getElementById('mensagem') || document.createElement('p');
+                const mensagemElement = document.getElementById('mensagem') || document.createElement('p'); // Usa elemento existente ou cria
                 mensagemElement.id = 'mensagem';
                 if (!document.getElementById('mensagem')) {
-                    infoProduto.appendChild(mensagemElement);
+                    infoProduto.appendChild(mensagemElement); // Adiciona à página se não existir
                 }
 
                 if (typeof valor === 'string') {
                     novaQuantidade = parseInt(valor);
                     if (isNaN(novaQuantidade)) {
+                        // Entrada inválida: mantém valor anterior
                         input.value = input.value || 1;
                         mensagemElement.innerText = "Por favor, insira um número válido.";
                         setTimeout(() => { mensagemElement.innerText = ""; }, 3000);
                         return;
                     }
                 } else {
+                    // Para botões: calcula com base no valor atual
                     novaQuantidade = (parseInt(input.value) || 1) + valor;
                 }
 
+                // Limita entre 1 e 100
                 novaQuantidade = Math.max(1, Math.min(100, novaQuantidade));
                 input.value = novaQuantidade;
-                mensagemElement.innerText = "";
+                mensagemElement.innerText = ""; // Limpa mensagem em caso de sucesso
             }
 
+            // Adicionar ao carrinho com quantidade validada
             document.getElementById('add-cart').addEventListener('click', () => {
-                alterarQuantidadeDetalhes(qntdInput.value);
+                alterarQuantidadeDetalhes(qntdInput.value); // Valida antes de adicionar
                 const quantidade = parseInt(qntdInput.value) || 1;
                 adicionarAoCarrinho(produto.id, quantidade);
             });
 
+            // Botão de diminuir
             document.getElementById('btn-menos').addEventListener('click', () => {
                 alterarQuantidadeDetalhes(-1);
             });
 
+            // Botão de aumentar
             document.getElementById('btn-mais').addEventListener('click', () => {
                 alterarQuantidadeDetalhes(1);
             });
 
+            // Onchange para digitação direta
             qntdInput.addEventListener('change', () => {
                 alterarQuantidadeDetalhes(qntdInput.value);
             });
 
+            // Opcional: Impedir caracteres não numéricos
             qntdInput.addEventListener('input', function() {
                 this.value = this.value.replace(/[^0-9]/g, '');
             });
-
-            // Se for modo detalhes (com slug ou id), não exibe a lista de produtos (opcional: ajuste se quiser mostrar ambos)
-            return; // Para não chamar exibirProdutosPorCategoria e evitar mostrar a lista junto com detalhes
         } else {
             infoProduto.style.display = 'none';
         }
-
-        // Anexa eventos aos h2 das categorias
+        
         document.querySelectorAll('.categoria-detalhes h2').forEach(h2 => {
             h2.addEventListener('click', () => {
-                const cat = h2.getAttribute('data-categoria');
-                exibirProdutosPorCategoria(cat);
+                const categoria = h2.getAttribute('data-categoria');
+                exibirProdutosPorCategoria(categoria);
             });
         });
 
-        // Exibe lista de produtos se não for modo detalhes
         if (tipo) {
             exibirProdutosPorCategoria(tipo);
         } else {
@@ -538,7 +540,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    exibirCarrinho(); // Mantenha se necessário
+    exibirCarrinho();
 });
 
 
