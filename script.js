@@ -211,7 +211,7 @@ function exibirProdutosPorCategoria(categoria) {
             <img src="${produto.imagem}" alt="${produto.nome}">
             <h3>${produto.nome}</h3>
             <p>Preço: R$ ${produto.preco.toFixed(2)}</p>
-            <a href="/produto/${produto.slug}" class="detalhes-link">Ver Detalhes</a>
+            <a href="/produto/${produto.slug}" class="btn-detalhes">Ver Detalhes</a>
             <!-- Ou botões de adicionar ao carrinho, etc. -->
         `;
         
