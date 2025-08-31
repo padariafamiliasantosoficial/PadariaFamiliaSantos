@@ -195,7 +195,42 @@ if (document.querySelector('.swiper')) {
 }
 
 // Função para exibir produtos por categoria
+// Exemplo corrigido dentro de exibirProdutosPorCategoria(categoria)
+function exibirProdutosPorCategoria(categoria) {
+    const container = document.querySelector('.swiper-wrapper'); // Ajuste para o seu container
+    container.innerHTML = ''; // Limpa anterior
 
+    const produtosFiltrados = produtos.filter(p => p.categoria === categoria || categoria === 'Menu');
+    
+    produtosFiltrados.forEach(produto => {
+        const slide = document.createElement('div');
+        slide.classList.add('swiper-slide', 'product-card');
+        slide.dataset.slug = produto.slug; // Armazena slug para cliques
+        
+        slide.innerHTML = `
+            <img src="${produto.imagem}" alt="${produto.nome}">
+            <h3>${produto.nome}</h3>
+            <p>Preço: R$ ${produto.preco.toFixed(2)}</p>
+            <a href="/produto/${produto.slug}" class="detalhes-link">Ver Detalhes</a>
+            <!-- Ou botões de adicionar ao carrinho, etc. -->
+        `;
+        
+        container.appendChild(slide);
+    });
+
+    // Inicialize o Swiper novamente se necessário
+    // swiper.update(); // Se usar Swiper
+
+    // Adicione event listeners para cliques nos links (prevenindo recarga se quiser SPA)
+    document.querySelectorAll('.detalhes-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const slug = link.closest('.product-card').dataset.slug;
+            exibirDetalhesProduto(slug); // Chama com slug
+            history.pushState({ slug }, '', `/produto/${slug}`); // Atualiza URL sem recarregar
+        });
+    });
+}
 function exibirProdutosPorCategoria(categoria) {
     const container = document.getElementById('produtos-filtrados');
     if (!container) {
@@ -226,12 +261,10 @@ function exibirProdutosPorCategoria(categoria) {
             </div>
         `;
         card.addEventListener('click', (e) => {
-            if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT') {
-                e.preventDefault();
-                exibirDetalhesProduto(produto.slug);
-                history.pushState({ slug: produto.slug }, '', `/produto/${produto.slug}`);
-            }
-        });
+    if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT') {
+        window.location.href = `/produto/${produto.slug}`; // Usa o slug na URL
+    }
+    });
         container.appendChild(card);
 
         const btnAdd = card.querySelector('.add-cart');
@@ -427,7 +460,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let produto = null;
 
     // Verifica se é uma URL com slug (/produto/slug)
-    const path = window.location.pathname.toLowerCase().replace(/\/$/, '');
+    const path = window.location.pathname.toLowerCase().replace(/\/$/, ''); // Remove barra final se houver
     let slug = null;
     if (path.startsWith('/produto/')) {
         slug = path.substring('/produto/'.length);
@@ -437,9 +470,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fallback para ?id= (compatibilidade com links antigos)
     const productId = params.get('id');
     if (!produto && productId) {
-        // Chama exibirDetalhesProduto em vez de atualizar o DOM diretamente
-        exibirDetalhesProduto(parseInt(productId));
-        return; // Sai para evitar duplicação
+        produto = produtos.find(p => p.id == productId);
     }
 
     if (window.location.pathname.includes('Produtos') || path.startsWith('/produto/')) {
