@@ -261,10 +261,12 @@ function exibirProdutosPorCategoria(categoria) {
             </div>
         `;
         card.addEventListener('click', (e) => {
-    if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT') {
-        window.location.href = `/produto/${produto.slug}`; // Usa o slug na URL
-    }
-    });
+            if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT') {
+                e.preventDefault();
+                exibirDetalhesProduto(produto.slug);
+                history.pushState({ slug: produto.slug }, '', `/produto/${produto.slug}`);
+            }
+        });
         container.appendChild(card);
 
         const btnAdd = card.querySelector('.add-cart');
