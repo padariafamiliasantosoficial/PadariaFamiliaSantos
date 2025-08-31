@@ -211,7 +211,7 @@ function exibirProdutosPorCategoria(categoria) {
             <img src="${produto.imagem}" alt="${produto.nome}">
             <h3>${produto.nome}</h3>
             <p>Preço: R$ ${produto.preco.toFixed(2)}</p>
-            <a href="/produto/${produto.slug}" class="btn-detalhes">Ver Detalhes</a>
+            <a href="/produto/${produto.slug}" class="detalhes-link">Ver Detalhes</a>
             <!-- Ou botões de adicionar ao carrinho, etc. -->
         `;
         
@@ -261,9 +261,9 @@ function exibirProdutosPorCategoria(categoria) {
             </div>
         `;
         card.addEventListener('click', (e) => {
-    if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT') {
-        window.location.href = `/produto/${produto.slug}`; // Usa o slug no caminho, não query string
-    }
+            if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT') {
+                window.location.href = `Produtos?id=${produto.id}`;
+            }
         });
         container.appendChild(card);
 
