@@ -196,41 +196,7 @@ if (document.querySelector('.swiper')) {
 
 // Função para exibir produtos por categoria
 // Exemplo corrigido dentro de exibirProdutosPorCategoria(categoria)
-function exibirProdutosPorCategoria(categoria) {
-    const container = document.querySelector('.swiper-wrapper'); // Ajuste para o seu container
-    container.innerHTML = ''; // Limpa anterior
 
-    const produtosFiltrados = produtos.filter(p => p.categoria === categoria || categoria === 'Menu');
-    
-    produtosFiltrados.forEach(produto => {
-        const slide = document.createElement('div');
-        slide.classList.add('swiper-slide', 'product-card');
-        slide.dataset.slug = produto.slug; // Armazena slug para cliques
-        
-        slide.innerHTML = `
-            <img src="${produto.imagem}" alt="${produto.nome}">
-            <h3>${produto.nome}</h3>
-            <p>Preço: R$ ${produto.preco.toFixed(2)}</p>
-            <a href="/produto/${produto.slug}" class="detalhes-link">Ver Detalhes</a>
-            <!-- Ou botões de adicionar ao carrinho, etc. -->
-        `;
-        
-        container.appendChild(slide);
-    });
-
-    // Inicialize o Swiper novamente se necessário
-    // swiper.update(); // Se usar Swiper
-
-    // Adicione event listeners para cliques nos links (prevenindo recarga se quiser SPA)
-    document.querySelectorAll('.detalhes-link').forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const slug = link.closest('.product-card').dataset.slug;
-            exibirDetalhesProduto(slug); // Chama com slug
-            history.pushState({ slug }, '', `/produto/${slug}`); // Atualiza URL sem recarregar
-        });
-    });
-}
 function exibirProdutosPorCategoria(categoria) {
     const container = document.getElementById('produtos-filtrados');
     if (!container) {
