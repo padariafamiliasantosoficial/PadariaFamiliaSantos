@@ -427,7 +427,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let produto = null;
 
     // Verifica se é uma URL com slug (/produto/slug)
-    const path = window.location.pathname.toLowerCase().replace(/\/$/, ''); // Remove barra final se houver
+    const path = window.location.pathname.toLowerCase().replace(/\/$/, '');
     let slug = null;
     if (path.startsWith('/produto/')) {
         slug = path.substring('/produto/'.length);
@@ -437,7 +437,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fallback para ?id= (compatibilidade com links antigos)
     const productId = params.get('id');
     if (!produto && productId) {
-        produto = produtos.find(p => p.id == productId);
+        // Chama exibirDetalhesProduto em vez de atualizar o DOM diretamente
+        exibirDetalhesProduto(parseInt(productId));
+        return; // Sai para evitar duplicação
     }
 
     if (window.location.pathname.includes('Produtos') || path.startsWith('/produto/')) {
