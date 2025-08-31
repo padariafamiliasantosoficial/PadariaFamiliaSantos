@@ -100,52 +100,11 @@ function encontrarProdutoPorSlug(slug) {
     return produtos.find(prod => prod.slug === slug);
 }
 
-// Função para exibir detalhes (adaptada para usar slug opcional)
-function exibirDetalhesProduto(slugOrId) {
-    let produto;
-    if (typeof slugOrId === 'string') {
-        produto = encontrarProdutoPorSlug(slugOrId);
-    } else {
-        produto = produtos.find(p => p.id === slugOrId);
-    }
-    
-    if (produto) {
-        // ... (o código existente para popular os detalhes no DOM)
-        
-        // Muda a URL sem recarregar (se não for a URL atual)
-        const novaUrl = `/produto/${produto.slug}`;
-        if (window.location.pathname !== novaUrl) {
-            history.pushState({ slug: produto.slug }, '', novaUrl);
-        }
-        
-        // Exibe o modal/infoProduto
-        infoProduto.style.display = 'block';
-    }
-}
+// Removida a função exibirDetalhesProduto completa, pois não será mais usada para SPA. Agora usamos redirecionamento.
 
-// Ao carregar a página, verifica se há slug na URL
-window.addEventListener('load', () => {
-    const path = window.location.pathname;
-    const match = path.match(/^\/produto\/([a-z0-9-]+)$/);
-    if (match) {
-        const slug = match[1];
-        exibirDetalhesProduto(slug);
-    }
-    // ... (outros códigos de load existentes)
-});
+// Removido o window.addEventListener('load') para verificação de slug, pois o DOMContentLoaded cuida.
 
-// Lidar com back/forward no navegador
-window.addEventListener('popstate', (event) => {
-    const path = window.location.pathname;
-    const match = path.match(/^\/produto\/([a-z0-9-]+)$/);
-    if (match) {
-        exibirDetalhesProduto(match[1]);
-    } else {
-        // Fecha os detalhes se voltar para lista
-        if (infoProduto) infoProduto.style.display = 'none';
-    }
-});
-
+// Removido o popstate, pois vamos recarregar a página.
 
 // Array do carrinho
 let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
@@ -195,42 +154,6 @@ if (document.querySelector('.swiper')) {
 }
 
 // Função para exibir produtos por categoria
-// Exemplo corrigido dentro de exibirProdutosPorCategoria(categoria)
-function exibirProdutosPorCategoria(categoria) {
-    const container = document.querySelector('.swiper-wrapper'); // Ajuste para o seu container
-    container.innerHTML = ''; // Limpa anterior
-
-    const produtosFiltrados = produtos.filter(p => p.categoria === categoria || categoria === 'Menu');
-    
-    produtosFiltrados.forEach(produto => {
-        const slide = document.createElement('div');
-        slide.classList.add('swiper-slide', 'product-card');
-        slide.dataset.slug = produto.slug; // Armazena slug para cliques
-        
-        slide.innerHTML = `
-            <img src="${produto.imagem}" alt="${produto.nome}">
-            <h3>${produto.nome}</h3>
-            <p>Preço: R$ ${produto.preco.toFixed(2)}</p>
-            <a href="/produto/${produto.slug}" class="detalhes-link">Ver Detalhes</a>
-            <!-- Ou botões de adicionar ao carrinho, etc. -->
-        `;
-        
-        container.appendChild(slide);
-    });
-
-    // Inicialize o Swiper novamente se necessário
-    // swiper.update(); // Se usar Swiper
-
-    // Adicione event listeners para cliques nos links (prevenindo recarga se quiser SPA)
-    document.querySelectorAll('.detalhes-link').forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const slug = link.closest('.product-card').dataset.slug;
-            exibirDetalhesProduto(slug); // Chama com slug
-            history.pushState({ slug }, '', `/produto/${slug}`); // Atualiza URL sem recarregar
-        });
-    });
-}
 function exibirProdutosPorCategoria(categoria) {
     const container = document.getElementById('produtos-filtrados');
     if (!container) {
@@ -262,7 +185,9 @@ function exibirProdutosPorCategoria(categoria) {
         `;
         card.addEventListener('click', (e) => {
             if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT') {
-                window.location.href = `Produtos?id=${produto.id}`;
+                e.preventDefault();
+                // Redireciona com recarregamento para a URL com slug
+                window.location.href = `/produto/${produto.slug}`;
             }
         });
         container.appendChild(card);
@@ -277,7 +202,7 @@ function exibirProdutosPorCategoria(categoria) {
     });
 }
 
-// Função para adicionar ao carrinho
+// Função para adicionar ao carrinho (mantida igual)
 function adicionarAoCarrinho(id, quantidade = 1) {
     const produto = produtos.find(p => p.id == id);
     if (produto) {
@@ -292,7 +217,7 @@ function adicionarAoCarrinho(id, quantidade = 1) {
     }
 }
 
-// Função para exibir o carrinho dinamicamente
+// Função para exibir o carrinho dinamicamente (mantida igual)
 function exibirCarrinho() {
     mensagemCarrinho = ''; // Limpa a mensagem por padrão
     const listaInterativa = document.getElementById('lista');
@@ -386,7 +311,7 @@ function exibirCarrinho() {
 
 
 
-// Função para alterar quantidade
+// Função para alterar quantidade (mantida igual)
 let mensagemCarrinho = '';
 
 function alterarQuantidade(id, valor, noCarrinho = false) {
@@ -428,21 +353,21 @@ function alterarQuantidade(id, valor, noCarrinho = false) {
     }
 }
 
-// Função para remover item do carrinho
+// Função para remover item do carrinho (mantida igual)
 function removerDoCarrinho(id) {
     carrinho = carrinho.filter(item => item.id != id);
     salvarCarrinho();
     exibirCarrinho();
 }
 
-// Função para limpar o carrinho
+// Função para limpar o carrinho (mantida igual)
 function limparCarrinho() {
     carrinho = [];
     salvarCarrinho();
     exibirCarrinho();
 }
 
-// Função para alternar visibilidade do carrinho
+// Função para alternar visibilidade do carrinho (mantida igual)
 function toggleCart() {
     const listaInterativa = document.getElementById('lista');
     const overlay = document.querySelector('.overlay');
@@ -460,17 +385,21 @@ document.addEventListener('DOMContentLoaded', () => {
     let produto = null;
 
     // Verifica se é uma URL com slug (/produto/slug)
-    const path = window.location.pathname.toLowerCase().replace(/\/$/, ''); // Remove barra final se houver
+    const path = window.location.pathname.toLowerCase().replace(/\/$/, '');
     let slug = null;
     if (path.startsWith('/produto/')) {
         slug = path.substring('/produto/'.length);
         produto = produtos.find(p => p.slug === slug);
     }
 
-    // Fallback para ?id= (compatibilidade com links antigos)
+    // Fallback para ?id= (compatibilidade com links antigos) - Agora redireciona com recarregamento para slug
     const productId = params.get('id');
     if (!produto && productId) {
-        produto = produtos.find(p => p.id == productId);
+        produto = produtos.find(p => p.id == parseInt(productId));
+        if (produto) {
+            window.location.href = `/produto/${produto.slug}`;
+            return; // Sai para evitar execução adicional
+        }
     }
 
     if (window.location.pathname.includes('Produtos') || path.startsWith('/produto/')) {
@@ -709,4 +638,3 @@ document.getElementById("contato-form").addEventListener("submit", function(even
             alert("❌ Ocorreu um erro ao enviar o e-mail.");
         });
 });
-
