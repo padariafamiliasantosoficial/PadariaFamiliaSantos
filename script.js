@@ -94,36 +94,43 @@ function exibirDetalhesProduto(slugOrId) {
     }
     
     if (produto) {
-        // Popular os detalhes no DOM
-        document.getElementById('produto-imagem').src = produto.imagem;
-        document.getElementById('produto-imagem').alt = produto.nome;
-        document.getElementById('produto-nome').textContent = produto.nome;
-        document.getElementById('produto-descricao').textContent = produto.descricao;
-        document.getElementById('produto-preco').textContent = `Preço: R$ ${produto.preco.toFixed(2)}`;
-        document.getElementById('add-cart').textContent = 'Adicionar ao Carrinho';
+        // Popular os detalhes no DOM com verificações
+        const imgElement = document.getElementById('produto-imagem');
+        if (imgElement) {
+            imgElement.src = produto.imagem;
+            imgElement.alt = produto.nome;
+        } else {
+            console.warn('Elemento #produto-imagem não encontrado');
+        }
+        
+        const nomeElement = document.getElementById('produto-nome');
+        if (nomeElement) nomeElement.textContent = produto.nome;
+        
+        const descElement = document.getElementById('produto-descricao');
+        if (descElement) descElement.textContent = produto.descricao;
+        
+        const precoElement = document.getElementById('produto-preco');
+        if (precoElement) precoElement.textContent = `Preço: R$ ${produto.preco.toFixed(2)}`;
+        
+        const addCartButton = document.getElementById('add-cart');
+        if (addCartButton) addCartButton.textContent = 'Adicionar ao Carrinho';
         
         const qntdInput = document.getElementById('qntd');
-        qntdInput.value = '1';
-        qntdInput.min = '1';
-        qntdInput.max = '100';
+        if (qntdInput) {
+            qntdInput.value = '1';
+            qntdInput.min = '1';
+            qntdInput.max = '100';
+        }
         
-        const infoProduto = document.querySelector('.info-produto');
-        infoProduto.style.display = 'grid';
-
-        const categoriaDetalhes = document.querySelector('.categoria-detalhes');
-        if (categoriaDetalhes) {
-            categoriaDetalhes.classList.add('info-visivel');
-            categoriaDetalhes.style.display = 'none'; // Esconde categorias ao mostrar detalhes
-        }
-        if (infoProduto) {
-            infoProduto.classList.add('info-produto-visivel');
-        }
-
         // Muda a URL sem recarregar
         const novaUrl = `/produto/${produto.slug}`;
         if (window.location.pathname !== novaUrl) {
             history.pushState({ slug: produto.slug }, '', novaUrl);
         }
+        
+        console.log('Detalhes do produto carregados:', produto.nome);
+    } else {
+        console.error('Produto não encontrado para slug/ID:', slugOrId);
     }
 }
 
@@ -134,11 +141,11 @@ window.addEventListener('load', () => {
         const slug = path.substring('/produto/'.length);
         exibirDetalhesProduto(slug);
     } else {
-        // Exibe categorias se não for produto
-        const categoriaDetalhes = document.querySelector('.categoria-detalhes');
-        if (categoriaDetalhes) categoriaDetalhes.style.display = 'block';
+        // Carrega categorias se não for produto
+        const params = new URLSearchParams(window.location.search);
+        const tipo = params.get('tipo') || 'Menu';
+        exibirProdutosPorCategoria(tipo);
     }
-    // Outros códigos de load
 });
 
 // Lidar com back/forward no navegador
@@ -148,14 +155,10 @@ window.addEventListener('popstate', (event) => {
         const slug = path.substring('/produto/'.length);
         exibirDetalhesProduto(slug);
     } else {
-        // Fecha detalhes e mostra categorias
-        const infoProduto = document.querySelector('.info-produto');
-        if (infoProduto) infoProduto.style.display = 'none';
-        const categoriaDetalhes = document.querySelector('.categoria-detalhes');
-        if (categoriaDetalhes) {
-            categoriaDetalhes.style.display = 'block';
-            categoriaDetalhes.classList.remove('info-visivel');
-        }
+        // Recarrega categorias dinamicamente ao voltar
+        const params = new URLSearchParams(window.location.search);
+        const tipo = params.get('tipo') || 'Menu';
+        exibirProdutosPorCategoria(tipo);
     }
 });
 
@@ -174,7 +177,7 @@ function exibirProdutosPorCategoria(categoria) {
         console.error("Container de produtos não encontrado no DOM");
         return;
     }
-    container.innerHTML = '';
+    container.innerHTML = ''; // Limpa para recarregar dinamicamente
     let produtosFiltrados = categoria === 'Menu' ? produtos : produtos.filter(p => p.categoria === categoria);
     produtosFiltrados.forEach(produto => {
         const card = document.createElement('div');
@@ -183,7 +186,7 @@ function exibirProdutosPorCategoria(categoria) {
         card.innerHTML = `
             <div class="product-content">
                 <div class="product-image-container">
-                    <img class="product-image" src="${produto.imagem || 'imagens/placeholder.jpg'}" alt="${produto.nome}">
+                    <img class="product-image" src="${produto.imagem}" alt="${produto.nome}">
                     <div class="product-text">
                         <h3>${produto.nome}</h3>
                         <h4>Preço: R$ ${produto.preco.toFixed(2)}</h4>
@@ -200,7 +203,7 @@ function exibirProdutosPorCategoria(categoria) {
         // Clique no card para detalhes (usa slug)
         card.addEventListener('click', (e) => {
             if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT') {
-                exibirDetalhesProduto(produto.slug); // Chama função para exibir detalhes e mudar URL
+                exibirDetalhesProduto(produto.slug); // Carrega detalhes dinamicamente
             }
         });
         // Adicionar ao carrinho
@@ -213,6 +216,7 @@ function exibirProdutosPorCategoria(categoria) {
         });
         container.appendChild(card);
     });
+    console.log('Produtos da categoria carregados:', categoria);
 }
 
 // Função para adicionar ao carrinho
@@ -252,7 +256,6 @@ function exibirCarrinho() {
     }
     if (carrinho.length === 0) {
         listaInterativa.innerHTML += '<p style="color: black;">O carrinho está vazio.</p>';
-        document.getElementById('cart-total').textContent = 'Total: R$ 0.00';
         return;
     }
 
@@ -366,12 +369,8 @@ function toggleCart() {
 document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
     const tipo = params.get('tipo');
-    const infoProduto = document.querySelector('.info-produto');
-    const categoriaDetalhes = document.querySelector('.categoria-detalhes');
-
-    let produto = null;
-
     const path = window.location.pathname.toLowerCase().replace(/\/$/, '');
+    let produto = null;
     let slug = null;
     if (path.startsWith('/produto/')) {
         slug = path.substring('/produto/'.length);
@@ -387,8 +386,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (produto) {
             exibirDetalhesProduto(slug || productId);
         } else {
-            if (infoProduto) infoProduto.style.display = 'none';
-            if (categoriaDetalhes) categoriaDetalhes.style.display = 'block';
+            exibirProdutosPorCategoria(tipo || 'Menu');
         }
 
         document.querySelectorAll('.categoria-detalhes h2').forEach(h2 => {
@@ -397,12 +395,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 exibirProdutosPorCategoria(categoria);
             });
         });
-
-        if (tipo) {
-            exibirProdutosPorCategoria(tipo);
-        } else {
-            exibirProdutosPorCategoria('Menu');
-        }
     }
 
     exibirCarrinho();
@@ -410,38 +402,47 @@ document.addEventListener('DOMContentLoaded', () => {
     // Configurar quantidade na página de detalhes
     if (produto) {
         const qntdInput = document.getElementById('qntd');
-        function alterarQuantidadeDetalhes(valor) {
-            let novaQuantidade;
-            const input = qntdInput;
-            const mensagemElement = document.getElementById('mensagem') || ( () => { const el = document.createElement('p'); el.id = 'mensagem'; infoProduto.appendChild(el); return el; })();
+        if (qntdInput) {
+            function alterarQuantidadeDetalhes(valor) {
+                let novaQuantidade;
+                const input = qntdInput;
+                const mensagemElement = document.getElementById('mensagem') || ( () => { const el = document.createElement('p'); el.id = 'mensagem'; document.querySelector('.info-produto').appendChild(el); return el; })();
 
-            if (typeof valor === 'string') {
-                novaQuantidade = parseInt(valor);
-                if (isNaN(novaQuantidade)) {
-                    input.value = input.value || 1;
-                    mensagemElement.innerText = "Por favor, insira um número válido.";
-                    setTimeout(() => mensagemElement.innerText = "", 3000);
-                    return;
+                if (typeof valor === 'string') {
+                    novaQuantidade = parseInt(valor);
+                    if (isNaN(novaQuantidade)) {
+                        input.value = input.value || 1;
+                        mensagemElement.innerText = "Por favor, insira um número válido.";
+                        setTimeout(() => mensagemElement.innerText = "", 3000);
+                        return;
+                    }
+                } else {
+                    novaQuantidade = (parseInt(input.value) || 1) + valor;
                 }
-            } else {
-                novaQuantidade = (parseInt(input.value) || 1) + valor;
+
+                novaQuantidade = Math.max(1, Math.min(100, novaQuantidade));
+                input.value = novaQuantidade;
+                mensagemElement.innerText = "";
             }
 
-            novaQuantidade = Math.max(1, Math.min(100, novaQuantidade));
-            input.value = novaQuantidade;
-            mensagemElement.innerText = "";
+            const addCartButton = document.getElementById('add-cart');
+            if (addCartButton) {
+                addCartButton.addEventListener('click', () => {
+                    alterarQuantidadeDetalhes(qntdInput.value);
+                    const quantidade = parseInt(qntdInput.value) || 1;
+                    adicionarAoCarrinho(produto.id, quantidade);
+                });
+            }
+
+            const btnMenos = document.getElementById('btn-menos');
+            if (btnMenos) btnMenos.addEventListener('click', () => alterarQuantidadeDetalhes(-1));
+            
+            const btnMais = document.getElementById('btn-mais');
+            if (btnMais) btnMais.addEventListener('click', () => alterarQuantidadeDetalhes(1));
+            
+            qntdInput.addEventListener('change', () => alterarQuantidadeDetalhes(qntdInput.value));
+            qntdInput.addEventListener('input', function() { this.value = this.value.replace(/[^0-9]/g, ''); });
         }
-
-        document.getElementById('add-cart').addEventListener('click', () => {
-            alterarQuantidadeDetalhes(qntdInput.value);
-            const quantidade = parseInt(qntdInput.value) || 1;
-            adicionarAoCarrinho(produto.id, quantidade);
-        });
-
-        document.getElementById('btn-menos').addEventListener('click', () => alterarQuantidadeDetalhes(-1));
-        document.getElementById('btn-mais').addEventListener('click', () => alterarQuantidadeDetalhes(1));
-        qntdInput.addEventListener('change', () => alterarQuantidadeDetalhes(qntdInput.value));
-        qntdInput.addEventListener('input', function() { this.value = this.value.replace(/[^0-9]/g, ''); });
     }
 });
 
@@ -461,13 +462,13 @@ function closeSidePanels() {
     const menuMob = document.getElementById('container-mobile');
     const listaInterativa = document.getElementById('lista');
     const overlay = document.querySelector('.overlay');
-    menuMob.classList.remove('abrir-menu');
-    listaInterativa.classList.remove('open');
-    overlay.classList.remove('show');
+    if (menuMob) menuMob.classList.remove('abrir-menu');
+    if (listaInterativa) listaInterativa.classList.remove('open');
+    if (overlay) overlay.classList.remove('show');
 }
 
-const overlay = document.querySelector('.overlay');
-if (overlay) overlay.addEventListener('click', closeSidePanels);
+const overlayElement = document.querySelector('.overlay');
+if (overlayElement) overlayElement.addEventListener('click', closeSidePanels);
 
 const fecharMenu = document.getElementById('fechar');
 if (fecharMenu) fecharMenu.addEventListener('click', toggleMenu);
