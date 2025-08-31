@@ -197,50 +197,70 @@ if (document.querySelector('.swiper')) {
 // Função para exibir produtos por categoria
 // Exemplo corrigido dentro de exibirProdutosPorCategoria(categoria)
 
+// Função para exibir produtos por categoria (corrigida para usar slugs nos links)
 function exibirProdutosPorCategoria(categoria) {
-    const container = document.getElementById('produtos-filtrados');
-    if (!container) {
-        console.error("Elemento #produtos-filtrados não encontrado no DOM");
-        return;
-    }
+    const container = document.querySelector('.categoria-detalhes'); // Ajuste se o selector for diferente
+    if (!container) return;
+
+    // Limpa o container atual (para refresh dinâmico)
     container.innerHTML = '';
-    let produtosFiltrados = categoria === 'Menu' ? produtos : produtos.filter(p => p.categoria === categoria);
+
+    // Filtra produtos pela categoria (ou todos se 'Menu')
+    const produtosFiltrados = (categoria === 'Menu') ? produtos : produtos.filter(p => p.categoria === categoria);
+
+    // Cria header da categoria
+    const h2 = document.createElement('h2');
+    h2.textContent = categoria;
+    h2.setAttribute('data-categoria', categoria);
+    container.appendChild(h2);
+
+    // Cria cartões dinamicamente
     produtosFiltrados.forEach(produto => {
         const card = document.createElement('div');
-        card.className = 'product-card';
-        card.setAttribute('data-id', produto.id);
+        card.classList.add('product-card');
+        card.setAttribute('data-id', produto.id); // Mantém para lógica de carrinho
+
         card.innerHTML = `
-            <div class="product-content">
-                <div class="product-image-container">
-                    <img class="product-image" src="${produto.imagem || 'imagens/placeholder.jpg'}" alt="${produto.nome}">
-                    <div class="product-text">
-                        <h3>${produto.nome}</h3>
-                        <h4>Preço: R$ ${produto.preco.toFixed(2)}</h4>
-                    </div>
-                    <button class="add-cart" type="button">Adicionar ao Carrinho</button>
-                    <div class="container-cart-qntd">
-                        <button class="btn-menos" onclick="alterarQuantidade(${produto.id}, -1, false)">-</button>
-                        <input class="quantidade" type="number" value="1" min="1" onchange="alterarQuantidade(${produto.id}, this.value, false)">
-                        <button class="btn-mais" onclick="alterarQuantidade(${produto.id}, 1, false)">+</button>
-                    </div>
-                </div>
+            <img src="${produto.imagem}" alt="${produto.nome}">
+            <h3>${produto.nome}</h3>
+            <p>R$ ${produto.preco.toFixed(2)}</p>
+            <div class="quantidade-container">
+                <button class="btn-menos">-</button>
+                <input type="number" class="quantidade" value="1" min="1" max="100">
+                <button class="btn-mais">+</button>
             </div>
+            <button class="add-to-cart">Adicionar ao Carrinho</button>
         `;
+
+        // Evento de clique no cartão inteiro para detalhes (usa slug na URL)
         card.addEventListener('click', (e) => {
-            if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT') {
-                window.location.href = `Produtos?id=${produto.id}`;
+            if (!e.target.classList.contains('add-to-cart') && !e.target.classList.contains('btn-menos') && !e.target.classList.contains('btn-mais')) {
+                window.location = `/produto/${produto.slug}`;
             }
         });
-        container.appendChild(card);
 
-        const btnAdd = card.querySelector('.add-cart');
-        btnAdd.addEventListener('click', e => {
-            e.stopPropagation();
-            e.preventDefault();
-            const quantidade = parseInt(card.querySelector('.quantidade').value) || 1;
-            adicionarAoCarrinho(produto.id, quantidade);
+        // Lógica de adicionar ao carrinho (mantida, usa ID)
+        const addButton = card.querySelector('.add-to-cart');
+        addButton.addEventListener('click', () => {
+            const qntd = parseInt(card.querySelector('.quantidade').value) || 1;
+            adicionarAoCarrinho(produto.id, qntd);
         });
+
+        // Botões de quantidade (mantidos)
+        card.querySelector('.btn-menos').addEventListener('click', () => alterarQuantidade(produto.id, -1));
+        card.querySelector('.btn-mais').addEventListener('click', () => alterarQuantidade(produto.id, 1));
+        card.querySelector('.quantidade').addEventListener('change', (e) => alterarQuantidade(produto.id, e.target.value));
+
+        container.appendChild(card);
     });
+
+    // Esconde a seção de detalhes se não for página de produto único
+    const infoProduto = document.querySelector('.info-produto');
+    if (infoProduto) infoProduto.style.display = 'none';
+
+    // Se for navegação via categoria, garante refresh
+    const categoriaDetalhes = document.querySelector('.categoria-detalhes');
+    if (categoriaDetalhes) categoriaDetalhes.classList.remove('info-visivel');
 }
 
 // Função para adicionar ao carrinho
