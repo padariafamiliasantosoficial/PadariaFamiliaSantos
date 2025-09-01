@@ -525,36 +525,86 @@ document.addEventListener('DOMContentLoaded', () => {
 
     exibirCarrinho();
 
-    const abrirMenu = document.getElementById("abrir-menu-mob");
-const fecharMenu = document.getElementById("fechar");
-const containerMenu = document.getElementById("container-mobile");
+    // Adicionar menu pequeno para telas menores
+    // Seleciona o ícone e o menu
 
-// Abrir menu
-abrirMenu.addEventListener("click", () => {
-    containerMenu.classList.add("abrir-menu");
-});
+    // Função para criar e adicionar o menu mobile à página
 
-// Fechar menu
-fecharMenu.addEventListener("click", () => {
-    containerMenu.classList.remove("abrir-menu");
-});
 
-// Fechar menu ao clicar em qualquer link dentro dele
-document.querySelectorAll("#container-mobile ul li a").forEach(link => {
-    link.addEventListener("click", (e) => {
-        containerMenu.classList.remove("abrir-menu");
+// Chama a função para criar o menu 
+        let btnMenu = document.getElementById('icone-mobile')
+        let menuMob = document.getElementById('container-mobile')
+    
+    btnMenu.addEventListener('click', toggleMenu)
+    
 
-        // Se for o link do carrinho, chama a função de abrir carrinho
-        if (link.getAttribute("onclick") === "openCartFromMenu()") {
-            e.preventDefault(); // evita comportamento estranho
-            if (typeof openCartFromMenu === "function") {
-                openCartFromMenu();
-            } else {
-                console.error("Função openCartFromMenu() não encontrada!");
-            }
-        }
-    });
-});
+// Função para alternar visibilidade do menu mobile
+function toggleMenu() {
+    const menuMob = document.getElementById('container-mobile');
+    const overlay = document.querySelector('.overlay');
+    menuMob.classList.toggle('abrir-menu');
+    overlay.classList.toggle('show');
+}
+
+// Função para abrir o carrinho a partir do menu mobile
+function openCartFromMenu() {
+    // Fecha o menu mobile
+    const menuMob = document.getElementById('container-mobile');
+    menuMob.classList.remove('abrir-menu');
+
+    // Abre o carrinho
+    toggleCart();
+}
+function toggleMenu() {
+    const menuMob = document.getElementById('container-mobile');
+    const overlay = document.querySelector('.overlay');
+
+    if (menuMob.classList.contains('abrir-menu')) {
+        // Menu está aberto: feche apenas ele
+        menuMob.classList.remove('abrir-menu');
+        overlay.classList.remove('show');
+    } else {
+        // Menu está fechado: feche qualquer outro painel aberto (ex: carrinho) usando closeSidePanels
+        closeSidePanels();
+        // Agora abra o menu
+        menuMob.classList.add('abrir-menu');
+        overlay.classList.add('show');
+    }
+}
+function toggleCart() {
+    const listaInterativa = document.getElementById('lista');
+    const overlay = document.querySelector('.overlay');
+
+    if (listaInterativa.classList.contains('open')) {
+        // Carrinho está aberto: feche apenas ele
+        listaInterativa.classList.remove('open');
+        overlay.classList.remove('show');
+    } else {
+        // Carrinho está fechado: feche qualquer outro painel aberto usando closeSidePanels
+        closeSidePanels();
+        // Agora abra o carrinho
+        listaInterativa.classList.add('open');
+        overlay.classList.add('show');
+    }
+}
+// Função para fechar painéis laterais (usada no overlay)
+function closeSidePanels() {
+    const menuMob = document.getElementById('container-mobile');
+    const listaInterativa = document.getElementById('lista');
+    const overlay = document.querySelector('.overlay');
+
+    if (menuMob.classList.contains('abrir-menu')) {
+        menuMob.classList.remove('abrir-menu');
+    }
+    if (listaInterativa.classList.contains('open')) {
+        listaInterativa.classList.remove('open');
+    }
+    overlay.classList.remove('show');
+}
+document.querySelector('.overlay').addEventListener('click', closeSidePanels);
+
+    let fecharMenu = document.getElementById('fechar');
+fecharMenu.addEventListener('click', toggleMenu);
 
     
     // ENVIAR EMAIL
