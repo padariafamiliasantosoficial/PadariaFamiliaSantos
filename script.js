@@ -525,12 +525,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
     exibirCarrinho();
 
-    document.getElementById("abrir-menu-mob").addEventListener("click", function() {
-    document.getElementById("container-mobile").classList.add("abrir-menu");
+    const abrirMenu = document.getElementById("abrir-menu-mob");
+const fecharMenu = document.getElementById("fechar");
+const containerMenu = document.getElementById("container-mobile");
+
+// Abrir menu
+abrirMenu.addEventListener("click", () => {
+    containerMenu.classList.add("abrir-menu");
 });
-document.getElementById("fechar").addEventListener("click", function() {
-    document.getElementById("container-mobile").classList.remove("abrir-menu");
+
+// Fechar menu
+fecharMenu.addEventListener("click", () => {
+    containerMenu.classList.remove("abrir-menu");
 });
+
+// Fechar menu ao clicar em qualquer link dentro dele
+document.querySelectorAll("#container-mobile ul li a").forEach(link => {
+    link.addEventListener("click", (e) => {
+        containerMenu.classList.remove("abrir-menu");
+
+        // Se for o link do carrinho, chama a função de abrir carrinho
+        if (link.getAttribute("onclick") === "openCartFromMenu()") {
+            e.preventDefault(); // evita comportamento estranho
+            if (typeof openCartFromMenu === "function") {
+                openCartFromMenu();
+            } else {
+                console.error("Função openCartFromMenu() não encontrada!");
+            }
+        }
+    });
+});
+
     
     // ENVIAR EMAIL
     emailjs.init("R_s1_9hjc-TF4dqml");
