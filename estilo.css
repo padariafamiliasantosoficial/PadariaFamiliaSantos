@@ -56,20 +56,15 @@ nav {
     filter: invert(100%); /* Muda preto para branco */
 }
 .container-mobile {
-    display: none;
+    background-color: #333;
     position: fixed;
+    width: 0%;
     top: 0;
     right: 0;
-    width: 250px;
-    height: 100%;
-    background: white;
-    box-shadow: -2px 0 5px rgba(0,0,0,.3);
-    padding: 20px;
-    z-index: 999;
-}
-
-.container-mobile.ativo {
-    display: block;
+    height: 100vh;
+    z-index: 8888;
+    overflow: hidden;
+    transition: .5s;
 }
 .container-mobile.abrir-menu {
     width: 70%;
