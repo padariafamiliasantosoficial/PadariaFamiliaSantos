@@ -37,24 +37,6 @@ if (document.querySelector('.swiper')) {
     }
 }
 
-        // Opcional: Pausar autoplay ao clicar nas setas
-        const nextButton = document.querySelector('.swiper-button-next');
-const prevButton = document.querySelector('.swiper-button-prev');
-
-if (nextButton && prevButton) {
-    nextButton.addEventListener('click', () => {
-        swiper.autoplay.stop(); // Para o autoplay
-        swiper.params.speed = 500; // Define a velocidade da transição (2,5 segundos)
-    });
-    prevButton.addEventListener('click', () => {
-        swiper.autoplay.stop(); // Para o autoplay
-        swiper.params.speed = 500; // Define a velocidade da transição (2,5 segundos)
-    });
-}
-
-
-///PARTE 2
-
 // Array de produtos
 const produtos = [
     { id: 1, nome: 'Pão de Queijo', preco: 0.50, imagem: 'imagens/paodequeijo.jpg', descricao: 'Delicioso por fora, macio por dentro! Nosso pão de queijo é feito com ingredientes selecionados e muito queijo de verdade, perfeito para acompanhar um café ou como lanche rápido.', categoria: 'Salgados', slug: 'pao-de-queijo' },
@@ -100,14 +82,9 @@ function encontrarProdutoPorSlug(slug) {
     return produtos.find(prod => prod.slug === slug);
 }
 
-// Função para exibir detalhes (adaptada para usar slug opcional)
-function exibirDetalhesProduto(slugOrId) {
-    let produto;
-    if (typeof slugOrId === 'string') {
-        produto = encontrarProdutoPorSlug(slugOrId);
-    } else {
-        produto = produtos.find(p => p.id === slugOrId);
-    }
+// Função para exibir detalhes (adaptada para usar slug)
+function exibirDetalhesProduto(slug) {
+    const produto = encontrarProdutoPorSlug(slug);
     
     if (produto) {
         // ... (o código existente para popular os detalhes no DOM)
@@ -146,7 +123,6 @@ window.addEventListener('popstate', (event) => {
     }
 });
 
-
 // Array do carrinho
 let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
 
@@ -155,48 +131,7 @@ function salvarCarrinho() {
     localStorage.setItem('carrinho', JSON.stringify(carrinho));
 }
 
-// Swiper
-if (document.querySelector('.swiper')) {
-    const swiper = new Swiper('.swiper', {
-        loop: true,
-        autoplay: {
-            delay: 0,
-            disableOnInteraction: false,
-        },
-        speed: 5000,
-        slidesPerView: 'auto',
-        spaceBetween: 10,
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-        scrollbar: {
-            el: '.swiper-scrollbar',
-        },
-    });
-
-    const nextButton = document.querySelector('.swiper-button-next');
-    const prevButton = document.querySelector('.swiper-button-prev');
-
-    if (nextButton && prevButton) {
-        nextButton.addEventListener('click', () => {
-            swiper.autoplay.stop();
-            swiper.params.speed = 500;
-        });
-        prevButton.addEventListener('click', () => {
-            swiper.autoplay.stop();
-            swiper.params.speed = 500;
-        });
-    }
-}
-
 // Função para exibir produtos por categoria
-// Exemplo corrigido dentro de exibirProdutosPorCategoria(categoria)
-
 function exibirProdutosPorCategoria(categoria) {
     const container = document.getElementById('produtos-filtrados');
     if (!container) {
@@ -228,7 +163,7 @@ function exibirProdutosPorCategoria(categoria) {
         `;
         card.addEventListener('click', (e) => {
             if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT') {
-                window.location.href = `Produtos?id=${produto.id}`;
+                exibirDetalhesProduto(produto.slug);
             }
         });
         container.appendChild(card);
@@ -350,8 +285,6 @@ function exibirCarrinho() {
         listaInterativa.appendChild(mensagemElement);
 }
 
-
-
 // Função para alterar quantidade
 let mensagemCarrinho = '';
 
@@ -433,11 +366,7 @@ document.addEventListener('DOMContentLoaded', () => {
         produto = produtos.find(p => p.slug === slug);
     }
 
-    // Fallback para ?id= (compatibilidade com links antigos)
-    const productId = params.get('id');
-    if (!produto && productId) {
-        produto = produtos.find(p => p.id == productId);
-    }
+    // Removido o fallback para ?id= para simplificar e evitar issues
 
     if (window.location.pathname.includes('Produtos') || path.startsWith('/produto/')) {
         if (!infoProduto) {
@@ -563,22 +492,6 @@ document.addEventListener('DOMContentLoaded', () => {
 function toggleMenu() {
     const menuMob = document.getElementById('container-mobile');
     const overlay = document.querySelector('.overlay');
-    menuMob.classList.toggle('abrir-menu');
-    overlay.classList.toggle('show');
-}
-
-// Função para abrir o carrinho a partir do menu mobile
-function openCartFromMenu() {
-    // Fecha o menu mobile
-    const menuMob = document.getElementById('container-mobile');
-    menuMob.classList.remove('abrir-menu');
-
-    // Abre o carrinho
-    toggleCart();
-}
-function toggleMenu() {
-    const menuMob = document.getElementById('container-mobile');
-    const overlay = document.querySelector('.overlay');
 
     if (menuMob.classList.contains('abrir-menu')) {
         // Menu está aberto: feche apenas ele
@@ -675,4 +588,3 @@ document.getElementById("contato-form").addEventListener("submit", function(even
             alert("❌ Ocorreu um erro ao enviar o e-mail.");
         });
 });
-
