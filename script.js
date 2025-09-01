@@ -133,11 +133,18 @@ function exibirDetalhesProduto(slugOrId) {
             }
             infoProduto.classList.add('info-produto-visivel');
 
-            // Altera a URL sem recarregar
-            const novaUrl = `/produto/${produto.slug}`;
+            // Altera a URL recarregar
             if (window.location.pathname !== novaUrl) {
-                history.pushState({ slug: produto.slug }, '', novaUrl);
-            }
+    window.location.href = novaUrl;
+} else {
+    if (preencherDetalhes(produto)) {
+        infoProduto.style.display = 'grid';
+        if (categoriaDetalhes) {
+            categoriaDetalhes.classList.add('info-visivel');
+        }
+        infoProduto.classList.add('info-produto-visivel');
+    }
+}
         }
     } else {
         infoProduto.style.display = 'none';
