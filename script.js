@@ -402,8 +402,8 @@ function toggleCart() {
         console.error("Container do carrinho (.lista-interativa) não encontrado no DOM");
         return; // Sai cedo para evitar erros
     }
-    cartSidebar.classList.toggle('active');
-    if (cartSidebar.classList.contains('active')) {
+    cartSidebar.classList.toggle('open');
+    if (cartSidebar.classList.contains('open')) {
         exibirCarrinho(); // Atualiza o conteúdo do carrinho ao abrir
     }
 }
