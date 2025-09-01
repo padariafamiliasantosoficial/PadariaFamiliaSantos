@@ -37,6 +37,22 @@ if (document.querySelector('.swiper')) {
     }
 }
 
+        // Opcional: Pausar autoplay ao clicar nas setas
+        const nextButton = document.querySelector('.swiper-button-next');
+const prevButton = document.querySelector('.swiper-button-prev');
+
+if (nextButton && prevButton) {
+    nextButton.addEventListener('click', () => {
+        swiper.autoplay.stop(); // Para o autoplay
+        swiper.params.speed = 500; // Define a velocidade da transição (2,5 segundos)
+    });
+    prevButton.addEventListener('click', () => {
+        swiper.autoplay.stop(); // Para o autoplay
+        swiper.params.speed = 500; // Define a velocidade da transição (2,5 segundos)
+    });
+}
+
+
 ///PARTE 2
 
 // Array de produtos
@@ -79,6 +95,58 @@ const produtos = [
     { id: 36, nome: 'Pudim de Leite', preco: 5.00, imagem: 'imagens/pudimdeleite.jpg', descricao: 'Pudim cremoso com calda de caramelo, clássico e irresistível. Feito com leite condensado, ovos e baunilha.', categoria: 'Sobremesas', slug: 'pudim-de-leite' }
 ];
 
+// Função auxiliar para encontrar produto por slug
+function encontrarProdutoPorSlug(slug) {
+    return produtos.find(prod => prod.slug === slug);
+}
+
+// Função para exibir detalhes (adaptada para usar slug opcional)
+function exibirDetalhesProduto(slugOrId) {
+    let produto;
+    if (typeof slugOrId === 'string') {
+        produto = encontrarProdutoPorSlug(slugOrId);
+    } else {
+        produto = produtos.find(p => p.id === slugOrId);
+    }
+    
+    if (produto) {
+        // ... (o código existente para popular os detalhes no DOM)
+        
+        // Muda a URL sem recarregar (se não for a URL atual)
+        const novaUrl = `/produto/${produto.slug}`;
+        if (window.location.pathname !== novaUrl) {
+            history.pushState({ slug: produto.slug }, '', novaUrl);
+        }
+        
+        // Exibe o modal/infoProduto
+        infoProduto.style.display = 'block';
+    }
+}
+
+// Ao carregar a página, verifica se há slug na URL
+window.addEventListener('load', () => {
+    const path = window.location.pathname;
+    const match = path.match(/^\/produto\/([a-z0-9-]+)$/);
+    if (match) {
+        const slug = match[1];
+        exibirDetalhesProduto(slug);
+    }
+    // ... (outros códigos de load existentes)
+});
+
+// Lidar com back/forward no navegador
+window.addEventListener('popstate', (event) => {
+    const path = window.location.pathname;
+    const match = path.match(/^\/produto\/([a-z0-9-]+)$/);
+    if (match) {
+        exibirDetalhesProduto(match[1]);
+    } else {
+        // Fecha os detalhes se voltar para lista
+        if (infoProduto) infoProduto.style.display = 'none';
+    }
+});
+
+
 // Array do carrinho
 let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
 
@@ -87,98 +155,48 @@ function salvarCarrinho() {
     localStorage.setItem('carrinho', JSON.stringify(carrinho));
 }
 
-// Função nova: Exibe detalhes do produto e atualiza URL sem reload
-function exibirDetalhesProduto(slug) {
-    const infoProduto = document.querySelector('.info-produto');
-    const categoriaDetalhes = document.querySelector('.categoria-detalhes');
-    if (!infoProduto) {
-        console.error("Elemento .info-produto não encontrado no DOM");
-        return;
+// Swiper
+if (document.querySelector('.swiper')) {
+    const swiper = new Swiper('.swiper', {
+        loop: true,
+        autoplay: {
+            delay: 0,
+            disableOnInteraction: false,
+        },
+        speed: 5000,
+        slidesPerView: 'auto',
+        spaceBetween: 10,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        scrollbar: {
+            el: '.swiper-scrollbar',
+        },
+    });
+
+    const nextButton = document.querySelector('.swiper-button-next');
+    const prevButton = document.querySelector('.swiper-button-prev');
+
+    if (nextButton && prevButton) {
+        nextButton.addEventListener('click', () => {
+            swiper.autoplay.stop();
+            swiper.params.speed = 500;
+        });
+        prevButton.addEventListener('click', () => {
+            swiper.autoplay.stop();
+            swiper.params.speed = 500;
+        });
     }
-
-    const produto = produtos.find(p => p.slug === slug);
-    if (produto) {
-        document.getElementById('produto-imagem').src = produto.imagem;
-        document.getElementById('produto-imagem').alt = produto.nome;
-        document.getElementById('produto-nome').textContent = produto.nome;
-        document.getElementById('produto-descricao').textContent = produto.descricao;
-        document.getElementById('produto-preco').textContent = `Preço: R$ ${produto.preco.toFixed(2)}`;
-        document.getElementById('add-cart').textContent = 'Adicionar ao Carrinho';
-
-        const qntdInput = document.getElementById('qntd');
-        qntdInput.value = '1';
-        qntdInput.min = '1';
-        qntdInput.max = '100';
-
-        infoProduto.style.display = 'grid';
-
-        if (categoriaDetalhes) {
-            categoriaDetalhes.classList.add('info-visivel');
-        }
-        if (infoProduto) {
-            infoProduto.classList.add('info-produto-visivel');
-        }
-
-        // Re-adiciona listeners para botões de quantidade e add (pois DOM pode mudar)
-        function alterarQuantidadeDetalhes(valor) {
-            let novaQuantidade;
-            const input = document.getElementById('qntd');
-            const mensagemElement = document.getElementById('mensagem') || document.createElement('p');
-            mensagemElement.id = 'mensagem';
-            if (!document.getElementById('mensagem')) {
-                infoProduto.appendChild(mensagemElement);
-            }
-
-            if (typeof valor === 'string') {
-                novaQuantidade = parseInt(valor);
-                if (isNaN(novaQuantidade)) {
-                    input.value = input.value || 1;
-                    mensagemElement.innerText = "Por favor, insira um número válido.";
-                    setTimeout(() => { mensagemElement.innerText = ""; }, 3000);
-                    return;
-                }
-            } else {
-                novaQuantidade = (parseInt(input.value) || 1) + valor;
-            }
-
-            novaQuantidade = Math.max(1, Math.min(100, novaQuantidade));
-            input.value = novaQuantidade;
-            mensagemElement.innerText = "";
-        }
-
-        document.getElementById('add-cart').addEventListener('click', () => {
-            alterarQuantidadeDetalhes(qntdInput.value);
-            const quantidade = parseInt(qntdInput.value) || 1;
-            adicionarAoCarrinho(produto.id, quantidade);
-            exibirCarrinho(); // Atualiza carrinho após adicionar
-        });
-
-        document.getElementById('btn-menos').addEventListener('click', () => {
-            alterarQuantidadeDetalhes(-1);
-        });
-
-        document.getElementById('btn-mais').addEventListener('click', () => {
-            alterarQuantidadeDetalhes(1);
-        });
-
-        qntdInput.addEventListener('change', () => {
-            alterarQuantidadeDetalhes(qntdInput.value);
-        });
-
-        qntdInput.addEventListener('input', function() {
-            this.value = this.value.replace(/[^0-9]/g, '');
-        });
-
-        // Atualiza URL com slug sem reload
-        history.pushState({ path: `/produto/${slug}` }, '', `/produto/${slug}`);
-    } else {
-        infoProduto.style.display = 'none';
-    }
-
-    exibirCarrinho(); // Garante que carrinho seja atualizado
 }
 
-// Função para exibir produtos por categoria (atualizada)
+// Função para exibir produtos por categoria
+// Exemplo corrigido dentro de exibirProdutosPorCategoria(categoria)
+
 function exibirProdutosPorCategoria(categoria) {
     const container = document.getElementById('produtos-filtrados');
     if (!container) {
@@ -201,48 +219,28 @@ function exibirProdutosPorCategoria(categoria) {
                     </div>
                     <button class="add-cart" type="button">Adicionar ao Carrinho</button>
                     <div class="container-cart-qntd">
-                        <button class="btn-menos">-</button>
-                        <input class="quantidade" type="number" value="1" min="1">
-                        <button class="btn-mais">+</button>
+                        <button class="btn-menos" onclick="alterarQuantidade(${produto.id}, -1, false)">-</button>
+                        <input class="quantidade" type="number" value="1" min="1" onchange="alterarQuantidade(${produto.id}, this.value, false)">
+                        <button class="btn-mais" onclick="alterarQuantidade(${produto.id}, 1, false)">+</button>
                     </div>
                 </div>
             </div>
         `;
         card.addEventListener('click', (e) => {
             if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT') {
-                exibirDetalhesProduto(produto.slug); // Chama a nova função
+                window.location.href = `Produtos?id=${produto.id}`;
             }
         });
         container.appendChild(card);
 
-        // Re-adiciona listeners para botões nos cards
         const btnAdd = card.querySelector('.add-cart');
         btnAdd.addEventListener('click', e => {
             e.stopPropagation();
             e.preventDefault();
             const quantidade = parseInt(card.querySelector('.quantidade').value) || 1;
             adicionarAoCarrinho(produto.id, quantidade);
-            exibirCarrinho();
-        });
-
-        card.querySelector('.btn-menos').addEventListener('click', () => {
-            alterarQuantidade(produto.id, -1, false);
-        });
-
-        card.querySelector('.btn-mais').addEventListener('click', () => {
-            alterarQuantidade(produto.id, 1, false);
-        });
-
-        card.querySelector('.quantidade').addEventListener('change', function() {
-            alterarQuantidade(produto.id, this.value, false);
         });
     });
-
-    // Esconde detalhes se estiver em categoria geral
-    const infoProduto = document.querySelector('.info-produto');
-    if (infoProduto) infoProduto.style.display = 'none';
-
-    exibirCarrinho(); // Atualiza carrinho
 }
 
 // Função para adicionar ao carrinho
@@ -418,64 +416,135 @@ function toggleCart() {
     overlay.classList.toggle('show');
 }
 
-// Eventos de load e popstate (atualizado: chama funções diretas)
-window.addEventListener('load', () => {
+// Inicialização
+document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
-    const path = window.location.pathname;
+    const tipo = params.get('tipo');
+    const infoProduto = document.querySelector('.info-produto');
+    const categoriaDetalhes = document.querySelector('.categoria-detalhes');
+
     let produto = null;
+
+    // Verifica se é uma URL com slug (/produto/slug)
+    const path = window.location.pathname.toLowerCase().replace(/\/$/, ''); // Remove barra final se houver
     let slug = null;
     if (path.startsWith('/produto/')) {
         slug = path.substring('/produto/'.length);
         produto = produtos.find(p => p.slug === slug);
     }
 
+    // Fallback para ?id= (compatibilidade com links antigos)
     const productId = params.get('id');
     if (!produto && productId) {
         produto = produtos.find(p => p.id == productId);
-        if (produto) {
-            // Redireciona para slug se for ID antigo
-            history.replaceState({ path: `/produto/${produto.slug}` }, '', `/produto/${produto.slug}`);
-        }
     }
 
     if (window.location.pathname.includes('Produtos') || path.startsWith('/produto/')) {
+        if (!infoProduto) {
+            console.error("Elemento .info-produto não encontrado no DOM");
+            return;
+        }
+
         if (produto) {
-            exibirDetalhesProduto(slug || produto.slug); // Usa a nova função
+            document.getElementById('produto-imagem').src = produto.imagem;
+            document.getElementById('produto-imagem').alt = produto.nome;
+            document.getElementById('produto-nome').textContent = produto.nome;
+            document.getElementById('produto-descricao').textContent = produto.descricao;
+            document.getElementById('produto-preco').textContent = `Preço: R$ ${produto.preco.toFixed(2)}`;
+            document.getElementById('add-cart').textContent = 'Adicionar ao Carrinho';
+            
+            const qntdInput = document.getElementById('qntd');
+            qntdInput.value = '1';
+            qntdInput.min = '1';  // Adiciona atributo min
+            qntdInput.max = '100'; // Adiciona atributo max
+            
+            infoProduto.style.display = 'grid';
+
+            // Adicionar classes para reduzir padding
+            if (categoriaDetalhes) {
+                categoriaDetalhes.classList.add('info-visivel');
+            }
+            if (infoProduto) {
+                infoProduto.classList.add('info-produto-visivel');
+            }
+
+            // Função para alterar quantidade na página de detalhes (similar a alterarQuantidade)
+            function alterarQuantidadeDetalhes(valor) {
+                let novaQuantidade;
+                const input = document.getElementById('qntd');
+                const mensagemElement = document.getElementById('mensagem') || document.createElement('p'); // Usa elemento existente ou cria
+                mensagemElement.id = 'mensagem';
+                if (!document.getElementById('mensagem')) {
+                    infoProduto.appendChild(mensagemElement); // Adiciona à página se não existir
+                }
+
+                if (typeof valor === 'string') {
+                    novaQuantidade = parseInt(valor);
+                    if (isNaN(novaQuantidade)) {
+                        // Entrada inválida: mantém valor anterior
+                        input.value = input.value || 1;
+                        mensagemElement.innerText = "Por favor, insira um número válido.";
+                        setTimeout(() => { mensagemElement.innerText = ""; }, 3000);
+                        return;
+                    }
+                } else {
+                    // Para botões: calcula com base no valor atual
+                    novaQuantidade = (parseInt(input.value) || 1) + valor;
+                }
+
+                // Limita entre 1 e 100
+                novaQuantidade = Math.max(1, Math.min(100, novaQuantidade));
+                input.value = novaQuantidade;
+                mensagemElement.innerText = ""; // Limpa mensagem em caso de sucesso
+            }
+
+            // Adicionar ao carrinho com quantidade validada
+            document.getElementById('add-cart').addEventListener('click', () => {
+                alterarQuantidadeDetalhes(qntdInput.value); // Valida antes de adicionar
+                const quantidade = parseInt(qntdInput.value) || 1;
+                adicionarAoCarrinho(produto.id, quantidade);
+            });
+
+            // Botão de diminuir
+            document.getElementById('btn-menos').addEventListener('click', () => {
+                alterarQuantidadeDetalhes(-1);
+            });
+
+            // Botão de aumentar
+            document.getElementById('btn-mais').addEventListener('click', () => {
+                alterarQuantidadeDetalhes(1);
+            });
+
+            // Onchange para digitação direta
+            qntdInput.addEventListener('change', () => {
+                alterarQuantidadeDetalhes(qntdInput.value);
+            });
+
+            // Opcional: Impedir caracteres não numéricos
+            qntdInput.addEventListener('input', function() {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
         } else {
-            const tipo = params.get('tipo') || 'Menu'; // Se houver ?tipo=
+            infoProduto.style.display = 'none';
+        }
+        
+        document.querySelectorAll('.categoria-detalhes h2').forEach(h2 => {
+            h2.addEventListener('click', () => {
+                const categoria = h2.getAttribute('data-categoria');
+                exibirProdutosPorCategoria(categoria);
+            });
+        });
+
+        if (tipo) {
             exibirProdutosPorCategoria(tipo);
+        } else {
+            exibirProdutosPorCategoria('Menu');
         }
     }
 
     exibirCarrinho();
-
-    // Adiciona listeners de categorias UMA VEZ só (movido para fora do if)
-    document.querySelectorAll('.categoria-detalhes h2').forEach(h2 => {
-        h2.addEventListener('click', () => {
-            const categoria = h2.getAttribute('data-categoria');
-            exibirProdutosPorCategoria(categoria);
-            // Atualiza URL para categoria se quiser (opcional)
-            history.pushState({ path: '/Produtos' }, '', '/Produtos');
-        });
-    });
 });
 
-window.addEventListener('popstate', (event) => {
-    const path = event.state ? event.state.path : window.location.pathname;
-    let produto = null;
-    let slug = null;
-    if (path.startsWith('/produto/')) {
-        slug = path.substring('/produto/'.length);
-        produto = produtos.find(p => p.slug === slug);
-    }
-
-    if (produto) {
-        exibirDetalhesProduto(slug);
-    } else {
-        exibirProdutosPorCategoria('Menu'); // Ou categoria default
-    }
-    exibirCarrinho();
-});
 
 // Adicionar menu pequeno para telas menores
     // Seleciona o ícone e o menu
@@ -606,3 +675,4 @@ document.getElementById("contato-form").addEventListener("submit", function(even
             alert("❌ Ocorreu um erro ao enviar o e-mail.");
         });
 });
+
