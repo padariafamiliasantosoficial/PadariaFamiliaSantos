@@ -280,8 +280,14 @@ function limparCarrinho() {
 }
 
 // Toggle cart
-function toggleCart() {
-    // ... (keep original)
+    function toggleCart() {
+    const cartElement = document.querySelector('.cart-sidebar'); // Ajuste o seletor para o seu elemento do carrinho (ex: sidebar, modal)
+    if (cartElement) {
+        cartElement.classList.toggle('active'); // Ou 'open', dependendo do seu CSS
+        exibirCarrinho(); // Atualiza o conteúdo ao abrir
+    } else {
+        console.error("Elemento do carrinho não encontrado no DOM");
+    }
 }
 
 // Current product for details
