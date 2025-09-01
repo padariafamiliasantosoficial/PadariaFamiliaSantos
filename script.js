@@ -227,10 +227,11 @@ function exibirProdutosPorCategoria(categoria) {
             </div>
         `;
         card.addEventListener('click', (e) => {
-            if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT') {
-                window.location.href = `Produtos?id=${produto.id}`;
-            }
-        });
+    if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT') {
+        // navega usando o slug em vez de id
+        window.location.href = `/produto/${produto.slug}`;
+    }
+});
         container.appendChild(card);
 
         const btnAdd = card.querySelector('.add-cart');
