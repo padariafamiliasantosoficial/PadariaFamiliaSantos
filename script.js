@@ -126,6 +126,7 @@ function exibirDetalhesProduto(slugOrId) {
 
     if (produto) {
         currentProduto = produto; // Define o produto atual para eventos
+        const novaUrl = `/produto/${produto.slug}`; // Definindo novaUrl
         if (preencherDetalhes(produto)) {
             infoProduto.style.display = 'grid';
             if (categoriaDetalhes) {
@@ -133,9 +134,9 @@ function exibirDetalhesProduto(slugOrId) {
             }
             infoProduto.classList.add('info-produto-visivel');
 
-            // Altera a URL recarregar
+            // Altera a URL e recarrega a página
             if (window.location.pathname !== novaUrl) {
-    window.location.href = novaUrl;
+                window.location.href = novaUrl;
 } else {
     if (preencherDetalhes(produto)) {
         infoProduto.style.display = 'grid';
