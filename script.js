@@ -1,22 +1,3 @@
-// Mock localStorage para ambientes sem navegador, como Node.js
-if (typeof localStorage === 'undefined' || localStorage === null) {
-    var localStorage = {
-        store: {}, // Armazenamento em memória
-        getItem: function(key) {
-            return this.store.hasOwnProperty(key) ? this.store[key] : null;
-        },
-        setItem: function(key, value) {
-            this.store[key] = value.toString(); // Simula armazenamento como string
-        },
-        removeItem: function(key) {
-            delete this.store[key];
-        },
-        clear: function() {
-            this.store = {};
-        }
-    };
-}
-
 // Configuração do Swiper
 if (document.querySelector('.swiper')) {
     const swiper = new Swiper('.swiper', {
@@ -585,3 +566,4 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     });
 });
+
