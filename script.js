@@ -259,35 +259,94 @@ function adicionarAoCarrinho(id, quantidade = 1) {
 
 // Display cart
 function exibirCarrinho() {
-    // ... (keep the original exibirCarrinho code here, as it's long and unchanged)
-}
-
-// Change quantity
-let mensagemCarrinho = '';
-
-function alterarQuantidade(id, valor, noCarrinho = false) {
-    // ... (keep the original alterarQuantidade code)
-}
-
-// Remove from cart
-function removerDoCarrinho(id) {
-    // ... (keep original)
-}
-
-// Clear cart
-function limparCarrinho() {
-    // ... (keep original)
-}
-
-// Toggle cart
-    function toggleCart() {
-    const cartElement = document.querySelector('.cart-sidebar'); // Ajuste o seletor para o seu elemento do carrinho (ex: sidebar, modal)
-    if (cartElement) {
-        cartElement.classList.toggle('active'); // Ou 'open', dependendo do seu CSS
-        exibirCarrinho(); // Atualiza o conteúdo ao abrir
-    } else {
-        console.error("Elemento do carrinho não encontrado no DOM");
+    mensagemCarrinho = ''; // Limpa a mensagem por padrão
+    const listaInterativa = document.getElementById('lista');
+    listaInterativa.innerHTML = `
+    <div class="cart-header">
+    <img src="imagens/fechar.png" alt="Fechar carrinho" class="close-button" onclick="toggleCart()">
+        </div>
+            <h1>Seu carrinho</h1>  
+    `;
+    // Calcula o número de tipos de itens no carrinho (quantidade de produtos diferentes)
+    const totalTiposItens = carrinho.length;
+    const cartCount = document.getElementById('cart-count');
+    if (cartCount) {
+        if (totalTiposItens > 0) {
+            cartCount.textContent = totalTiposItens;
+            cartCount.classList.remove('hidden');
+        } else {
+            cartCount.classList.add('hidden');
+        }
     }
+    if (carrinho.length === 0) {
+        listaInterativa.innerHTML += '<p style="color: black;">O carrinho está vazio.</p>';
+        document.getElementById('cart-total').textContent = 'Total: R$ 0.00';
+        return;
+    }
+
+    let total = 0;
+    carrinho.forEach(item => {
+        total += item.preco * item.quantidade;
+        const divItem = document.createElement('div');
+        divItem.className = 'item-carrinho';
+        divItem.innerHTML = `
+            <img src="${item.imagem}" alt="${item.nome}" style="width: 50px; height: 50px; object-fit: cover;">
+            <div class="item-info">
+                <h2>${item.nome}</h2>
+                <p>Preço: R$ ${item.preco.toFixed(2)}</p>
+                <p>Total: R$ ${(item.preco * item.quantidade).toFixed(2)}</p>
+            </div>
+                <button class="btn-menos" onclick="alterarQuantidade(${item.id}, -1, true)">-</button>
+                <input class="quantidade" type="number" value="${item.quantidade}" min="1" onchange="alterarQuantidade(${item.id}, this.value, true)">
+                <button class="btn-mais" onclick="alterarQuantidade(${item.id}, 1, true)">+</button>
+            </div>
+            <button class="remover-item" onclick="removerDoCarrinho(${item.id})">Remover</button>
+        `;
+        listaInterativa.appendChild(divItem);
+    });
+    const container = document.createElement('div');
+        container.style.display = 'flex'; 
+        container.style.alignItems = 'center'; 
+        container.style.justifyContent = 'space-between'; 
+        container.style.gap = '10px'; 
+        
+        // texto total
+        const totalElement = document.createElement('p');
+        totalElement.id = 'cart-total';
+        totalElement.textContent = `Total: R$ ${total.toFixed(2)}`;
+        container.appendChild(totalElement);
+
+        // botão de limpar
+    const limpar = document.createElement('button');
+        limpar.id = 'limpar';
+        limpar.textContent = 'Limpar Carrinho';
+        limpar.onclick = limparCarrinho;
+        container.appendChild(limpar); 
+
+       
+        listaInterativa.appendChild(container);
+
+        
+    const finalizarCompra = document.createElement('button');
+        container.style.marginBottom ="25px";
+        container.style.alignItems ="center"
+        finalizarCompra.id = 'finalizar';
+        finalizarCompra.textContent = 'Finalizar Compra';
+        finalizarCompra.className = 'botaofinalizar';
+        finalizarCompra.onclick = function() {
+            const mensagemElement = document.getElementById('mensagem');
+            if (mensagemElement) {
+                mensagemElement.innerHTML = 'Função indisponível no momento, <a href="Sobre" class="saiba-mais">SAIBA MAIS</a>';
+            }
+        
+        };
+      
+        listaInterativa.appendChild(finalizarCompra); // Anexa diretamente ao listaInterativa
+
+        // Criar o elemento de mensagem
+        const mensagemElement = document.createElement('p');
+        mensagemElement.id = 'mensagem';
+        listaInterativa.appendChild(mensagemElement);
 }
 
 // Current product for details
