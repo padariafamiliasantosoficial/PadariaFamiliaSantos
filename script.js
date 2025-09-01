@@ -348,7 +348,18 @@ function exibirCarrinho() {
         mensagemElement.id = 'mensagem';
         listaInterativa.appendChild(mensagemElement);
 }
-
+// Toggle cart
+function toggleCart() {
+    const cartSidebar = document.querySelector('.cart-sidebar');
+    if (cartSidebar) {
+        cartSidebar.classList.toggle('active');
+        if (cartSidebar.classList.contains('active')) {
+            exibirCarrinho(); // Atualiza o conteúdo do carrinho ao abrir
+        }
+    } else {
+        console.error("Container do carrinho (.cart-sidebar) não encontrado no DOM");
+    }
+}
 // Current product for details
 let currentProduto = null;
 
