@@ -138,9 +138,6 @@ function exibirDetalhesProduto(slugOrId) {
             if (window.location.pathname !== novaUrl) {
                 history.pushState({ slug: produto.slug }, '', novaUrl);
             }
-
-            // Adiciona scroll suave para o topo da página (foco nos detalhes)
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     } else {
         infoProduto.style.display = 'none';
@@ -297,7 +294,7 @@ function exibirCarrinho() {
     }
     listaInterativa.innerHTML = `
         <div class="cart-header">
-            <img src="/imagens/fechar.png" alt="Fechar carrinho" class="close-button" onclick="toggleCart()">
+            <img src="imagens/fechar.png" alt="Fechar carrinho" class="close-button" onclick="toggleCart()">
         </div>
         <h1>Seu carrinho</h1>  
     `;
@@ -569,4 +566,3 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     });
 });
-
