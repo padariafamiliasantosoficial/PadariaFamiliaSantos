@@ -126,17 +126,18 @@ function exibirDetalhesProduto(slugOrId) {
 
     if (produto) {
         currentProduto = produto; // Define o produto atual para eventos
-        if (preencherDetalhes(produto)) {
-            infoProduto.style.display = 'grid';
-            if (categoriaDetalhes) {
-                categoriaDetalhes.classList.add('info-visivel');
-            }
-            infoProduto.classList.add('info-produto-visivel');
-
-            // Altera a URL sem recarregar
-            const novaUrl = `/produto/${produto.slug}`;
-            if (window.location.pathname !== novaUrl) {
-                history.pushState({ slug: produto.slug }, '', novaUrl);
+        // Redireciona para a URL do produto, forçando o recarregamento da página
+        const novaUrl = `/produto/${produto.slug}`;
+        if (window.location.pathname !== novaUrl) {
+            window.location.href = novaUrl;
+        } else {
+            // Se já está na URL correta, preenche os detalhes
+            if (preencherDetalhes(produto)) {
+                infoProduto.style.display = 'grid';
+                if (categoriaDetalhes) {
+                    categoriaDetalhes.classList.add('info-visivel');
+                }
+                infoProduto.classList.add('info-produto-visivel');
             }
         }
     } else {
@@ -377,14 +378,14 @@ function exibirCarrinho() {
 
 // Alterna visibilidade do carrinho
 function toggleCart() {
-    const cartSidebar = document.querySelector('.lista-interativa');  // CORRIGIDO: Usando .lista-interativa do HTML
+    const cartSidebar = document.querySelector('.lista-interativa');
     if (!cartSidebar) {
         console.error("Container do carrinho (.lista-interativa) não encontrado no DOM");
-        return; // Sai cedo para evitar erros
+        return;
     }
     cartSidebar.classList.toggle('open');
     if (cartSidebar.classList.contains('open')) {
-        exibirCarrinho(); // Atualiza o conteúdo do carrinho ao abrir
+        exibirCarrinho();
     }
 }
 
@@ -495,7 +496,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Se usar ID, atualiza para URL com slug
             if (productId) {
-                history.replaceState({ slug: produto.slug }, '', `/produto/${produto.slug}`);
+                window.location.href = `/produto/${produto.slug}`;
             }
         } else {
             infoProduto.style.display = 'none';
@@ -525,7 +526,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Pega os dados do localStorage
         let data = JSON.parse(localStorage.getItem("enviosEmail")) || { count: 0, date: null };
-        let hoje = new Date().toLocaleDateString(); // pega data de hoje (ex: 20/08/2025)
+        let hoje = new Date().toLocaleDateString();
 
         // Se mudou o dia, zera o contador
         if (data.date !== hoje) {
