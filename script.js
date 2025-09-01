@@ -197,6 +197,7 @@ if (document.querySelector('.swiper')) {
 // Função para exibir produtos por categoria
 // Exemplo corrigido dentro de exibirProdutosPorCategoria(categoria)
 
+// Função para exibir produtos por categoria
 function exibirProdutosPorCategoria(categoria) {
     const container = document.getElementById('produtos-filtrados');
     if (!container) {
@@ -228,7 +229,7 @@ function exibirProdutosPorCategoria(categoria) {
         `;
         card.addEventListener('click', (e) => {
             if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT') {
-                window.location.href = `Produtos?id=${produto.id}`;
+                exibirDetalhesProduto(produto.slug); // Usa o slug diretamente
             }
         });
         container.appendChild(card);
