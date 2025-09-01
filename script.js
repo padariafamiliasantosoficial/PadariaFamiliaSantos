@@ -438,6 +438,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const productId = params.get('id');
     if (!produto && productId) {
         produto = produtos.find(p => p.id == productId);
+        if (produto) {
+            // Atualiza a URL para o slug, sem recarregar
+            history.replaceState(null, '', `/produto/${produto.slug}`);
+        }
     }
 
     if (window.location.pathname.includes('Produtos') || path.startsWith('/produto/')) {
