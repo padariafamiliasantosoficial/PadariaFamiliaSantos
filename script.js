@@ -210,7 +210,7 @@ function exibirCarrinho() {
     const listaInterativa = document.getElementById('lista');
     listaInterativa.innerHTML = `
     <div class="cart-header">
-    <img src="imagens/fechar.png" alt="Fechar carrinho" class="close-button" onclick="toggleCart()">
+    <img src="/imagens/fechar.png" alt="Fechar carrinho" class="close-button" onclick="toggleCart()">
         </div>
             <h1>Seu carrinho</h1>  
     `;
