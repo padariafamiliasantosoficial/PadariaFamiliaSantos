@@ -138,6 +138,9 @@ function exibirDetalhesProduto(slugOrId) {
             if (window.location.pathname !== novaUrl) {
                 history.pushState({ slug: produto.slug }, '', novaUrl);
             }
+
+            // Adiciona scroll suave para o topo da página (foco nos detalhes)
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     } else {
         infoProduto.style.display = 'none';
@@ -566,4 +569,3 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     });
 });
-
