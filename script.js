@@ -163,11 +163,16 @@ window.addEventListener('popstate', (event) => {
 });
 
 // Array do carrinho
-let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+let carrinho = [];
+if (typeof window !== 'undefined' && window.localStorage) {
+    carrinho = JSON.parse(window.localStorage.getItem('carrinho')) || [];
+}
 
 // Função para salvar o carrinho no localStorage
 function salvarCarrinho() {
-    localStorage.setItem('carrinho', JSON.stringify(carrinho));
+    if (typeof window !== 'undefined' && window.localStorage) {
+        window.localStorage.setItem('carrinho', JSON.stringify(carrinho));
+    }
 }
 
 // Função para exibir produtos por categoria (corrigida para slugs)
@@ -481,7 +486,12 @@ if (contatoForm) {
     contatoForm.addEventListener("submit", function(event) {
         event.preventDefault();
 
-        let data = JSON.parse(localStorage.getItem("enviosEmail")) || { count: 0, date: null };
+        let data = {};
+        if (typeof window !== 'undefined' && window.localStorage) {
+            data = JSON.parse(window.localStorage.getItem("enviosEmail")) || { count: 0, date: null };
+        } else {
+            data = { count: 0, date: null };
+        }
         let hoje = new Date().toLocaleDateString();
 
         if (data.date !== hoje) {
@@ -510,7 +520,9 @@ if (contatoForm) {
 
                 data.count++;
                 data.date = hoje;
-                localStorage.setItem("enviosEmail", JSON.stringify(data));
+                if (typeof window !== 'undefined' && window.localStorage) {
+                    window.localStorage.setItem("enviosEmail", JSON.stringify(data));
+                }
             })
             .catch((err) => {
                 console.error("Erro ao enviar:", err);
