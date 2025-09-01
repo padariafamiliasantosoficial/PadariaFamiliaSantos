@@ -525,23 +525,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     exibirCarrinho();
 
-    // MENU MOBILE
-document.addEventListener("DOMContentLoaded", () => {
-    const abrirMenu = document.getElementById("abrir-menu-mob");
-    const fecharMenu = document.getElementById("fechar");
-    const containerMenu = document.getElementById("container-mobile");
-
-    if (abrirMenu && fecharMenu && containerMenu) {
-        abrirMenu.addEventListener("click", () => {
-            containerMenu.classList.add("ativo");
-        });
-
-        fecharMenu.addEventListener("click", () => {
-            containerMenu.classList.remove("ativo");
-        });
-    }
+    document.getElementById("abrir-menu-mob").addEventListener("click", function() {
+    document.getElementById("container-mobile").classList.add("abrir-menu");
 });
-
+document.getElementById("fechar").addEventListener("click", function() {
+    document.getElementById("container-mobile").classList.remove("abrir-menu");
+});
+    
     // ENVIAR EMAIL
     emailjs.init("R_s1_9hjc-TF4dqml");
 
