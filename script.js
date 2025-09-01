@@ -502,7 +502,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Se usar ID, atualiza para URL com slug
             if (productId) {
-                history.replaceState({ slug: produto.slug }, '', `/produto/${produto.slug}`);
+            window.location.href = `/produto/${produto.slug}`;
             }
         } else {
             infoProduto.style.display = 'none';
