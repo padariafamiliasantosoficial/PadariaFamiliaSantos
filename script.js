@@ -1,12 +1,12 @@
-// Mock localStorage for non-browser environments like Node.js
+// Mock localStorage para ambientes sem navegador, como Node.js
 if (typeof localStorage === 'undefined' || localStorage === null) {
     var localStorage = {
-        store: {}, // In-memory storage
+        store: {}, // Armazenamento em memória
         getItem: function(key) {
             return this.store.hasOwnProperty(key) ? this.store[key] : null;
         },
         setItem: function(key, value) {
-            this.store[key] = value.toString(); // Simulate string storage
+            this.store[key] = value.toString(); // Simula armazenamento como string
         },
         removeItem: function(key) {
             delete this.store[key];
@@ -17,7 +17,7 @@ if (typeof localStorage === 'undefined' || localStorage === null) {
     };
 }
 
-// Swiper configuration
+// Configuração do Swiper
 if (document.querySelector('.swiper')) {
     const swiper = new Swiper('.swiper', {
         loop: true,
@@ -56,7 +56,7 @@ if (document.querySelector('.swiper')) {
     }
 }
 
-// Product array
+// Array de produtos
 const produtos = [
     { id: 1, nome: 'Pão de Queijo', preco: 0.50, imagem: '/imagens/paodequeijo.jpg', descricao: 'Delicioso por fora, macio por dentro! Nosso pão de queijo é feito com ingredientes selecionados e muito queijo de verdade, perfeito para acompanhar um café ou como lanche rápido.', categoria: 'Salgados', slug: 'pao-de-queijo' },
     { id: 2, nome: 'Pão de Sal', preco: 0.60, imagem: '/imagens/paodesal.jpg', descricao: 'O clássico pão de sal, crocante por fora e macio por dentro. Ideal para sanduíches ou para comer com manteiga no café da manhã.', categoria: 'Pães', slug: 'pao-de-sal' },
@@ -96,7 +96,7 @@ const produtos = [
     { id: 36, nome: 'Pudim de Leite', preco: 5.00, imagem: '/imagens/pudimdeleite.jpg', descricao: 'Pudim cremoso com calda de caramelo, clássico e irresistível. Feito com leite condensado, ovos e baunilha.', categoria: 'Sobremesas', slug: 'pudim-de-leite' }
 ];
 
-// Helper to find product by slug or ID
+// Função auxiliar para encontrar produto por slug ou ID
 function encontrarProduto(slugOrId) {
     if (typeof slugOrId === 'string') {
         return produtos.find(prod => prod.slug === slugOrId);
@@ -105,7 +105,7 @@ function encontrarProduto(slugOrId) {
     }
 }
 
-// Function to fill product details in DOM
+// Função para preencher detalhes do produto no DOM
 function preencherDetalhes(produto) {
     const imagem = document.getElementById('produto-imagem');
     const nome = document.getElementById('produto-nome');
@@ -115,7 +115,7 @@ function preencherDetalhes(produto) {
     const qntd = document.getElementById('qntd');
 
     if (!imagem || !nome || !descricao || !preco || !addCart || !qntd) {
-        console.error("Product detail elements not found in DOM");
+        console.error("Elementos de detalhes do produto não encontrados no DOM");
         return false;
     }
 
@@ -132,19 +132,19 @@ function preencherDetalhes(produto) {
     return true;
 }
 
-// Function to display product details
+// Função para exibir detalhes do produto
 function exibirDetalhesProduto(slugOrId) {
     const produto = encontrarProduto(slugOrId);
     const infoProduto = document.querySelector('.info-produto');
     const categoriaDetalhes = document.querySelector('.categoria-detalhes');
 
     if (!infoProduto) {
-        console.error("Element .info-produto not found in DOM");
+        console.error("Elemento .info-produto não encontrado no DOM");
         return;
     }
 
     if (produto) {
-        currentProduto = produto; // Set current product for events
+        currentProduto = produto; // Define o produto atual para eventos
         if (preencherDetalhes(produto)) {
             infoProduto.style.display = 'grid';
             if (categoriaDetalhes) {
@@ -152,7 +152,7 @@ function exibirDetalhesProduto(slugOrId) {
             }
             infoProduto.classList.add('info-produto-visivel');
 
-            // Change URL without reloading
+            // Altera a URL sem recarregar
             const novaUrl = `/produto/${produto.slug}`;
             if (window.location.pathname !== novaUrl) {
                 history.pushState({ slug: produto.slug }, '', novaUrl);
@@ -163,7 +163,7 @@ function exibirDetalhesProduto(slugOrId) {
     }
 }
 
-// Load check for slug or ID in URL
+// Verifica slug ou ID na URL ao carregar
 window.addEventListener('load', () => {
     const path = window.location.pathname;
     const match = path.match(/^\/produto\/([a-z0-9-]+)$/);
@@ -171,10 +171,10 @@ window.addEventListener('load', () => {
     if (slugOrId) {
         exibirDetalhesProduto(slugOrId);
     }
-    // Other load code...
+    // Outros códigos de carregamento...
 });
 
-// Handle back/forward
+// Manipula navegação de voltar/avançar
 window.addEventListener('popstate', (event) => {
     const path = window.location.pathname;
     const match = path.match(/^\/produto\/([a-z0-9-]+)$/);
@@ -187,19 +187,19 @@ window.addEventListener('popstate', (event) => {
     }
 });
 
-// Cart array
+// Array do carrinho
 let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
 
-// Save cart
+// Salva o carrinho
 function salvarCarrinho() {
     localStorage.setItem('carrinho', JSON.stringify(carrinho));
 }
 
-// Display products by category
+// Exibe produtos por categoria
 function exibirProdutosPorCategoria(categoria) {
     const container = document.getElementById('produtos-filtrados');
     if (!container) {
-        console.error("Element #produtos-filtrados not found in DOM");
+        console.error("Elemento #produtos-filtrados não encontrado no DOM");
         return;
     }
     container.innerHTML = '';
@@ -242,7 +242,7 @@ function exibirProdutosPorCategoria(categoria) {
     });
 }
 
-// Add to cart
+// Adiciona ao carrinho
 function adicionarAoCarrinho(id, quantidade = 1) {
     const produto = produtos.find(p => p.id == id);
     if (produto) {
@@ -257,12 +257,58 @@ function adicionarAoCarrinho(id, quantidade = 1) {
     }
 }
 
-// Display cart
+// Função para alterar quantidade (carrinho ou cards)
+function alterarQuantidade(id, valor, isCart) {
+    let novaQuantidade;
+    if (typeof valor === 'string') {
+        novaQuantidade = parseInt(valor.replace(/[^0-9]/g, '')) || 1;
+    } else {
+        if (isCart) {
+            const item = carrinho.find(item => item.id === id);
+            if (!item) return;
+            novaQuantidade = item.quantidade + valor;
+        } else {
+            const card = document.querySelector(`.product-card[data-id="${id}"]`);
+            if (!card) return;
+            const input = card.querySelector('.quantidade');
+            novaQuantidade = (parseInt(input.value) || 1) + valor;
+        }
+    }
+    novaQuantidade = Math.max(1, Math.min(100, novaQuantidade));
+
+    if (isCart) {
+        const item = carrinho.find(item => item.id === id);
+        if (item) item.quantidade = novaQuantidade;
+        salvarCarrinho();
+        exibirCarrinho();
+    } else {
+        const card = document.querySelector(`.product-card[data-id="${id}"]`);
+        if (card) {
+            const input = card.querySelector('.quantidade');
+            input.value = novaQuantidade;
+        }
+    }
+}
+
+// Função para remover item do carrinho
+function removerDoCarrinho(id) {
+    carrinho = carrinho.filter(item => item.id !== id);
+    salvarCarrinho();
+    exibirCarrinho();
+}
+
+// Função para limpar o carrinho
+function limparCarrinho() {
+    carrinho = [];
+    salvarCarrinho();
+    exibirCarrinho();
+}
+
+// Exibe o carrinho
 function exibirCarrinho() {
-    mensagemCarrinho = ''; // Limpa a mensagem por padrão
     const listaInterativa = document.getElementById('lista');
     if (!listaInterativa) {
-        console.error("Element #lista not found in DOM");
+        console.error("Elemento #lista não encontrado no DOM");
         return;
     }
     listaInterativa.innerHTML = `
@@ -282,7 +328,7 @@ function exibirCarrinho() {
             cartCount.classList.add('hidden');
         }
     } else {
-        console.warn("Element #cart-count not found in DOM");
+        console.warn("Elemento #cart-count não encontrado no DOM");
     }
     if (carrinho.length === 0) {
         listaInterativa.innerHTML += '<p style="color: black;">O carrinho está vazio.</p>';
@@ -348,22 +394,24 @@ function exibirCarrinho() {
     mensagemElement.id = 'mensagem';
     listaInterativa.appendChild(mensagemElement);
 }
-// Toggle cart
+
+// Alterna visibilidade do carrinho
 function toggleCart() {
-    const cartSidebar = document.querySelector('.cart-sidebar');
-    if (cartSidebar) {
-        cartSidebar.classList.toggle('active');
-        if (cartSidebar.classList.contains('active')) {
-            exibirCarrinho(); // Atualiza o conteúdo do carrinho ao abrir
-        }
-    } else {
-        console.error("Container do carrinho (.cart-sidebar) não encontrado no DOM");
+    const cartSidebar = document.querySelector('.lista-interativa');  // CORRIGIDO: Usando .lista-interativa do HTML
+    if (!cartSidebar) {
+        console.error("Container do carrinho (.lista-interativa) não encontrado no DOM");
+        return; // Sai cedo para evitar erros
+    }
+    cartSidebar.classList.toggle('active');
+    if (cartSidebar.classList.contains('active')) {
+        exibirCarrinho(); // Atualiza o conteúdo do carrinho ao abrir
     }
 }
-// Current product for details
+
+// Produto atual para detalhes
 let currentProduto = null;
 
-// Init events for product details (called once)
+// Inicializa eventos para detalhes do produto (chamado uma vez)
 function initDetalhesEvents() {
     const addCart = document.getElementById('add-cart');
     const btnMenos = document.getElementById('btn-menos');
@@ -371,7 +419,7 @@ function initDetalhesEvents() {
     const qntd = document.getElementById('qntd');
 
     if (!addCart || !btnMenos || !btnMais || !qntd) {
-        console.error("Detail elements not found for events");
+        console.error("Elementos de detalhes não encontrados para eventos");
         return;
     }
 
@@ -404,7 +452,7 @@ function initDetalhesEvents() {
             const quantidade = parseInt(qntd.value) || 1;
             adicionarAoCarrinho(currentProduto.id, quantidade);
         } else {
-            console.error("No current product for add to cart");
+            console.error("Nenhum produto atual para adicionar ao carrinho");
         }
     });
 
@@ -432,7 +480,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const infoProduto = document.querySelector('.info-produto');
     const categoriaDetalhes = document.querySelector('.categoria-detalhes');
 
-    // Init details events once
+    // Inicializa eventos de detalhes uma vez
     initDetalhesEvents();
 
     let produto = null;
@@ -451,7 +499,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (window.location.pathname.includes('Produtos') || path.startsWith('/produto/')) {
         if (!infoProduto) {
-            console.error("Element .info-produto not found in DOM");
+            console.error("Elemento .info-produto não encontrado no DOM");
             return;
         }
 
@@ -465,7 +513,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             infoProduto.classList.add('info-produto-visivel');
 
-            // If using ID, update to slug URL
+            // Se usar ID, atualiza para URL com slug
             if (productId) {
                 history.replaceState({ slug: produto.slug }, '', `/produto/${produto.slug}`);
             }
@@ -489,51 +537,51 @@ document.addEventListener('DOMContentLoaded', () => {
 
     exibirCarrinho();
 
-    //ENVIAR EMAIL
+    // ENVIAR EMAIL
+    emailjs.init("R_s1_9hjc-TF4dqml");
 
-emailjs.init("R_s1_9hjc-TF4dqml");
+    document.getElementById("contato-form").addEventListener("submit", function(event) {
+        event.preventDefault();
 
-document.getElementById("contato-form").addEventListener("submit", function(event) {
-    event.preventDefault();
+        // Pega os dados do localStorage
+        let data = JSON.parse(localStorage.getItem("enviosEmail")) || { count: 0, date: null };
+        let hoje = new Date().toLocaleDateString(); // pega data de hoje (ex: 20/08/2025)
 
-    // Pega os dados do localStorage
-    let data = JSON.parse(localStorage.getItem("enviosEmail")) || { count: 0, date: null };
-    let hoje = new Date().toLocaleDateString(); // pega data de hoje (ex: 20/08/2025)
+        // Se mudou o dia, zera o contador
+        if (data.date !== hoje) {
+            data = { count: 0, date: hoje };
+        }
 
-    // Se mudou o dia, zera o contador
-    if (data.date !== hoje) {
-        data = { count: 0, date: hoje };
-    }
+        // Se já enviou 2 hoje, bloqueia
+        if (data.count >= 2) {
+            alert("⚠️ Você já enviou 2 mensagens hoje. Tente novamente amanhã.");
+            return;
+        }
 
-    // Se já enviou 2 hoje, bloqueia
-    if (data.count >= 2) {
-        alert("⚠️ Você já enviou 2 mensagens hoje. Tente novamente amanhã.");
-        return;
-    }
+        // Prepara dados do formulário
+        const formData = {
+            name: document.getElementById("nome").value,
+            email: document.getElementById("email").value,
+            subject: document.getElementById("assunto").value,
+            comentario: document.getElementById("comentario").value
+        };
 
-    // Prepara dados do formulário
-    const formData = {
-        name: document.getElementById("nome").value,
-        email: document.getElementById("email").value,
-        subject: document.getElementById("assunto").value,
-        comentario: document.getElementById("comentario").value
-    };
+        const serviceID = "service_0uqntnt";
+        const templateID = "template_tk8wxmg";
 
-    const serviceID = "service_0uqntnt";
-    const templateID = "template_tk8wxmg";
+        emailjs.send(serviceID, templateID, formData)
+            .then(() => {
+                alert("✅ E-mail enviado com sucesso!");
+                document.getElementById("contato-form").reset();
 
-    emailjs.send(serviceID, templateID, formData)
-        .then(() => {
-            alert("✅ E-mail enviado com sucesso!");
-            document.getElementById("contato-form").reset();
-
-            // Atualiza contador no localStorage
-            data.count++;
-            data.date = hoje;
-            localStorage.setItem("enviosEmail", JSON.stringify(data));
-        })
-        .catch((err) => {
-            console.error("Erro ao enviar:", err);
-            alert("❌ Ocorreu um erro ao enviar o e-mail.");
-        });
-});});
+                // Atualiza contador no localStorage
+                data.count++;
+                data.date = hoje;
+                localStorage.setItem("enviosEmail", JSON.stringify(data));
+            })
+            .catch((err) => {
+                console.error("Erro ao enviar:", err);
+                alert("❌ Ocorreu um erro ao enviar o e-mail.");
+            });
+    });
+});
