@@ -211,7 +211,7 @@ function exibirProdutosPorCategoria(categoria) {
         card.innerHTML = `
             <div class="product-content">
                 <div class="product-image-container">
-                    <img class="product-image" src="${produto.imagem || 'imagens/placeholder.jpg'}" alt="${produto.nome}">
+                    <img class="product-image" src="${produto.imagem || '/imagens/placeholder.jpg'}" alt="${produto.nome}">
                     <div class="product-text">
                         <h3>${produto.nome}</h3>
                         <h4>Preço: R$ ${produto.preco.toFixed(2)}</h4>
