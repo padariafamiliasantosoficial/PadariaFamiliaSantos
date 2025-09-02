@@ -567,6 +567,17 @@ document.addEventListener('DOMContentLoaded', () => {
             exibirProdutosPorCategoria('Menu');
         }
     }
+    //estilo de detalhes
+    document.addEventListener('DOMContentLoaded', function() {
+    const headers = document.querySelectorAll('.categoria-detalhes h2');
+    
+    headers.forEach(header => {
+        header.addEventListener('click', function() {
+            headers.forEach(h => h.classList.remove('active')); // Remove active de todos
+            this.classList.add('active'); // Adiciona active ao clicado
+        });
+    });
+});
 
     exibirCarrinho();
 
@@ -636,4 +647,5 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
         });
     }
+
 });

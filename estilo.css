@@ -622,6 +622,11 @@ form {
     color: #E38417;
     background-color: #39332C;
 }
+
+.categoria-detalhes h2.active {
+    color: #E38417;
+    background-color: #39332C;
+}
 .data-categoria {
     background-color: rgb(30, 255, 0);
 }
