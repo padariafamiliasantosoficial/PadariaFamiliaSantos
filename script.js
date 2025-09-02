@@ -512,7 +512,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const tipo = params.get('tipo');
     const infoProduto = document.querySelector('.info-produto');
     const categoriaDetalhes = document.querySelector('.categoria-detalhes');
-
+    const headers = document.querySelectorAll('.categoria-detalhes h2');
+    headers.forEach(header => {
+        header.addEventListener('click', function() {
+            headers.forEach(h => h.classList.remove('active')); // Remove .active de todos
+            this.classList.add('active'); // Adiciona .active ao clicado
+        });
+    });
     // Inicializa eventos de detalhes uma vez
     initDetalhesEvents();
 
@@ -568,16 +574,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     //estilo de detalhes
-    document.addEventListener('DOMContentLoaded', function() {
-    const headers = document.querySelectorAll('.categoria-detalhes h2');
     
-    headers.forEach(header => {
-        header.addEventListener('click', function() {
-            headers.forEach(h => h.classList.remove('active')); // Remove active de todos
-            this.classList.add('active'); // Adiciona active ao clicado
-        });
-    });
-});
 
     exibirCarrinho();
 
