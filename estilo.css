@@ -45,11 +45,15 @@ nav {
     align-items: center;
     position: relative;
 }
-#abrir-menu-mob {
+#-m-mob {
     position: absolute;
     right: 20px; /* Movido para a direita */
     top: 50%;
     transform: translateY(-50%);
+}
+#icone-mobile-carrinho {
+    width: 32px;
+    filter: invert(100%); /* Muda preto para branco */
 }
 #icone-mobile {
     width: 32px;
