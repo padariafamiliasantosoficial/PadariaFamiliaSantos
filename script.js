@@ -504,10 +504,17 @@ function toggleMenu() {
 
 // Função para abrir o carrinho a partir do menu mobile
 function openCartFromMenu() {
-    // Fecha o menu mobile
     const menuMob = document.getElementById('container-mobile');
+    const overlay = document.querySelector('.overlay');
+    const listaInterativa = document.getElementById('lista');
+
     menuMob.classList.remove('abrir-menu');
 
+    if (!listaInterativa.classList.contains('open')) {
+        listaInterativa.classList.add('open');
+        overlay.classList.add('show');
+        exibirCarrinho();
+    }
     // Abre o carrinho
     toggleCart();
 }
