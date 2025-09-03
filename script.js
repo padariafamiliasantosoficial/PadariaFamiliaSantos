@@ -562,6 +562,21 @@ document.addEventListener('DOMContentLoaded', () => {
         header.addEventListener('click', function() {
             headers.forEach(h => h.classList.remove('active')); // Remove .active de todos
             this.classList.add('active'); // Adiciona .active ao clicado
+        
+            let tipo = params.get('tipo');
+            const path = window.location.pathname;
+            const isCategoryPath = /^(\/Menu|\/Bolos|\/Sobremesas|\/Pães|\/Salgados)$/.test(path);
+
+            if (tipo) {
+                // Limpa a URL se query string estiver presente
+                history.replaceState({ categoria: tipo }, '', `/${tipo}`);
+                exibirProdutosPorCategoria(tipo);
+            } else if (isCategoryPath) {
+                tipo = path.substring(1);
+                exibirProdutosPorCategoria(tipo);
+            } else {
+                exibirProdutosPorCategoria('Menu');
+            }
         });
     });
     // Inicializa eventos de detalhes uma vez
