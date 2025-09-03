@@ -50,17 +50,16 @@ nav {
     right: 20px; /* Movido para a direita */
     top: 50%;
     transform: translateY(-50%);
+
 }
 #icone-mobile-carrinho {
-    margin-right: 10px;
     width: 36px;
     filter: invert(100%); /* Muda preto para branco */
-    margin-left: 20px;
+    padding-right: 10px;
 }
 #icone-mobile {
     width: 36px;
     filter: invert(100%); /* Muda preto para branco */
-    margin-left: 0;
 }
 .container-mobile {
     background-color: #333;
@@ -73,10 +72,23 @@ nav {
     overflow: hidden;
     transition: .5s;
 }
-.container-mobile.abrir-menu {
-    width: 70%;
-    
+.cart-count {
+    position: absolute;
+    top: -5px; 
+    right: -5px; 
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 12px;
+    display: block; /* Garanta visibilidade quando não hidden */
 }
+
+/* Posicionamento relativo ao wrapper .cart-icon */
+.cart-icon {
+    position: relative; /* Já inline no HTML, mas confirme aqui se precisar */
+}
+
 .container-mobile.abrir-menu {
     width: 70%;
 }
@@ -1454,7 +1466,8 @@ form {
     .super-titulo {
         font-size: 28px;
         margin-top: 250px;
-        margin-left: 50px;
+        margin-left: 0px;
+        
     }
     #menu {
         grid-template-columns: repeat(4, 1fr);
@@ -2267,6 +2280,19 @@ form {
 }
 }
 @media (max-width: 770px) {
+  header { width: 100%; /* em vez de 100vw */ }
+
+  #abrir-menu-mob { margin-left: auto; margin-right: 0; }
+
+    nav { margin-right: 10px; }
+  #icone-mobile-carrinho, #icone-mobile { margin: 0 0 0 0; }
+
+  .cart-count {
+        top: -6px;  /* Ajuste para caber no ícone mobile */
+        right: 6px;
+        padding: 1px 5px;
+        font-size: 11px;
+    }
     /*bolos*/
     .swiper {
         width: 450px;
@@ -2643,10 +2669,9 @@ form {
     }
     .nav-mob {
         display: block;
+        margin-left: 0;
     }
-    #abrir-menu-mob {
-    left: 10px; 
-}
+    
 /*menu de pesquisa dos produtos*/
     .categoria-detalhes {
     grid-template-columns: repeat(3, auto);
@@ -3182,9 +3207,6 @@ form {
     .nav-mob {
         display: block;
     }
-    #abrir-menu-mob {
-    left: 10px; 
-}
 
 .lista-interativa {
     padding: 18px;
@@ -3575,9 +3597,6 @@ form {
     .nav-mob {
         display: block;
     }
-    #abrir-menu-mob {
-    left: 10px; 
-}
     /*escala de 80%*/
 .lista-interativa {
     padding: 16px;
@@ -3778,11 +3797,9 @@ form {
     }
     .nav-mob {
         display: block;
-       
+        margin-left: 0;
     }
-    #abrir-menu-mob {
-    left: 10px; 
-}
+
 .lista-interativa {
     padding: 14px;
     width: 280px;

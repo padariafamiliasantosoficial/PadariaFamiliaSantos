@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Lilita+One&family=Luckiest+Guy&display=swap" rel="stylesheet">
-    <script src="/script.js" defer></script>
+    <script src="script.js" defer></script>
     <style> body {background-image: linear-gradient(to bottom, #ffffff,#fffaf6,#ffe9d5); background-attackment: fixed}</style>
 </head>
 <body>
@@ -40,10 +40,13 @@
             </ul>
     </div> 
     <div class="abrir-menu" id="abrir-menu-mob">
-        <img src="imagens/carrinho-de-compras.png" alt="Carrinho de Compras" id="icone-mobile-carrinho">
-        <img src="imagens/cardapio.png" alt="menu-mobile" id="icone-mobile">
+        <div class="cart-icon" style="position: relative; display: inline-block;">
+        <img src="/imagens/carrinho-de-compras.png" alt="Carrinho de Compras" id="icone-mobile-carrinho" onclick="toggleCart()">
+        <span id="cart-count" class="cart-count hidden">0</span>
     </div>
-    </nav>
+        
+        <img src="/imagens/cardapio.png" alt="menu-mobile" id="icone-mobile">
+    </div>
     </header>
 
     <div class="container-capa"></div>
