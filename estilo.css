@@ -578,7 +578,7 @@ form {
     grid-template-columns: repeat(2, 440px);
     margin-left: 20%;
     margin-bottom: 0%;
-    height: 720px;
+    padding-top: 120px;
 }
 .info-produto img {
     width: 420px;
@@ -820,7 +820,7 @@ form {
     background-color: #D68D3A;
     padding: 20px;
     width: 400px;
-    height: 80%;
+    height: 500px;
     display: flex;
     flex-direction: column;
     position: fixed;
@@ -2999,7 +2999,7 @@ form {
 .lista-interativa {
     padding: 18px;
     width: 360px;
-    height: 80%;
+    height: 450px;
 
 }
 /*menu de pesquisa dos produtos*/
@@ -3186,7 +3186,7 @@ form {
 .lista-interativa {
     padding: 18px;
     width: 330px;
-    height: 80%;
+    height: 450px;
     right: -401px;
     top: 108px;
     box-shadow: -2px 0 5px rgba(0,0,0,0.2);
@@ -3576,7 +3576,7 @@ form {
 .lista-interativa {
     padding: 16px;
     width: 320px;
-    height: 80%;
+    height: 400px;
     right: -356px;
     top: 96px;
     box-shadow: -2px 0 4px rgba(0,0,0,0.2);
@@ -3778,7 +3778,7 @@ form {
 .lista-interativa {
     padding: 14px;
     width: 280px;
-    height: 80%;
+    height: 350px;
     right: -312px;
     top: 84px;
     box-shadow: -1px 0 4px rgba(0,0,0,0.2);
