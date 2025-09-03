@@ -23,3 +23,6 @@ RewriteCond %{REQUEST_FILENAME}.html -f
 RewriteRule ^(.*)$ $1.html [L]
 
 RewriteRule ^produto/([a-z0-9-]+)$ /Produtos.html [L]
+
+RewriteCond %{QUERY_STRING} ^tipo=([A-Za-zÃã]+)$
+RewriteRule ^([A-Za-zÃã]+)$ /$1 [R=301,L,QSD]  # QSD descarta query string
