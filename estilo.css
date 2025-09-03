@@ -820,7 +820,7 @@ form {
     background-color: #D68D3A;
     padding: 20px;
     width: 400px;
-    height: 90%;
+    height: 80%;
     display: flex;
     flex-direction: column;
     position: fixed;
@@ -2999,7 +2999,7 @@ form {
 .lista-interativa {
     padding: 18px;
     width: 360px;
-    height: 450px;
+    height: 80%;
 
 }
 /*menu de pesquisa dos produtos*/
@@ -3186,7 +3186,7 @@ form {
 .lista-interativa {
     padding: 18px;
     width: 330px;
-    height: 450px;
+    height: 80%;
     right: -401px;
     top: 108px;
     box-shadow: -2px 0 5px rgba(0,0,0,0.2);
@@ -3576,7 +3576,7 @@ form {
 .lista-interativa {
     padding: 16px;
     width: 320px;
-    height: 360px;
+    height: 80%;
     right: -356px;
     top: 96px;
     box-shadow: -2px 0 4px rgba(0,0,0,0.2);
@@ -3778,7 +3778,7 @@ form {
 .lista-interativa {
     padding: 14px;
     width: 280px;
-    height: 100%;
+    height: 80%;
     right: -312px;
     top: 84px;
     box-shadow: -1px 0 4px rgba(0,0,0,0.2);
