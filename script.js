@@ -545,16 +545,38 @@ function closeSidePanels() {
 }
 
 // DOMContentLoaded
+// DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
-    const tipo = params.get('tipo');
+    const path = window.location.pathname.replace(/\/$/, '');
+    const lowerPath = path.toLowerCase();
     const infoProduto = document.querySelector('.info-produto');
     const categoriaDetalhes = document.querySelector('.categoria-detalhes');
     const headers = document.querySelectorAll('.categoria-detalhes h2');
+
+    // Lista de categorias para detecção de paths
+    const categoryPaths = ['/menu', '/bolos', '/sobremesas', '/pães', '/salgados'];
+    const isCategoryPath = categoryPaths.includes(lowerPath);
+
     headers.forEach(header => {
         header.addEventListener('click', function() {
             headers.forEach(h => h.classList.remove('active')); // Remove .active de todos
             this.classList.add('active'); // Adiciona .active ao clicado
+        
+            let tipo = params.get('tipo');
+            const path = window.location.pathname;
+            const isCategoryPath = /^(\/Menu|\/Bolos|\/Sobremesas|\/Pães|\/Salgados)$/.test(path);
+
+            if (tipo) {
+                // Limpa a URL se query string estiver presente
+                history.replaceState({ categoria: tipo }, '', `/${tipo}`);
+                exibirProdutosPorCategoria(tipo);
+            } else if (isCategoryPath) {
+                tipo = path.substring(1);
+                exibirProdutosPorCategoria(tipo);
+            } else {
+                exibirProdutosPorCategoria('Menu');
+            }
         });
     });
     // Inicializa eventos de detalhes uma vez
@@ -616,7 +638,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             exibirProdutosPorCategoria('Menu');
         }
-
     }
     //estilo de detalhes
     
