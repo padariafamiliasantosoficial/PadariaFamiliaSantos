@@ -45,13 +45,6 @@ nav {
     align-items: center;
     position: relative;
 }
-#-m-mob {
-    position: absolute;
-    right: 20px; /* Movido para a direita */
-    top: 50%;
-    transform: translateY(-50%);
-
-}
 #icone-mobile-carrinho {
     width: 36px;
     filter: invert(100%); /* Muda preto para branco */
@@ -126,13 +119,6 @@ nav {
 h1 {
     font-family: 'Milks';
     color: white;
-}
-nav {
-    display: flex;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    gap: 40px;
-    margin-right: 150px;
-    font-size: 18px;
 }
 nav a {
     color: white;
