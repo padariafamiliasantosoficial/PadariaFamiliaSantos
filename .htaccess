@@ -1,4 +1,16 @@
-# Reescrita de /Produtos/{tipo} para /Produtos?tipo={tipo}
+# Redireciona formatos antigos para URLs limpas (remove ?tipo= e /Produtos/)
+RewriteCond %{QUERY_STRING} ^tipo=([A-Za-zÃã]+)$
+RewriteRule ^Produtos$ /%1 [R=301,L]
+
+RewriteRule ^Produtos/([A-Za-zÃã]+)$ /$1 [R=301,L]
+
+# Redireciona /Produtos (sem tipo) para /Menu (default)
+RewriteRule ^Produtos$ /Menu [R=301,L]
+
+# Rewrite interno: mapeia /Categoria para /Produtos.html (sem expor query)
+RewriteRule ^(Menu|Bolos|Sobremesas|Pães|Salgados)$ /Produtos.html [L]
+
+# Reescrita de /Produtos/{tipo} para /Produtos?tipo={tipo} (mantida, mas agora redireciona acima)
 RewriteRule ^Produtos/([A-Za-z]+)$ /Produtos?tipo=$1 [L,QSA]
 
 # Redireciona /index para /Home
@@ -17,5 +29,5 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}.html -f
 RewriteRule ^(.*)$ $1.html [L]
 
-# Rewrite para URLs de produtos amigáveis: /produto/slug -> Produtos.html (interno)
+# Rewrite para URLs de produtos compatíveis: /produto/slug -> Produtos.html (interno)
 RewriteRule ^produto/([a-z0-9-]+)$ /Produtos.html [L]
