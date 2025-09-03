@@ -545,12 +545,19 @@ function closeSidePanels() {
 }
 
 // DOMContentLoaded
+// DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
-    const tipo = params.get('tipo');
+    const path = window.location.pathname.replace(/\/$/, '');
+    const lowerPath = path.toLowerCase();
     const infoProduto = document.querySelector('.info-produto');
     const categoriaDetalhes = document.querySelector('.categoria-detalhes');
     const headers = document.querySelectorAll('.categoria-detalhes h2');
+
+    // Lista de categorias para detecção de paths
+    const categoryPaths = ['/menu', '/bolos', '/sobremesas', '/pães', '/salgados'];
+    const isCategoryPath = categoryPaths.includes(lowerPath);
+
     headers.forEach(header => {
         header.addEventListener('click', function() {
             headers.forEach(h => h.classList.remove('active')); // Remove .active de todos
@@ -562,9 +569,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let produto = null;
 
-    const path = window.location.pathname.toLowerCase().replace(/\/$/, '');
     let slug = null;
-    if (path.startsWith('/produto/')) {
+    if (lowerPath.startsWith('/produto/')) {
         slug = path.substring('/produto/'.length);
         produto = encontrarProduto(slug);
     }
@@ -574,7 +580,7 @@ document.addEventListener('DOMContentLoaded', () => {
         produto = encontrarProduto(parseInt(productId));
     }
 
-    if (window.location.pathname.includes('Produtos') || path.startsWith('/produto/')) {
+    if (lowerPath.includes('produtos') || lowerPath.startsWith('/produto/') || isCategoryPath) {
         if (!infoProduto) {
             console.error("Elemento .info-produto não encontrado no DOM");
             return;
@@ -592,7 +598,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Se usar ID, atualiza para URL com slug
             if (productId) {
-            window.location.href = `/produto/${produto.slug}`;
+                window.location.href = `/produto/${produto.slug}`;
             }
         } else {
             infoProduto.style.display = 'none';
@@ -602,8 +608,15 @@ document.addEventListener('DOMContentLoaded', () => {
             h2.addEventListener('click', () => {
                 const categoria = h2.getAttribute('data-categoria');
                 exibirProdutosPorCategoria(categoria);
+                // Altera a URL para a versão limpa sem recarregar
+                history.pushState({ categoria }, '', `/${categoria}`);
             });
         });
+
+        let tipo = params.get('tipo');
+        if (!tipo && isCategoryPath) {
+            tipo = path.substring(1); // Extrai do path (ex: /Bolos -> 'Bolos')
+        }
 
         if (tipo) {
             exibirProdutosPorCategoria(tipo);
