@@ -317,55 +317,87 @@
         
 <script>
     function atualizarPrecosCards() {
-    // Cards do Swiper
-    document.querySelectorAll('.card-swiper').forEach(card => {
-        const id = card.getAttribute('data-id');
-        const produto = produtos.find(p => p.id == id);
-        if (produto) {
-            card.querySelector('.titulo-bolos h4').textContent = `Preço: R$ ${produto.preco.toFixed(2)}`;
-        }
-    });
+        // Cards do Swiper
+        document.querySelectorAll('.card-swiper').forEach(card => {
+            const id = card.getAttribute('data-id');
+            const produto = produtos.find(p => p.id == id);
+            if (produto) {
+                card.querySelector('.titulo-bolos h4').textContent = `Preço: R$ ${produto.preco.toFixed(2)}`;
+            }
+        });
 
-    // Cards normais (.card na página inicial)
-    document.querySelectorAll('.card').forEach(card => {
-        const id = card.getAttribute('data-id');
-        const produto = produtos.find(p => p.id == id);
-        if (produto) {
-            card.querySelector('h4').textContent = `Preço: R$ ${produto.preco.toFixed(2)}`;
-        }
-    });
-}
+        // Cards normais (.card na página inicial)
+        document.querySelectorAll('.card').forEach(card => {
+            const id = card.getAttribute('data-id');
+            const produto = produtos.find(p => p.id == id);
+            if (produto) {
+                card.querySelector('h4').textContent = `Preço: R$ ${produto.preco.toFixed(2)}`;
+            }
+        });
+    }
 
-    document.addEventListener('DOMContentLoaded', atualizarPrecosCards);
-    
-    document.addEventListener('DOMContentLoaded', function() {
-    exibirCarrinho();  
-});
-    document.querySelectorAll('.card').forEach(card => {
-        card.addEventListener('click', () => {
-    
-            const productId = card.getAttribute('data-id');
-            window.location.href = `Produtos?id=${productId}`;
+    document.addEventListener('DOMContentLoaded', () => {
+        // Inicializações
+        atualizarPrecosCards();
+        exibirCarrinho();
+
+        // Limpeza inicial da URL
+        const params = new URLSearchParams(window.location.search);
+        const path = window.location.pathname.replace(/\/$/, '').toLowerCase();
+        const categoryPaths = ['/menu', '/bolos', '/sobremesas', '/pães', '/salgados'];
+        const isCategoryPath = categoryPaths.includes(path);
+
+        let tipo = params.get('tipo');
+        if (tipo) {
+            history.replaceState({ categoria: tipo }, '', `/${tipo}`);
+            exibirProdutosPorCategoria(tipo);
+        } else if (isCategoryPath) {
+            tipo = path.substring(1);
+            exibirProdutosPorCategoria(tipo);
+        } else {
+            history.replaceState({ categoria: 'Menu' }, '', '/Menu');
+            exibirProdutosPorCategoria('Menu');
+        }
+
+        // Cliques nos cards normais
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                e.preventDefault(); // Impede recarga se houver <a>
+                const productId = card.getAttribute('data-id');
+                const produto = produtos.find(p => p.id == productId);
+                if (produto) {
+                    history.pushState({ produto: productId }, '', `/produto/${produto.slug}`);
+                    exibirProdutoPorId(productId); // Função a ser criada ou ajustada
+                }
+            });
+        });
+
+        // Cliques nas categorias
+        document.querySelectorAll('.categoria').forEach(icon => {
+            icon.style.cursor = 'pointer';
+            icon.addEventListener('click', (e) => {
+                e.preventDefault(); // Impede recarga por <a>
+                const categoria = icon.getAttribute('data-categoria');
+                exibirProdutosPorCategoria(categoria);
+                history.pushState({ categoria }, '', `/${categoria}`);
+            });
+        });
+
+        // Cliques nos headers dos cards do Swiper
+        document.querySelectorAll('.card-swiper .titulo-bolos').forEach(header => {
+            header.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const card = header.closest('.card-swiper');
+                const productId = card.getAttribute('data-id');
+                const produto = produtos.find(p => p.id == productId);
+                if (produto) {
+                    history.pushState({ produto: productId }, '', `/produto/${produto.slug}`);
+                    exibirProdutoPorId(productId); // Função a ser criada ou ajustada
+                }
+            });
         });
     });
-    document.querySelectorAll('.categoria').forEach(icon => {
-    icon.style.cursor = 'pointer'; 
-    icon.addEventListener('click', () => {
-        const categoria = icon.getAttribute('data-categoria'); // Obtém a categoria do atributo data-categoria
-        window.location.href = `Produtos?tipo=${categoria}`; // Redireciona para detalhes.html com o parâmetro tipo
-    });
-});
-    document.querySelectorAll('.card-swiper .titulo-bolos').forEach(header => {
-        header.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            const card = header.closest('.card-swiper'); // Encontra o .card-swiper pai
-            const productId = card.getAttribute('data-id');
-            window.location.href = `Produtos?id=${productId}`;
-        });
-    });
-
-
 </script>
 </body>
 </html>
