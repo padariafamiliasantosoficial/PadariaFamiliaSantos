@@ -515,8 +515,6 @@ function openCartFromMenu() {
         overlay.classList.add('show');
         exibirCarrinho();
     }
-    // Abre o carrinho
-    toggleCart();
 }
 
 // Função para fechar painéis laterais (usada no overlay)
