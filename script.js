@@ -398,19 +398,8 @@ function moveCartCount() {
             desktopCartIcon.appendChild(cartCount);
         }
     }
-    function atualizarCarrinhoCount() {
-    const count = carrinho.length;  // Ou como for calculado
-    const cartCount = document.getElementById('cart-count');
-    if (cartCount) {
-        cartCount.textContent = count;
-        if (count > 0) {
-            cartCount.classList.remove('hidden');
-            cartCount.style.display = 'block';  // Force visível
-        } else {
-            cartCount.classList.add('hidden');
-        }
-    }
-}
+    atualizarCarrinhoCount();  // Atualize o count após mover
+    
 }
 
 window.addEventListener('load', moveCartCount);
