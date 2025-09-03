@@ -1524,10 +1524,10 @@ form {
         text-indent: 0px;
     }
     .titulo-bolos h3 {
-        font-size: 12px;
+        font-size: 16px;
     }
     .titulo-bolos h4 {
-        font-size: 10px;
+        font-size: 14px;
     }
     .categoria[data-categoria="Menu"] {
         width: 193px;
@@ -1808,10 +1808,10 @@ form {
         text-indent: 0px;
     }
     .titulo-bolos h3 {
-        font-size: 12px;
+        font-size: 16px;
     }
     .titulo-bolos h4 {
-        font-size: 10px;
+        font-size: 14px;
     }
     .categoria[data-categoria="Menu"] {
         width: 193px;
@@ -2097,10 +2097,10 @@ form {
         text-indent: 0px;
     }
     .titulo-bolos h3 {
-        font-size: 10px;
+        font-size: 16px;
     }
     .titulo-bolos h4 {
-        font-size: 8px;
+        font-size: 14px;
     }
     body {
         overflow-x: hidden;
@@ -2454,11 +2454,11 @@ form {
         grid-template-columns: repeat(2, 1fr);
     }
     .card h3 {
-        font-size: 12px;
+        font-size: 14px;
         padding-bottom: 0px;
     }
     .card h4 {
-        font-size: 10px;
+        font-size: 12px;
     }
     .container-catalogo {
         grid-template-columns: repeat(1, 1fr);
@@ -2492,10 +2492,10 @@ form {
         height: 300px;
     }
     .titulo-bolos h3 {
-        font-size: 12px;
+        font-size: 14px;
     }
     .titulo-bolos h4 {
-        font-size: 10px;
+        font-size: 12px;
     }
     .card-swiper {
         width: 480px;
@@ -2741,10 +2741,10 @@ form {
       
     }
     .titulo-bolos h3 {
-        font-size: 12px;
+        font-size: 14px;
     }
     .titulo-bolos h4 {
-        font-size: 10px;
+        font-size: 12px;
     }
     .card-swiper {
         width: 435px;
