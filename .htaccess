@@ -1,20 +1,21 @@
-RewriteEngine On
+# Reescrita de /Produtos/{tipo} para /Produtos?tipo={tipo}
+RewriteRule ^Produtos/([A-Za-z]+)$ /Produtos?tipo=$1 [L,QSA]
 
 # Redireciona /index para /Home
 RewriteRule ^index$ /Home [R=301,L]
 
-# Serve o conteúdo de index.html quando acessar /Home
+# Serve o conteúdo de index.html quando acessar /Home (rewrite interno)
 RewriteRule ^Home$ index.html [L]
 
-# Ignora se o request já for para um arquivo ou diretório existente
+RewriteEngine On
+
+# Ignora se o request já for para um arquivo ou diretório existente (evita loops)
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
-# -------------------------
-# Regra para URLs de produtos
-RewriteRule ^produto/([a-z0-9-]+)$ Produtos.html [L]
-# -------------------------
-
-# Verifica se o arquivo com .html existe e reescreve
+# Verifica se o arquivo com .html existe e reescreve a URL para servi-lo
 RewriteCond %{REQUEST_FILENAME}.html -f
 RewriteRule ^(.*)$ $1.html [L]
+
+# Rewrite para URLs de produtos amigáveis: /produto/slug -> Produtos.html (interno)
+RewriteRule ^produto/([a-z0-9-]+)$ /Produtos.html [L]
