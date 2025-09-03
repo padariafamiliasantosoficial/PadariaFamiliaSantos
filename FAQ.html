@@ -16,9 +16,9 @@
             <a href="/Sobre">Sobre</a>
             <a href="/Produtos">Produtos</a>
             <a href="/index">Home</a>
-            <button class="carrinho" id="carrinho-icon" onclick="toggleCart()">
+            <button class="carrinho cart-icon" id="carrinho-icon" onclick="toggleCart()"> 
                 <img src="/imagens/carrinho-de-compras.png" alt="Carrinho de Compras">
-                <span id="cart-count" class="cart-count hidden">0</span>
+                <span id="cart-count" class="cart-count hidden">0</span>  
             </button>
         </nav>
         <nav class="nav-mob">
@@ -31,14 +31,15 @@
                 <li><a onclick="openCartFromMenu()">Carrinho</a></li>
             </ul>
     </div> 
-        <div class="abrir-menu" id="abrir-menu-mob">
+    <div class="abrir-menu" id="abrir-menu-mob">
         <div class="cart-icon" style="position: relative; display: inline-block;">
-        <img src="/imagens/carrinho-de-compras.png" alt="Carrinho de Compras" id="icone-mobile-carrinho" onclick="toggleCart()">
-        <span id="cart-count" class="cart-count hidden">0</span>
+            <img src="/imagens/carrinho-de-compras.png" alt="Carrinho de Compras" id="icone-mobile-carrinho" onclick="toggleCart()">
+        </div>
     </div>
         
         <img src="/imagens/cardapio.png" alt="menu-mobile" id="icone-mobile">
     </div>
+        </nav>
     </header>
     <div class="lista-interativa" id="lista"></div>
     
