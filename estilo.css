@@ -74,12 +74,12 @@ nav {
     border-radius: 50%;
     padding: 2px 6px;
     font-size: 12px;
-    display: block; /* Garanta visibilidade quando não hidden */
+    display: block; 
 }
 
 /* Posicionamento relativo ao wrapper .cart-icon */
 .cart-icon {
-    position: relative; /* Já inline no HTML, mas confirme aqui se precisar */
+    position: relative; 
 }
 
 .container-mobile.abrir-menu {

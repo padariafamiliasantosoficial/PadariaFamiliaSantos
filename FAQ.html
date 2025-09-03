@@ -10,33 +10,34 @@
 </head>
 
 <body>
-    <header style="position: sticky;">
+    <header>
         <h1>Padaria Santos</h1>
         <nav>
             <a href="/Sobre">Sobre</a>
             <a href="/Produtos">Produtos</a>
             <a href="/index">Home</a>
-            <button class="carrinho cart-icon" id="carrinho-icon" onclick="toggleCart()"> 
+            <button class="carrinho cart-icon" id="carrinho-icon" onclick="toggleCart()">
                 <img src="/imagens/carrinho-de-compras.png" alt="Carrinho de Compras">
                 <span id="cart-count" class="cart-count hidden">0</span>  
             </button>
         </nav>
-        <nav class="nav-mob">
-    <div class="container-mobile" id="container-mobile">
+    <nav class="nav-mob">
+        <div class="container-mobile" id="container-mobile">
         <img src="/imagens/fechar.png" alt="menu mobile" id="fechar">
             <ul>
-                <li><a href="/Produtos">Produtos</a></li>
                 <li><a href="/Sobre">Sobre</a></li>
+                <li><a href="/Produtos">Produtos</a></li>
                 <li><a href="/index">Home</a></li>
                 <li><a onclick="openCartFromMenu()">Carrinho</a></li>
             </ul>
-    </div> 
-    <div class="abrir-menu" id="abrir-menu-mob"></div>
-    <div class="cart-icon" style="position: relative; display: inline;">
-        <img src="imagens/carrinho-de-compras.png" alt="Carrinho de Compras" id="icone-mobile-carrinho" onclick="toggleCart()">
-    </div>
-        <img src="imagens/cardapio.png" alt="menu-mobile" id="icone-mobile">
-        </nav>
+        </div> 
+        <div class="abrir-menu" id="abrir-menu-mob">
+            <div class="cart-icon" style="position: relative; display: inline;">
+                <img src="/imagens/carrinho-de-compras.png" alt="Carrinho de Compras" id="icone-mobile-carrinho" onclick="toggleCart()">
+            </div>
+        <img src="/imagens/cardapio.png" alt="menu-mobile" id="icone-mobile">
+    </nav>
+    
     </header>
     <div class="lista-interativa" id="lista"></div>
     
