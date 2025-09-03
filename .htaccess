@@ -1,33 +1,25 @@
-# Redireciona formatos antigos para URLs limpas (remove ?tipo= e /Produtos/)
+RewriteEngine On
+
+# Redireciona query strings antigas para URL limpa
 RewriteCond %{QUERY_STRING} ^tipo=([A-Za-zÃã]+)$
 RewriteRule ^Produtos$ /%1 [R=301,L]
 
+# Redireciona paths antigas para URL limpa
 RewriteRule ^Produtos/([A-Za-zÃã]+)$ /$1 [R=301,L]
 
-# Redireciona /Produtos (sem tipo) para /Menu (default)
+# Redireciona /Produtos sem tipo para /Menu
 RewriteRule ^Produtos$ /Menu [R=301,L]
 
-# Rewrite interno: mapeia /Categoria para /Produtos.html (sem expor query)
+# Rewrite interno: /Categoria -> /Produtos.html
 RewriteRule ^(Menu|Bolos|Sobremesas|Pães|Salgados)$ /Produtos.html [L]
 
-# Reescrita de /Produtos/{tipo} para /Produtos?tipo={tipo} (mantida, mas agora redireciona acima)
-RewriteRule ^Produtos/([A-Za-z]+)$ /Produtos?tipo=$1 [L,QSA]
-
-# Redireciona /index para /Home
+# Outras regras existentes (Home, .html implícito, produtos)
 RewriteRule ^index$ /Home [R=301,L]
-
-# Serve o conteúdo de index.html quando acessar /Home (rewrite interno)
 RewriteRule ^Home$ index.html [L]
 
-RewriteEngine On
-
-# Ignora se o request já for para um arquivo ou diretório existente (evita loops)
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-
-# Verifica se o arquivo com .html existe e reescreve a URL para servi-lo
 RewriteCond %{REQUEST_FILENAME}.html -f
 RewriteRule ^(.*)$ $1.html [L]
 
-# Rewrite para URLs de produtos compatíveis: /produto/slug -> Produtos.html (interno)
 RewriteRule ^produto/([a-z0-9-]+)$ /Produtos.html [L]
