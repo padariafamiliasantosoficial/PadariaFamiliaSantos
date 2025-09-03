@@ -604,11 +604,13 @@ document.addEventListener('DOMContentLoaded', () => {
             infoProduto.style.display = 'none';
         }
 
-        h2.addEventListener('click', () => {
-            const categoria = h2.getAttribute('data-categoria');
-            exibirProdutosPorCategoria(categoria);
-            // Altera a URL para a versão limpa sem recarregar
-            history.pushState({ categoria }, '', `/${categoria}`);
+        document.querySelectorAll('.categoria-detalhes h2').forEach(h2 => {
+            h2.addEventListener('click', () => {
+                const categoria = h2.getAttribute('data-categoria');
+                exibirProdutosPorCategoria(categoria);
+                // Altera a URL para a versão limpa sem recarregar
+                history.pushState({ categoria }, '', `/${categoria}`);
+            });
         });
 
         let tipo = params.get('tipo');
