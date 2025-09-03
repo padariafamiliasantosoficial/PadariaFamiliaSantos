@@ -385,25 +385,25 @@ function exibirCarrinho() {
     // Função para mover o cart-count entre desktop e mobile
 function moveCartCount() {
     const cartCount = document.getElementById('cart-count');
-    const desktopCartIcon = document.querySelector('nav .cart-icon');  // Use selector correto
-    const mobileCartIcon = document.querySelector('#abrir-menu-mob .cart-icon');
-    if (!cartCount) return console.error('Cart count não encontrado');
+    if (!cartCount) return; // Se não existir, sai
 
-    if (window.innerWidth <= 768) {  // Mobile
+    const desktopCartIcon = document.querySelector('nav .cart-icon'); // Seletor para wrapper desktop
+    const mobileCartIcon = document.querySelector('.nav-mob .cart-icon'); // Seletor para wrapper mobile
+
+    if (window.innerWidth <= 768) { // Breakpoint mobile (ajuste se seu @media for diferente, ex.: 768px)
         if (mobileCartIcon && cartCount.parentNode !== mobileCartIcon) {
             mobileCartIcon.appendChild(cartCount);
         }
-    } else {  // Desktop
+    } else {
         if (desktopCartIcon && cartCount.parentNode !== desktopCartIcon) {
             desktopCartIcon.appendChild(cartCount);
         }
     }
-    atualizarCarrinhoCount();  // Atualize o count após mover
 }
 
+// Eventos para mover no load e resize
 window.addEventListener('load', moveCartCount);
 window.addEventListener('resize', moveCartCount);
-
 // Alterna visibilidade do carrinho
 function toggleCart() {
     const listaInterativa = document.getElementById('lista');
