@@ -308,6 +308,7 @@ nav a:focus {
     text-align: flex-start;
     align-items: center;
     font-size: 25px;
+    text-decoration: none;
 }
 .categoria img {
     width: 200px;
