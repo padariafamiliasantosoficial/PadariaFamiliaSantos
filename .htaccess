@@ -10,8 +10,8 @@ RewriteRule ^Produtos/([A-Za-zÃã]+)$ /$1 [R=301,L]
 # Redireciona /Produtos sem tipo para /Menu
 RewriteRule ^Produtos$ /Menu [R=301,L]
 
-# Rewrite interno: /Categoria -> /Produtos.html 
-RewriteRule ^(Menu|Bolos|Sobremesas|Pães|Salgados)$ /Produtos.html [NC,L]
+# Rewrite interno: /Categoria -> /Produtos.html
+RewriteRule ^(Menu|Bolos|Sobremesas|Paes|Salgados)$ /Produtos.html [L]
 
 # Outras regras existentes (Home, .html implícito, produtos)
 RewriteRule ^index$ /Home [R=301,L]
