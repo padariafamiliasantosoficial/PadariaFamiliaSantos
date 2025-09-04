@@ -185,6 +185,11 @@ function salvarCarrinho() {
 }
 
 // Exibe produtos por categoria
+function normalizeString(str) {
+    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
+// Função de exibição de produtos (versão corrigida com normalização)
 function exibirProdutosPorCategoria(categoria) {
     const container = document.getElementById('produtos-filtrados');
     if (!container) {
@@ -192,7 +197,15 @@ function exibirProdutosPorCategoria(categoria) {
         return;
     }
     container.innerHTML = '';
-    let produtosFiltrados = categoria === 'Menu' ? produtos : produtos.filter(p => p.categoria === categoria);
+
+    // Normaliza a categoria recebida (para lidar com acentos)
+    const normalizedCategoria = normalizeString(categoria);
+
+    // Filtra produtos: para 'Menu', mostra todos; para outras, filtra com normalização
+    let produtosFiltrados = categoria === 'Menu' 
+        ? produtos 
+        : produtos.filter(p => normalizeString(p.categoria) === normalizedCategoria);
+
     produtosFiltrados.forEach(produto => {
         const card = document.createElement('div');
         card.className = 'product-card';
@@ -231,7 +244,7 @@ function exibirProdutosPorCategoria(categoria) {
     });
 }
 
-// Adiciona ao carrinho
+// Adiciona ao carrinho (permanece igual)
 function adicionarAoCarrinho(id, quantidade = 1) {
     const produto = produtos.find(p => p.id == id);
     if (produto) {
@@ -246,7 +259,7 @@ function adicionarAoCarrinho(id, quantidade = 1) {
     }
 }
 
-// Função para alterar quantidade (carrinho ou cards)
+// Função para alterar quantidade (permanece igual)
 function alterarQuantidade(id, valor, isCart) {
     let novaQuantidade;
     if (typeof valor === 'string') {
@@ -569,7 +582,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (decoded !== path) {
             history.replaceState(null, '', decoded);
             }
-            const isCategoryPath = /^(\/Menu|\/Bolos|\/Sobremesas|\/Paes|\/Salgados)$/.test(path);
+            const isCategoryPath = /^(\/Menu|\/Bolos|\/Sobremesas|\/Pães|\/Salgados)$/.test(path);
 
             if (tipo) {
                 // Limpa a URL se query string estiver presente
@@ -581,7 +594,6 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 exibirProdutosPorCategoria('Menu');
             }
-            
         });
     });
 
