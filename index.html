@@ -357,17 +357,6 @@
             window.location.href = `Produtos?id=${productId}`;
         });
     });
-    // Adicionar listeners para categorias no index.html
-    const catalogo = document.querySelector('#catalogo');
-    if (catalogo) {
-        document.querySelectorAll('#catalogo .categoria').forEach(cat => {
-            cat.addEventListener('click', () => {
-                const categoria = cat.getAttribute('data-categoria');
-                window.location.href = `/${categoria}`;
-            });
-        });
-}
-
 </script>
 </body>
 </html>
