@@ -565,6 +565,10 @@ document.addEventListener('DOMContentLoaded', () => {
         
             let tipo = params.get('tipo');
             const path = window.location.pathname;
+            const decoded = decodeURIComponent(path);
+            if (decoded !== path) {
+            history.replaceState(null, '', decoded);
+            }
             const isCategoryPath = /^(\/Menu|\/Bolos|\/Sobremesas|\/Pães|\/Salgados)$/.test(path);
 
             if (tipo) {
@@ -577,8 +581,10 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 exibirProdutosPorCategoria('Menu');
             }
+            
         });
     });
+
     // Inicializa eventos de detalhes uma vez
     initDetalhesEvents();
 
