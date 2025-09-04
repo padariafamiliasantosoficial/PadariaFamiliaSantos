@@ -184,13 +184,12 @@ function salvarCarrinho() {
     localStorage.setItem('carrinho', JSON.stringify(carrinho));
 }
 
-// Exibe produtos por categoria
-// Função de normalização (adicione isso no topo do script, antes de qualquer função)
+// Função de normalização (atualizada para lowercase)
 function normalizeString(str) {
-    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 }
 
-// Função de exibição de produtos (versão única e corrigida, com normalização integrada)
+// Função de exibição de produtos (atualizada com normalização em lowercase)
 function exibirProdutosPorCategoria(categoria) {
     const container = document.getElementById('produtos-filtrados');
     if (!container) {
@@ -199,11 +198,11 @@ function exibirProdutosPorCategoria(categoria) {
     }
     container.innerHTML = '';
 
-    // Normaliza a categoria recebida para lidar com acentos
+    // Normaliza a categoria recebida
     const normalizedCategoria = normalizeString(categoria);
 
     // Filtra produtos: para 'Menu', mostra todos; para outras, filtra com normalização
-    let produtosFiltrados = categoria === 'Menu' 
+    let produtosFiltrados = (normalizeString(categoria) === normalizeString('Menu')) 
         ? produtos 
         : produtos.filter(p => normalizeString(p.categoria) === normalizedCategoria);
 
@@ -221,26 +220,23 @@ function exibirProdutosPorCategoria(categoria) {
                     </div>
                     <button class="add-cart" type="button">Adicionar ao Carrinho</button>
                     <div class="container-cart-qntd">
-                        <button class="btn-menos" onclick="alterarQuantidade(${produto.id}, -1, false)">-</button>
-                        <input class="quantidade" type="number" value="1" min="1" onchange="alterarQuantidade(${produto.id}, this.value, false)">
-                        <button class="btn-mais" onclick="alterarQuantidade(${produto.id}, 1, false)">+</button>
+                        <button class="btn-menos" onclick="alterarQuantidade(${produto.id}, -1)">-</button>
+                        <input class="quantidade" type="number" value="1" min="1" max="100" onchange="alterarQuantidade(${produto.id}, this.value)">
+                        <button class="btn-mais" onclick="alterarQuantidade(${produto.id}, 1)">+</button>
                     </div>
                 </div>
             </div>
         `;
-        card.addEventListener('click', (e) => {
-            if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT') {
-                exibirDetalhesProduto(produto.slug);
-            }
-        });
         container.appendChild(card);
+    });
 
-        const btnAdd = card.querySelector('.add-cart');
-        btnAdd.addEventListener('click', e => {
-            e.stopPropagation();
-            e.preventDefault();
+    // Re-adiciona event listeners aos botões de adicionar ao carrinho (caso necessário após re-render)
+    document.querySelectorAll('.product-card .add-cart').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const card = e.target.closest('.product-card');
+            const id = parseInt(card.getAttribute('data-id'));
             const quantidade = parseInt(card.querySelector('.quantidade').value) || 1;
-            adicionarAoCarrinho(produto.id, quantidade);
+            adicionarAoCarrinho(id, quantidade);
         });
     });
 }
@@ -640,10 +636,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         document.querySelectorAll('.categoria-detalhes h2').forEach(h2 => {
-            h2.addEventListener('click', () => {
+            h2.addEventListener('click', (e) => {
+                e.preventDefault(); // Previne o reload se for <a> dentro
                 const categoria = h2.getAttribute('data-categoria');
                 exibirProdutosPorCategoria(categoria);
-                // Altera a URL para a versão limpa sem recarregar
                 history.pushState({ categoria }, '', `/${categoria}`);
             });
         });
