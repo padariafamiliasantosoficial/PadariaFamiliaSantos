@@ -11,7 +11,7 @@ RewriteRule ^Produtos/([A-Za-zÃã]+)$ /$1 [R=301,L]
 RewriteRule ^Produtos$ /Menu [R=301,L]
 
 # Rewrite interno: /Categoria -> /Produtos.html
-RewriteRule ^(Menu|Bolos|Sobremesas|Pães|Salgados)$ /Produtos.html [L]
+RewriteRule ^(Menu|Bolos|Sobremesas|Paes|Salgados)$ /Produtos.html [L]
 
 # Outras regras existentes (Home, .html implícito, produtos)
 RewriteRule ^index$ /Home [R=301,L]
@@ -23,6 +23,3 @@ RewriteCond %{REQUEST_FILENAME}.html -f
 RewriteRule ^(.*)$ $1.html [L]
 
 RewriteRule ^produto/([a-z0-9-]+)$ /Produtos.html [L]
-
-RewriteCond %{QUERY_STRING} ^tipo=([A-Za-zÃã]+)$
-RewriteRule ^([A-Za-zÃã]+)$ /$1 [R=301,L,QSD]  # QSD descarta query string
