@@ -40,13 +40,13 @@ if (document.querySelector('.swiper')) {
 // Array de produtos
 const produtos = [
     { id: 1, nome: 'Pão de Queijo', preco: 0.50, imagem: '/imagens/paodequeijo.jpg', descricao: 'Delicioso por fora, macio por dentro! Nosso pão de queijo é feito com ingredientes selecionados e muito queijo de verdade, perfeito para acompanhar um café ou como lanche rápido.', categoria: 'Salgados', slug: 'pao-de-queijo' },
-    { id: 2, nome: 'Pão de Sal', preco: 0.60, imagem: '/imagens/paodesal.jpg', descricao: 'O clássico pão de sal, crocante por fora e macio por dentro. Ideal para sanduíches ou para comer com manteiga no café da manhã.', categoria: 'Paes', slug: 'pao-de-sal' },
+    { id: 2, nome: 'Pão de Sal', preco: 0.60, imagem: '/imagens/paodesal.jpg', descricao: 'O clássico pão de sal, crocante por fora e macio por dentro. Ideal para sanduíches ou para comer com manteiga no café da manhã.', categoria: 'Pães', slug: 'pao-de-sal' },
     { id: 3, nome: 'Enroladinho de Salsicha', preco: 1.99, imagem: '/imagens/enroladinhodesalsicha.jpg', descricao: 'Saboroso enroladinho de salsicha, perfeito para um lanche rápido. Feito com massa leve e salsicha de qualidade.', categoria: 'Salgados', slug: 'enroladinho-de-salsicha' },
     { id: 4, nome: 'Bolo Bombocado', preco: 16.49, imagem: '/imagens/bolobombocado.jpg', descricao: 'Um bolo bombocado irresistível, com textura macia e sabor intenso de coco. Perfeito para sobremesa ou lanche da tarde.', categoria: 'Bolos', slug: 'bolo-bombocado' },
     { id: 5, nome: 'Bolo de Chocolate', preco: 19.99, imagem: '/imagens/bolodechocolate.jpg', descricao: 'Bolo de chocolate fofinho e delicioso, com cobertura cremosa de chocolate. Uma explosão de sabor para os amantes de chocolate.', categoria: 'Bolos', slug: 'bolo-de-chocolate' },
     { id: 6, nome: 'Pudim', preco: 4.99, imagem: '/imagens/pudim.jpg', descricao: 'Pudim cremoso com calda caramelizada, feito com leite condensado e ovos. Uma sobremesa clássica que derrete na boca.', categoria: 'Sobremesas', slug: 'pudim' },
-    { id: 7, nome: 'Rosca de Leite', preco: 2.50, imagem: '/imagens/rosquinhadeleite.jpg', descricao: 'Rosca de leite macia e saborosa, com leve toque de baunilha. Perfeita para acompanhar um café ou chá.', categoria: 'Paes', slug: 'rosca-de-leite' },
-    { id: 8, nome: 'Pão de Doce', preco: 1.20, imagem: '/imagens/paodedoce.jpeg', descricao: 'Pão doce com um toque especial de canela e açúcar. Ideal para o café da manhã ou lanche da tarde.', categoria: 'Paes', slug: 'pao-de-doce' },
+    { id: 7, nome: 'Rosca de Leite', preco: 2.50, imagem: '/imagens/rosquinhadeleite.jpg', descricao: 'Rosca de leite macia e saborosa, com leve toque de baunilha. Perfeita para acompanhar um café ou chá.', categoria: 'Pães', slug: 'rosca-de-leite' },
+    { id: 8, nome: 'Pão de Doce', preco: 1.20, imagem: '/imagens/paodedoce.jpeg', descricao: 'Pão doce com um toque especial de canela e açúcar. Ideal para o café da manhã ou lanche da tarde.', categoria: 'Pães', slug: 'pao-de-doce' },
     { id: 9, nome: 'Bolo de Cenoura', preco: 16.49, imagem: '/imagens/bolodecenoura.jpg', descricao: 'Bolo de cenoura macio com cobertura de chocolate. Um clássico brasileiro que combina o sabor da cenoura com o doce do chocolate.', categoria: 'Bolos', slug: 'bolo-de-cenoura' },
     { id: 10, nome: 'Bolo de Fubá', preco: 16.49, imagem: '/imagens/bolodefuba.jpg', descricao: 'Bolo de fubá tradicional, com textura leve e sabor suave de milho. Perfeito para acompanhar um café fresquinho.', categoria: 'Bolos', slug: 'bolo-de-fuba' },
     { id: 11, nome: 'Bolo de Milho', preco: 16.49, imagem: '/imagens/bolodemilho.jpg', descricao: 'Bolo de milho cremoso, feito com milho verde fresco. Uma delícia típica das festas juninas, mas gostosa o ano todo.', categoria: 'Bolos', slug: 'bolo-de-milho' },
@@ -59,14 +59,14 @@ const produtos = [
     { id: 18, nome: 'Bolo de Banana', preco: 16.99, imagem: '/imagens/bolodebanana.jpg', descricao: 'Bolo de banana com um toque caseiro, feito com bananas maduras e canela. Perfeito para aproveitar bananas que estão sobrando.', categoria: 'Bolos', slug: 'bolo-de-banana' },
     { id: 19, nome: 'Bolo de Leite Ninho', preco: 16.49, imagem: '/imagens/bolodeleiteninho.jpg', descricao: 'Bolo de leite ninho cremoso, com recheio e cobertura de creme de leite ninho. Uma sobremesa sofisticada e deliciosa.', categoria: 'Bolos', slug: 'bolo-de-leite-ninho' },
     { id: 20, nome: 'Mousse de Maracujá', preco: 3.50, imagem: '/imagens/moussedemaracuja.jpg', descricao: 'Mousse leve e refrescante com sabor intenso de maracujá. Perfeito para dias quentes ou como sobremesa após uma refeição.', categoria: 'Sobremesas', slug: 'mousse-de-maracuja' },
-    { id: 21, nome: 'Pão Integral', preco: 8.99, imagem: '/imagens/paointegral.jpg', descricao: 'Pão rico em fibras, perfeito para uma alimentação saudável. Feito com farinha integral e grãos.', categoria: 'Paes', slug: 'pao-integral' },
-    { id: 22, nome: 'Pão de Forma', preco: 11.49, imagem: '/imagens/paodeforma.jpg', descricao: 'Pão fatiado, macio e versátil para sanduíches e torradas. Ideal para o café da manhã ou lanches rápidos.', categoria: 'Paes', slug: 'pao-de-forma' },
+    { id: 21, nome: 'Pão Integral', preco: 8.99, imagem: '/imagens/paointegral.jpg', descricao: 'Pão rico em fibras, perfeito para uma alimentação saudável. Feito com farinha integral e grãos.', categoria: 'Pães', slug: 'pao-integral' },
+    { id: 22, nome: 'Pão de Forma', preco: 11.49, imagem: '/imagens/paodeforma.jpg', descricao: 'Pão fatiado, macio e versátil para sanduíches e torradas. Ideal para o café da manhã ou lanches rápidos.', categoria: 'Pães', slug: 'pao-de-forma' },
     { id: 23, nome: 'Cajuzinho', preco: 1.50, imagem: '/imagens/cajuzinho.jpg', descricao: 'Doce de amendoim com toque de chocolate, coberto com granulado. Um clássico das festas brasileiras.', categoria: 'Sobremesas', slug: 'cajuzinho' },
     { id: 24, nome: 'Torta de Morango', preco: 6.00, imagem: '/imagens/tortademorango.jpg', descricao: 'Torta com creme de baunilha e morangos frescos, coberta com geleia de morango. Uma sobremesa leve e deliciosa.', categoria: 'Sobremesas', slug: 'torta-de-morango' },
-    { id: 25, nome: 'Pão de Milho', preco: 2.50, imagem: '/imagens/paodemilho.jpg', descricao: 'Pão leve com sabor rústico de milho, ótimo para lanches. Feito com fubá e milho verde.', categoria: 'Paes', slug: 'pao-de-milho' },
-    { id: 26, nome: 'Pão de Centeio', preco: 3.00, imagem: '/imagens/paocenteio.jpg', descricao: 'Pão denso e nutritivo, com sabor marcante de centeio. Ideal para sanduíches mais robustos.', categoria: 'Paes', slug: 'pao-de-centeio' },
-    { id: 27, nome: 'Pão Ciabatta', preco: 4.00, imagem: '/imagens/paociabatta.jpg', descricao: 'Pão italiano com casca crocante e miolo aerado, perfeito para bruschettas ou sanduíches gourmet.', categoria: 'Paes', slug: 'pao-ciabatta' },
-    { id: 28, nome: 'Pão de Leite', preco: 1.80, imagem: '/imagens/paodeleite.jpg', descricao: 'Pão macio e levemente doce, ideal para lanches infantis ou para comer com geleia.', categoria: 'Paes', slug: 'pao-de-leite' },
+    { id: 25, nome: 'Pão de Milho', preco: 2.50, imagem: '/imagens/paodemilho.jpg', descricao: 'Pão leve com sabor rústico de milho, ótimo para lanches. Feito com fubá e milho verde.', categoria: 'Pães', slug: 'pao-de-milho' },
+    { id: 26, nome: 'Pão de Centeio', preco: 3.00, imagem: '/imagens/paocenteio.jpg', descricao: 'Pão denso e nutritivo, com sabor marcante de centeio. Ideal para sanduíches mais robustos.', categoria: 'Pães', slug: 'pao-de-centeio' },
+    { id: 27, nome: 'Pão Ciabatta', preco: 4.00, imagem: '/imagens/paociabatta.jpg', descricao: 'Pão italiano com casca crocante e miolo aerado, perfeito para bruschettas ou sanduíches gourmet.', categoria: 'Pães', slug: 'pao-ciabatta' },
+    { id: 28, nome: 'Pão de Leite', preco: 1.80, imagem: '/imagens/paodeleite.jpg', descricao: 'Pão macio e levemente doce, ideal para lanches infantis ou para comer com geleia.', categoria: 'Pães', slug: 'pao-de-leite' },
     { id: 29, nome: 'Cheesecake', preco: 7.00, imagem: '/imagens/cheesecake.jpg', descricao: 'Torta cremosa de queijo com base de biscoito e cobertura de frutas vermelhas. Uma sobremesa sofisticada e irresistível.', categoria: 'Sobremesas', slug: 'cheesecake' },
     { id: 30, nome: 'Esfiha de Carne', preco: 3.00, imagem: '/imagens/esfiha.jpg', descricao: 'Esfiha recheada com carne moída temperada, suculenta e saborosa. Perfeita para um lanche rápido.', categoria: 'Salgados', slug: 'esfiha-de-carne' },
     { id: 31, nome: 'Coxinha de Frango', preco: 3.50, imagem: '/imagens/coxinhadefrango.jpg', descricao: 'Coxinha crocante com recheio cremoso de frango desfiado. Um clássico das padarias brasileiras.', categoria: 'Salgados', slug: 'coxinha-de-frango' },
@@ -555,7 +555,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const headers = document.querySelectorAll('.categoria-detalhes h2');
 
     // Lista de categorias para detecção de paths
-    const categoryPaths = ['/menu', '/bolos', '/sobremesas', '/pães', '/salgados'];
+    const categoryPaths = ['/menu', '/bolos', '/sobremesas', '/Pães', '/salgados'];
     const isCategoryPath = categoryPaths.includes(lowerPath);
 
     headers.forEach(header => {
@@ -569,7 +569,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (decoded !== path) {
             history.replaceState(null, '', decoded);
             }
-            const isCategoryPath = /^(\/Menu|\/Bolos|\/Sobremesas|\/Paes|\/Salgados)$/.test(path);
+            const isCategoryPath = /^(\/Menu|\/Bolos|\/Sobremesas|\/Pães|\/Salgados)$/.test(path);
 
             if (tipo) {
                 // Limpa a URL se query string estiver presente
