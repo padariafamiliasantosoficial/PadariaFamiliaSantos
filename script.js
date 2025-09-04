@@ -185,11 +185,12 @@ function salvarCarrinho() {
 }
 
 // Exibe produtos por categoria
+// Função de normalização (adicione isso no topo do script, antes de qualquer função)
 function normalizeString(str) {
     return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 }
 
-// Função de exibição de produtos (versão corrigida com normalização)
+// Função de exibição de produtos (versão única e corrigida, com normalização integrada)
 function exibirProdutosPorCategoria(categoria) {
     const container = document.getElementById('produtos-filtrados');
     if (!container) {
@@ -198,7 +199,7 @@ function exibirProdutosPorCategoria(categoria) {
     }
     container.innerHTML = '';
 
-    // Normaliza a categoria recebida (para lidar com acentos)
+    // Normaliza a categoria recebida para lidar com acentos
     const normalizedCategoria = normalizeString(categoria);
 
     // Filtra produtos: para 'Menu', mostra todos; para outras, filtra com normalização
@@ -244,7 +245,8 @@ function exibirProdutosPorCategoria(categoria) {
     });
 }
 
-// Adiciona ao carrinho (permanece igual)
+
+// Adiciona ao carrinho 
 function adicionarAoCarrinho(id, quantidade = 1) {
     const produto = produtos.find(p => p.id == id);
     if (produto) {
