@@ -545,7 +545,6 @@ function closeSidePanels() {
 }
 
 // DOMContentLoaded
-// DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
     const path = window.location.pathname.replace(/\/$/, '');
@@ -555,7 +554,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const headers = document.querySelectorAll('.categoria-detalhes h2');
 
     // Lista de categorias para detecção de paths
-    const categoryPaths = ['/menu', '/bolos', '/sobremesas', '/Pães', '/salgados'];
+    const categoryPaths = ['/menu', '/bolos', '/sobremesas', '/pães', '/salgados'];
     const isCategoryPath = categoryPaths.includes(lowerPath);
 
     headers.forEach(header => {
