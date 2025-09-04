@@ -301,7 +301,7 @@ nav a:focus {
     overflow: hidden;
   
 }
-.categoria, .categoria h3{
+.categoria, .categoria h2{
     display: flex;
     justify-content: flex-end;
     flex-direction: column;
@@ -1219,7 +1219,7 @@ footer span {
         height: 210px;
         font-size: 18px;
     }
-    .categoria, .categoria h3 {
+    .categoria, .categoria h2 {
         font-size: 18px;
     }
     .categoria img {
@@ -1489,7 +1489,7 @@ form {
         height: 150px;
         font-size: 13px;
     }
-    .categoria, .categoria h3 {
+    .categoria, .categoria h2 {
         font-size: 13px;
     }
     .categoria img {
@@ -1772,7 +1772,7 @@ form {
         height: 150px;
         font-size: 13px;
     }
-    .categoria, .categoria h3 {
+    .categoria, .categoria h2 {
         font-size: 13px;
     }
     .categoria img {
@@ -2476,7 +2476,7 @@ form {
         height: 150px;
         width: 190px;
     }
-    .categoria, .categoria h3 {
+    .categoria, .categoria h2 {
         font-size: 16px;
     }
     .categoria img {
@@ -2724,7 +2724,7 @@ form {
         height: 120px;
         width: 195px;
     }
-    .categoria, .categoria h3 {
+    .categoria, .categoria h2 {
         font-size: 16px;
     }
     .categoria img {
@@ -3169,7 +3169,7 @@ form {
         height: 105px;
         width: 180px;
     }
-    .categoria, .categoria h3 {
+    .categoria, .categoria h2 {
         font-size: 14px;
     }
     .categoria img {
@@ -3360,7 +3360,7 @@ form {
         height: 150px;
         width: 145px;
     }
-    .categoria, .categoria h3 {
+    .categoria, .categoria h2 {
         font-size: 14px;
     }
     .categoria img {
@@ -3548,7 +3548,7 @@ form {
         height: 105px;
         width: 165px;
     }
-    .categoria, .categoria h3 {
+    .categoria, .categoria h2 {
         font-size: 14px;
     }
     .categoria img {
@@ -3749,7 +3749,7 @@ form {
         height: 95px;
         width: 145px;
     }
-    .categoria, .categoria h3 {
+    .categoria, .categoria h2 {
         font-size: 12px;
     }
     .categoria img {
