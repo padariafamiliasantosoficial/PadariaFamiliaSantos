@@ -5,16 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Padaria Santos</title>   
     <link rel="stylesheet" href="/estilo.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="shortcut icon" href="/imagens/favicon.ico" type="image/x-icon">
     <script src="/script.js" defer></script>
-    </style>
+
+    <style> body{background-color: rgb(231, 231, 231);}</style>
 </head>
-<body>  
+
+<body>
     <header>
         <h1>Padaria Santos</h1>
         <nav>
-            <a href="/Sobre">Sobre</a>
+            <a href="/Produtos">Produtos</a>
             <a href="/FAQ">FAQ</a>
             <a href="/index">Home</a>
             <button class="carrinho cart-icon" id="carrinho-icon" onclick="toggleCart()">
@@ -27,7 +28,7 @@
         <img src="/imagens/fechar.png" alt="menu mobile" id="fechar">
             <ul>
                 <li><a href="/FAQ">FAQ</a></li>
-                <li><a href="/Sobre">Sobre</a></li>
+                <li><a href="/Produtos">Produtos</a></li>
                 <li><a href="/index">Home</a></li>
                 <li><a onclick="openCartFromMenu()">Carrinho</a></li>
             </ul>
@@ -40,48 +41,110 @@
     </nav>
     
     </header>
+    <div class="lista-interativa" id="lista"></div>
+    <!-- Conteúdo do carrinho será gerado dinamicamente -->
 
-    <div class="info-produto">
-        <img id="produto-imagem" src="" alt="">
-        <div class="texto-apresentacao">
-            <h2 id="produto-nome"></h2>
-            <p id="produto-descricao"></p>
-            <p id="produto-preco"></p>
-            
-            <div class="container-cart-qntd">
-                <button class="add-cart" type="button" id="add-cart">Adicionar ao Carrinho</button>
-                <div class="container-cart-bnt">
-                    <button class="btn-menos" id="btn-menos">-</button>
-                    <input class="quantidade" type="number" id="qntd" min="1" value="1">
-                    <button class="btn-mais" id="btn-mais">+</button>
-                </div>
+<div class="container-sobre">
+    <section class="sobre-apresentacao">
+    <div class="texto-sobre">
+    <h1>Importante!</h1>
+
+ <br>Prezado cliente,
+    
+<p>Somos uma empresa recém-inaugurada na Estrutural, com o propósito de atender todas as suas demandas com qualidade e prontidão. Oferecemos os melhores pães da cidade! No momento, porém, ainda não temos suporte para entrega e envio de produtos. Estamos trabalhando para expandir nossos serviços e temos o prazer de informar que planejamos implementar o serviço de entrega em breve, com uma data estimada para novembro de 2025.</p>
+
+<p>Se você deseja receber atualizações sobre o lançamento do nosso serviço de entrega e outras novidades, por favor, preencha o formulário abaixo com seu nome e email, marcando a opção para receber nossas atualizações. Agradecemos sua paciência e compreensão. Estamos ansiosos para servi-lo ainda melhor no futuro próximo!</p>
+
+Padaria Santos.
+    </div>
+</section>
+</div>
+    <div class="container-form-sobre">
+    <section class="sobre-form">
+    <div class="texto-sobre2">
+    
+    <h3>Formulário para receber atualizações</h3>
+    <p>Por favor, preencha o formulário abaixo para receber atualizações:</p>
+    <div>
+        <form action="formulario.php" method="post">
+            <div class="container-input">
+                <label for="nome">Nome:</label>
+                <input type="text" name="nome" id="nome" maxlength="50" placeholder="Seu nome" required>
             </div>
-        </div>
+            <div class="container-input">
+                <label for="email">Email:</label>
+                <input type="email" name="email" id="email" maxlength="75" placeholder="Nome@dominio.com" pattern=".+@.+\.com" required>
+            </div>
+            <div class="checkbox-container">
+                <input type="checkbox" id="atualizacoes" name="atualizacoes" required>
+                <label for="atualizacoes" id="label-text">Desejo receber atualizações sobre o serviço de entrega e outras novidades da Padaria Santos através do email fornecido.</label>
+            </div>
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+    <p><small>Nota: Suas informações serão utilizadas apenas para enviar atualizações sobre nossos serviços e novidades, conforme sua solicitação.</small></p>
     </div> 
-
-    <div class="categoria-detalhes">
-        <h2 data-categoria="Menu">Menu</h2>
-        <h2 data-categoria="Bolos">Bolos</h2>
-        <h2 data-categoria="Paes">Pães</h2>
-        <h2 data-categoria="Salgados">Salgados</h2>
-        <h2 data-categoria="Sobremesas">Sobremesas</h2>
-    </div>
-
-    <div id="produtos-filtrados" class="menu-filtrado"></div>  
-
-    <div class="lista-interativa" id="lista">
-         
-    </div>
-    <div class="overlay" onclick="toggleCart()"></div>
-
+</section>
+</div>
+<div class="overlay" onclick="toggleCart()"></div>
     <footer class="container-fundo">
-        <span style="background-color: rgb(255, 255, 255); margin-top: 10px; max-width: 1920px;">&copy; Todos os direitos reservados</span>
+        <span style="background-color: rgb(231, 231, 231); padding-top: 50px; max-width: 1920px;">&copy; Todos os direitos reservados</span>
     </footer>
-    
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js">
-        
-    </script>
-    
-</body>
 
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    exibirCarrinho();
+});
+    // ENVIAR EMAIL
+    emailjs.init("R_s1_9hjc-TF4dqml");
+
+    const contatoForm = document.getElementById("contato-form");
+    if (contatoForm) {
+        contatoForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            // Pega os dados do localStorage
+            let data = JSON.parse(localStorage.getItem("enviosEmail")) || { count: 0, date: null };
+            let hoje = new Date().toLocaleDateString(); // pega data de hoje (ex: 20/08/2025)
+
+            // Se mudou o dia, zera o contador
+            if (data.date !== hoje) {
+                data = { count: 0, date: hoje };
+            }
+
+            // Se já enviou 2 hoje, bloqueia
+            if (data.count >= 2) {
+                alert("⚠️ Você já enviou 2 mensagens hoje. Tente novamente amanhã.");
+                return;
+            }
+
+            // Prepara dados do formulário
+            const formData = {
+                name: document.getElementById("nome").value,
+                email: document.getElementById("email").value,
+                subject: document.getElementById("assunto").value,
+                comentario: document.getElementById("comentario").value
+            };
+
+            const serviceID = "service_0uqntnt";
+            const templateID = "template_tk8wxmg";
+
+            emailjs.send(serviceID, templateID, formData)
+                .then(() => {
+                    alert("✅ E-mail enviado com sucesso!");
+                    document.getElementById("contato-form").reset();
+
+                    // Atualiza contador no localStorage
+                    data.count++;
+                    data.date = hoje;
+                    localStorage.setItem("enviosEmail", JSON.stringify(data));
+                })
+                .catch((err) => {
+                    console.error("Erro ao enviar:", err);
+                    alert("❌ Ocorreu um erro ao enviar o e-mail.");
+                });
+        });
+    }
+</script>
+</body>
 </html>
