@@ -363,6 +363,8 @@ function exibirCarrinho() {
         const mensagemElement = document.getElementById('mensagem') || listaInterativa.appendChild(document.createElement('p'));
         mensagemElement.id = 'mensagem';
         mensagemElement.innerHTML = 'Função indisponível no momento, <a href="/Sobre" class="saiba-mais">SAIBA MAIS</a>';
+        // Rola até a mensagem com animação suave
+        mensagemElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     };
     listaInterativa.appendChild(finalizarCompra);
 
