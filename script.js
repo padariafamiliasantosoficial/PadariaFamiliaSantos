@@ -554,7 +554,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const headers = document.querySelectorAll('.categoria-detalhes h2');
 
     // Lista de categorias para detecção de paths
-    const categoryPaths = ['/menu', '/bolos', '/sobremesas', '/pães', '/salgados'];
+    const categoryPaths = ['/menu', '/bolos', '/sobremesas', '/paes', '/salgados'];
     const isCategoryPath = categoryPaths.includes(lowerPath);
 
     headers.forEach(header => {
