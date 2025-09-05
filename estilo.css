@@ -17,7 +17,6 @@ body {
   font-style: normal;
 }
 /* Header */
-/* Header */
 header {
     display: flex;
     background-color: #B87931;
@@ -40,7 +39,7 @@ nav {
 }
 /* Nav Mobile */
 .nav-mob {
-    display: none; /* Escondido por padrão */
+    display: none; 
     justify-content: flex-end;
     align-items: center;
     position: relative;
@@ -101,7 +100,7 @@ nav {
 }
 .container-mobile li {
     text-align: right;
-    padding: 0; /* Removido o padding do li para o link controlar o espaçamento */
+    padding: 0; 
     display: block;
     font-size: 20px;
     color: white;
@@ -113,8 +112,8 @@ nav {
 .container-mobile li a {
     text-decoration: none;
     color: white;
-    display: block; /* Faz o link ocupar todo o espaço do li */
-    padding: 20px; /* Move o padding para o link, mantendo o mesmo visual */
+    display: block; 
+    padding: 20px; 
 }
 h1 {
     font-family: 'Milks';
@@ -123,7 +122,7 @@ h1 {
 nav a {
     color: white;
     text-decoration: none;
-    position: relative; /* Necessário para posicionar o ::after */
+    position: relative; 
     padding-bottom: 5px;
 }
 nav a::after {
@@ -133,18 +132,18 @@ nav a::after {
     height: 2px;
     bottom: 0;
     left: 0;
-    background-color: #725331; /* Cor da borda ao passar o mouse */
-    transform: scaleX(0); /* Inicialmente encolhida */
-    transform-origin: center; /* Cresce a partir do centro */
+    background-color: #725331; 
+    transform: scaleX(0); 
+    transform-origin: center; 
     transition: transform 0.3s ease-in-out;
 }
 nav a:hover::after,
 nav a:focus::after {
-    transform: scaleX(1); /* Expande a borda */
+    transform: scaleX(1); 
 }
 nav a:hover,
 nav a:focus {
-    color: #725331; /* Muda a cor do texto */
+    color: #725331; 
 }
 /* Seção de bandeira */
 #bandeira {
@@ -214,8 +213,8 @@ nav a:focus {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%; /* 👈 Principal mudança: sempre 100% do container */
-    height: 100%; /* Preenche a altura */
+    width: 100%; 
+    height: 100%;
     object-fit: cover;
     transition: transform 0.3s ease;
     z-index: 0;
@@ -227,18 +226,18 @@ nav a:focus {
 /* Ajustes no Grid (#menu) para Responsividade */
 #menu {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 colunas em desktop */
+    grid-template-columns: repeat(4, 1fr); 
     gap: 10px;
-    margin: 0 auto; /* Centraliza, remove margins fixas */
-    max-width: 1400px; /* Limite para telas grandes */
-    padding: 0 20px; /* Padding lateral em vez de margin fixa */
+    margin: 0 auto; 
+    max-width: 1400px; 
+    padding: 0 20px; 
     margin-bottom: 7%;
 }
 .card:hover h3, .card:hover h4 {
     background-color: #D58C39;
 }
 .card h3, .card h4 {
-    position: relative; /* 👈 garante que o texto fique acima */
+    position: relative; 
     z-index: 1;
     font-weight: bold;
     color: #fafafa;
@@ -279,12 +278,12 @@ nav a:focus {
 }
 #catalogo {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 2 colunas */
+    grid-template-columns: repeat(3, 1fr); 
     justify-content: center;
     align-items: center;
     gap: 10px;
     padding: 10px;
-    width: 1180px; /* Ensures it fits within container-catalogo */
+    width: 1180px; 
   
 }
 .categoria {
@@ -313,7 +312,7 @@ nav a:focus {
 .categoria img {
     width: 200px;
     height: 175px;
-    filter: grayscale(100%); /* Efeito inicial no ícone preto */
+    filter: grayscale(100%);
     transition: filter 0.3s ease;
     transition: scale 0.3 ease;
   
@@ -323,17 +322,17 @@ nav a:focus {
   
 }
 .categoria:hover img {
-    filter: grayscale(0%); /* Remove o efeito no hover, revelando a cor original */
+    filter: grayscale(0%); 
     transform: scale(1.1)
 }
 .categoria[data-categoria="Menu"] {
-    grid-row: span 2; /* Faz o "Menu" ocupar duas linhas */
-    height: 610px; /* Define a altura desejada (ajustável) */
+    grid-row: span 2; 
+    height: 610px; 
     justify-content: center;
 }
 #produtos {
-    flex: 1; /* Allows the swiper to take available space */
-    max-width: 1100px; /* Matches the swiper width */
+    flex: 1; 
+    max-width: 1100px; 
 }
 .swiper {
     width: 1100px;
@@ -352,11 +351,11 @@ nav a:focus {
     z-index: 2;
     margin: 0;
     cursor: pointer;
-    color: rgb(245, 224, 208); /* Cor normal */
+    color: rgb(245, 224, 208); 
     position: relative;
 }
 .titulo-bolos:hover {
-    color: #f8f0e7; /* Cor no hover */
+    color: #f8f0e7; 
     background-color: #8E683E;
     z-index: 1;
 }
@@ -432,8 +431,8 @@ nav a:focus {
     border-radius: 10px; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
     display: flex;
-    flex-direction: column; /* para manter título e inputs em coluna */
-    align-items: center;    /* centraliza horizontalmente todos os filhos */
+    flex-direction: column;
+    align-items: center;    
 
 
 }
@@ -445,8 +444,8 @@ nav a:focus {
 }
 form {
     display: flex;
-    flex-direction: column; /* organiza em coluna */
-    align-items: center;    /* centraliza horizontalmente os filhos */
+    flex-direction: column;
+    align-items: center;    
 }
 
 
@@ -539,12 +538,12 @@ form {
 #mapa,
 #map.box {
     display: block;
-    justify-content: flex-end; /* Centraliza verticalmente o conteúdo */
-    align-items: center; /* Centraliza horizontalmente */
+    justify-content: flex-end; 
+    align-items: center; 
     padding: 20px;
     width: 300px;
     overflow-wrap: break-word;
-    flex-wrap: wrap; /* (opcional) Quebra em telas pequenas */
+    flex-wrap: wrap; 
     text-align: center;
   
 }
@@ -623,7 +622,7 @@ form {
   
 }
 .categoria-detalhes.info-visivel {
-    padding-top: 50px; /* Valor reduzido quando infos estão visíveis */
+    padding-top: 50px; 
 }
 .categoria-detalhes h2:hover {
     color: #E38417;
@@ -659,7 +658,7 @@ form {
 }
 .product-image-container {
   
-    height: 325px; /* Altura ajustada para o layout horizontal */
+    height: 325px; 
     width: 325px;
     border-radius: 10px;
     position: relative;
@@ -676,7 +675,7 @@ form {
   
 }
 .product-image-container:hover .product-image {
-    transform: scale(1.1); /* Efeito de zoom apenas na imagem */
+    transform: scale(1.1); 
 }
 .product-text {
     position: absolute;
@@ -773,7 +772,7 @@ form {
 .quantidade::-webkit-inner-spin-button,
 .quantidade::-webkit-outer-spin-button {
     -webkit-appearance: none; /* Remove setas no Chrome, Safari, Edge */
-    margin: 0; /* Remove margens adicionais */
+    margin: 0; 
 }
 .quantidade {
     -moz-appearance: textfield; /* Remove setas no Firefox */
@@ -787,9 +786,9 @@ form {
 }
 .carrinho {
     position: fixed;
-    top: 150px; /* distância do topo da janela */
-    right: 70px; /* distância da borda direita */
-    z-index: 1100; /* acima do header (que está em 1000) */
+    top: 150px; 
+    right: 70px; 
+    z-index: 1100; 
     padding: 20px;
     border-radius: 50%;
     background-color: #E38417;
@@ -1011,7 +1010,7 @@ form {
     max-width: 100%; 
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Changed from center to flex-start for left alignment */
+    align-items: flex-start; 
 }
 .container-input {
     margin-top: 10px;
@@ -1027,7 +1026,7 @@ form {
 }
 .container-input input[type="text"]::selection,
 .container-input input[type="email"]::selection {
-    background-color: #C67314; /* Fundo roxo para o texto selecionado */
+    background-color: #C67314; 
     color: #ffffff; /
   
 }
@@ -1053,7 +1052,7 @@ form {
 .perguntas-frequentes {
     max-width: 800px;
     margin: 30px auto;
-    padding-bottom: 60px; /* Espaço para o footer fixo */
+    padding-bottom: 60px; 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1131,7 +1130,7 @@ form {
     color: #8F693E;
 }
 .faq input[type="radio"]:checked + label + .respostas {
-    max-height: 200px; /* Ajuste conforme necessário */
+    max-height: 200px; 
     padding: 15px;
 }
 .faq input[type=radio]:checked + label + .respostas {
@@ -1318,7 +1317,7 @@ form {
     max-width: 80%; 
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Changed from center to flex-start for left alignment */
+    align-items: flex-start; 
 }
 #formulario {
     display: flex;
@@ -2140,7 +2139,7 @@ form {
     max-width: 80%; 
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Changed from center to flex-start for left alignment */
+    align-items: flex-start; 
 }
 #formulario {
     display: flex;
@@ -3123,7 +3122,7 @@ form {
     max-width: 100%; 
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Changed from center to flex-start for left alignment */
+    align-items: flex-start; 
 }
 .container-input input[type="text"],
 .container-input input[type="email"] {
@@ -3966,7 +3965,7 @@ form {
     max-width: 100%; 
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Changed from center to flex-start for left alignment */
+    align-items: flex-start; 
 }
 .container-input input[type="text"],
 .container-input input[type="email"] {
