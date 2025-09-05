@@ -559,28 +559,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
     headers.forEach(header => {
         header.addEventListener('click', function() {
-            headers.forEach(h => h.classList.remove('active')); // Remove .active de todos
-            this.classList.add('active'); // Adiciona .active ao clicado
-        
+            headers.forEach(h => h.classList.remove('active')); // Mantido
+            this.classList.add('active'); // Mantido
+
             let tipo = params.get('tipo');
             const path = window.location.pathname;
             const decoded = decodeURIComponent(path);
             if (decoded !== path) {
-            history.replaceState(null, '', decoded);
+                history.replaceState(null, '', decoded); // Mantido original
             }
             const isCategoryPath = /^(\/Menu|\/Bolos|\/Sobremesas|\/Paes|\/Salgados)$/.test(path);
 
             if (tipo) {
-                // Limpa a URL se query string estiver presente
+                // Limpa a URL se query string estiver presente (mantido)
                 history.replaceState({ categoria: tipo }, '', `/${tipo}`);
-                exibirProdutosPorCategoria(tipo);
+                exibirProdutosPorCategoria(tipo); // Mantido
             } else if (isCategoryPath) {
                 tipo = path.substring(1);
-                exibirProdutosPorCategoria(tipo);
+                exibirProdutosPorCategoria(tipo); // Mantido
             } else {
-                exibirProdutosPorCategoria('Menu');
+                exibirProdutosPorCategoria('Menu'); // Mantido
             }
             
+            const categoria = this.getAttribute('data-categoria') || this.textContent.trim();
+            if (categoria) {
+                window.location.href = `/${categoria}`; // Adicionado para recarregamento (complementar)
+            }
         });
     });
 
