@@ -568,7 +568,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (decoded !== path) {
             history.replaceState(null, '', decoded);
             }
-            const isCategoryPath = /^(\/Menu|\/Bolos|\/Sobremesas|\/Pães|\/Salgados)$/.test(path);
+            const isCategoryPath = /^(\/Menu|\/Bolos|\/Sobremesas|\/Paes|\/Salgados)$/.test(path);
 
             if (tipo) {
                 // Limpa a URL se query string estiver presente
@@ -635,7 +635,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let tipo = params.get('tipo');
         if (!tipo && isCategoryPath) {
-            tipo = path.substring(1); // Extrai do path (ex: /Bolos -> 'Bolos')
+            tipo = path.substring(1); 
         }
 
         if (tipo) {
@@ -664,56 +664,4 @@ document.addEventListener('DOMContentLoaded', () => {
     if (overlay) {
         overlay.addEventListener('click', closeSidePanels);
     }
-    
-    // ENVIAR EMAIL
-    emailjs.init("R_s1_9hjc-TF4dqml");
-
-    const contatoForm = document.getElementById("contato-form");
-    if (contatoForm) {
-        contatoForm.addEventListener("submit", function(event) {
-            event.preventDefault();
-
-            // Pega os dados do localStorage
-            let data = JSON.parse(localStorage.getItem("enviosEmail")) || { count: 0, date: null };
-            let hoje = new Date().toLocaleDateString(); // pega data de hoje (ex: 20/08/2025)
-
-            // Se mudou o dia, zera o contador
-            if (data.date !== hoje) {
-                data = { count: 0, date: hoje };
-            }
-
-            // Se já enviou 2 hoje, bloqueia
-            if (data.count >= 2) {
-                alert("⚠️ Você já enviou 2 mensagens hoje. Tente novamente amanhã.");
-                return;
-            }
-
-            // Prepara dados do formulário
-            const formData = {
-                name: document.getElementById("nome").value,
-                email: document.getElementById("email").value,
-                subject: document.getElementById("assunto").value,
-                comentario: document.getElementById("comentario").value
-            };
-
-            const serviceID = "service_0uqntnt";
-            const templateID = "template_tk8wxmg";
-
-            emailjs.send(serviceID, templateID, formData)
-                .then(() => {
-                    alert("✅ E-mail enviado com sucesso!");
-                    document.getElementById("contato-form").reset();
-
-                    // Atualiza contador no localStorage
-                    data.count++;
-                    data.date = hoje;
-                    localStorage.setItem("enviosEmail", JSON.stringify(data));
-                })
-                .catch((err) => {
-                    console.error("Erro ao enviar:", err);
-                    alert("❌ Ocorreu um erro ao enviar o e-mail.");
-                });
-        });
-    }
-
 });
