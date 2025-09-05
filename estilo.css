@@ -175,14 +175,21 @@ nav a:focus {
 /* Seção de boas-vindas */
 #boas-vindas {
     text-align: center;
-    font-weight: bold;
     font-size: 20px;
+    font-family: "Playfair Display", serif;
+    font-optical-sizing: auto;
+    font-weight: weight;
+    font-style: normal;
 }
 #titulo-produtos {
     text-align: center;
     margin-top: 7%;
     font-size: 18px;
     font-weight: bold;
+    font-family: "Playfair Display", serif;
+    font-optical-sizing: auto;
+    font-weight: weight;
+    font-style: normal;
 }
           
 #menu {
@@ -432,7 +439,11 @@ nav a:focus {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
     display: flex;
     flex-direction: column;
-    align-items: center;    
+    align-items: center;   
+    font-family: "Playfair Display", serif;
+    font-optical-sizing: auto;
+    font-weight: weight;
+    font-style: normal;
 
 
 }
@@ -441,6 +452,8 @@ nav a:focus {
 .container-form p {
     text-align: center;
     margin-bottom: 10px;
+    font-size: 20px;
+    
 }
 form {
     display: flex;
@@ -2529,6 +2542,7 @@ form {
 .container-form p {
     text-align: center;
     margin-bottom: 10px;
+    font-size: 16px;
 }
 
 form {
@@ -3647,6 +3661,7 @@ form {
 .container-form p {
     text-align: center;
     margin-bottom: 10px;
+    font-size: 14px
 }
 
 
