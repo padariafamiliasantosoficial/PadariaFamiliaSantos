@@ -363,8 +363,16 @@ function exibirCarrinho() {
         const mensagemElement = document.getElementById('mensagem') || listaInterativa.appendChild(document.createElement('p'));
         mensagemElement.id = 'mensagem';
         mensagemElement.innerHTML = 'Função indisponível no momento, <a href="/Sobre" class="saiba-mais">SAIBA MAIS</a>';
-        // Rola até a mensagem com animação suave
-        mensagemElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        // Adiciona um pequeno atraso para garantir que a mensagem esteja renderizada
+        setTimeout(() => {
+            if (mensagemElement.offsetParent !== null) { // Verifica se o elemento está visível
+                mensagemElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                console.warn("Mensagem não está visível no DOM, scroll não executado");
+                // Opcional: rola até o contêiner do carrinho
+                listaInterativa.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }, 100); // Atraso de 100ms para renderização
     };
     listaInterativa.appendChild(finalizarCompra);
 
