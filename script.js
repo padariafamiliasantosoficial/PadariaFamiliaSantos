@@ -568,7 +568,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (decoded !== path) {
             history.replaceState(null, '', decoded);
             }
-            const isCategoryPath = /^(\/Menu|\/Bolos|\/Sobremesas|\/Pães|\/Salgados)$/.test(path);
+            const isCategoryPath = /^(\/Menu|\/Bolos|\/Sobremesas|\/Paes|\/Salgados)$/.test(path);
 
             if (tipo) {
                 // Limpa a URL se query string estiver presente
