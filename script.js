@@ -30,10 +30,6 @@ if (document.querySelector('.swiper')) {
             swiper.autoplay.stop();
             swiper.params.speed = 500;
         });
-        prevButton.addEventListener('click', () => {
-            swiper.autoplay.stop();
-            swiper.params.speed = 500;
-        });
     }
 }
 
@@ -137,14 +133,6 @@ function exibirDetalhesProduto(slugOrId) {
             // Altera a URL e recarrega a página
             if (window.location.pathname !== novaUrl) {
                 window.location.href = novaUrl;
-            } else {
-                if (preencherDetalhes(produto)) {
-                    infoProduto.style.display = 'grid';
-                    if (categoriaDetalhes) {
-                        categoriaDetalhes.classList.add('info-visivel');
-                    }
-                    infoProduto.classList.add('info-produto-visivel');
-                }
             }
         }
     } else {
@@ -382,7 +370,8 @@ function exibirCarrinho() {
     mensagemElement.id = 'mensagem';
     listaInterativa.appendChild(mensagemElement);
 }
-    // Função para mover o cart-count entre desktop e mobile
+
+// Função para mover o cart-count entre desktop e mobile
 function moveCartCount() {
     const cartCount = document.getElementById('cart-count');
     const desktopCartIcon = document.querySelector('nav .cart-icon');  // Use selector correto
@@ -398,19 +387,6 @@ function moveCartCount() {
             desktopCartIcon.appendChild(cartCount);
         }
     }
-    function atualizarCarrinhoCount() {
-    const count = carrinho.length;  
-    const cartCount = document.getElementById('cart-count');
-    if (cartCount) {
-        cartCount.textContent = count;
-        if (count > 0) {
-            cartCount.classList.remove('hidden');
-            cartCount.style.display = 'block';  // Force visível
-        } else {
-            cartCount.classList.add('hidden');
-        }
-    }
-}
 }
 
 window.addEventListener('load', moveCartCount);
@@ -607,16 +583,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (produto) {
-            currentProduto = produto;
-            preencherDetalhes(produto);
-            infoProduto.style.display = 'grid';
-
-            if (categoriaDetalhes) {
-                categoriaDetalhes.classList.add('info-visivel');
-            }
-            infoProduto.classList.add('info-produto-visivel');
-
-            // Se usar ID, atualiza para URL com slug
             if (productId) {
                 window.location.href = `/produto/${produto.slug}`;
             }

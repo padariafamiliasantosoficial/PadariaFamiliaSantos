@@ -358,7 +358,7 @@
         });
     });
     // ENVIAR EMAIL
-    emailjs.init("R_s1_9hjc-TF4dqml");
+    emailjs.init("d66x0-80BlXS-yl0M");
 
     const contatoForm = document.getElementById("contato-form");
     if (contatoForm) {
@@ -367,7 +367,7 @@
 
             // Pega os dados do localStorage
             let data = JSON.parse(localStorage.getItem("enviosEmail")) || { count: 0, date: null };
-            let hoje = new Date().toLocaleDateString(); // pega data de hoje (ex: 20/08/2025)
+            let hoje = new Date().toLocaleDateString(); // pega data de hoje
 
             // Se mudou o dia, zera o contador
             if (data.date !== hoje) {
