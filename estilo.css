@@ -480,8 +480,9 @@ form {
     box-sizing: border-box; 
     border-radius: 10px;
     font-size: 16px;
-    font-family: "Chela One", system-ui;
-    font-weight: 500;
+    font-family: "Outfit", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: weight;
     font-style: normal;
 }
 
@@ -492,8 +493,9 @@ form {
     box-sizing: border-box;
     border-radius: 10px;
     font-size: 16px;
-    font-family: "Chela One", system-ui;
-    font-weight: 500;
+    font-family: "Outfit", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: weight;
     font-style: normal;
 }
 
@@ -504,8 +506,9 @@ form {
     box-sizing: border-box;
     border-radius: 10px;
     font-size: 16px;
-    font-family: "Chela One", system-ui;
-    font-weight: 500;
+    font-family: "Outfit", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: weight;
     font-style: normal;
 }
 
@@ -516,8 +519,9 @@ form {
     box-sizing: border-box;
     border-radius: 10px;
     font-size: 16px;
-    font-family: "Chela One", system-ui;
-    font-weight: 500;
+    font-family: "Outfit", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: weight;
     font-style: normal;
 }
 
@@ -530,8 +534,9 @@ form {
     max-height: 500px;
     border-radius: 10px;
     font-size: 18px;
-    font-family: "Chela One", system-ui;
-    font-weight: 500;
+    font-family: "Outfit", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: weight;
     font-style: normal;
 }
 
@@ -550,8 +555,9 @@ form {
     background-color: #ffffff; 
     cursor: pointer;
     border-radius: 10px;
-    font-family: "Chela One", system-ui;
-    font-weight: 500;
+    font-family: "Outfit", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: weight;
     font-style: normal;
     font-size: 20px
 }
