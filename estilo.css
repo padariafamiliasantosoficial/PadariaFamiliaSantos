@@ -1643,9 +1643,13 @@ form {
     }
     .sobre-form {
         height: 400px;
+        margin: 20px;
+        margin-top: 0;
     }
     .sobre-apresentacao {
         height: 400px;
+        margin: 20px;
+        margin-top: 0;
     }
     #formulario {
     display: flex;
@@ -2173,9 +2177,12 @@ form {
     
 .sobre-apresentacao {
     height: 400px;
+    margin: 20px
 }
 .sobre-form {
     height: 400px;
+    margin: 20px;
+    margin-top: 0;
 }
 
 form {
@@ -3024,7 +3031,7 @@ form {
 .sobre-form {
     background-color: #ffffff;
     width: 1000px;
-    height: 440px;
+    height: 450px;
     margin: 10px;
 }
 .texto-sobre2 h3{
@@ -3503,7 +3510,7 @@ form {
     .sobre-apresentacao {
     display: flex;
     width: 330px;
-    height: 560px;
+    min-height: 620px;
     margin: 10px;
     margin-top: 0;
     border-radius: 5px;
@@ -3514,14 +3521,12 @@ form {
 .texto-sobre h1 {
     font-size: 28px;
     margin: 0;
+
 }
 .texto-sobre {
     align-items: center;
     justify-content: center;
     margin: 20px;
-
-
-  
 }
 .container-form-sobre {
     display: flex;
@@ -3532,7 +3537,7 @@ form {
 .sobre-form {
     background-color: #ffffff;
     width: 330px;
-    height: 470px;
+    height: 480px;
     margin: 10px;
 }
 .texto-sobre2 {
