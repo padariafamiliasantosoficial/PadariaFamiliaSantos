@@ -1349,7 +1349,9 @@ footer span {
     margin: 5px
 }
 .texto-sobre h1 {
-    margin: 0
+    margin: 0;
+    font-size: 42px;
+    
 }
 .sobre-form {
     height: 360px;
