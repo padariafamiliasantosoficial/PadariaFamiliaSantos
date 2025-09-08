@@ -11,11 +11,7 @@ body {
     src: url() format("");
     font-weight: normal;
 }
-.alfa-slab-one-regular {
-  font-family: "Alfa Slab One", serif;
-  font-weight: 400;
-  font-style: normal;
-}
+
 /* Header */
 header {
     display: flex;
@@ -1084,6 +1080,7 @@ form {
     border-radius: 5px;
     cursor:pointer;
     margin-top: 10px;
+    margin-bottom: 0;
 }
 .sobre-form button:hover {
     background-color: #C67314;
@@ -1225,6 +1222,14 @@ footer span {
     .swiper-button-next, .swiper-button-prev {
         display: block !important;
     }
+    .sobre-apresentacao {
+    height: 380px;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+    .sobre-form {
+        margin-bottom: 0;
+    }
 }
 @media (max-width: 1300px) {
     nav {
@@ -1355,6 +1360,7 @@ footer span {
 }
 .sobre-form {
     height: 360px;
+    margin-bottom: 0;
 }
 form {
     max-width: 80%; 
@@ -1645,6 +1651,7 @@ form {
         height: 400px;
         margin: 20px;
         margin-top: 0;
+        margin-bottom: 0;
     }
     .sobre-apresentacao {
         height: 400px;
@@ -2183,6 +2190,7 @@ form {
     height: 400px;
     margin: 20px;
     margin-top: 0;
+    margin-bottom: 0;
 }
 
 form {
@@ -2354,6 +2362,7 @@ form {
 .sobre-form {
     height: 440px;
     margin: 10px;
+    margin-bottom: 0;
 }
 .container-form {
     max-width: 600px;
@@ -3033,6 +3042,7 @@ form {
     width: 1000px;
     height: 450px;
     margin: 10px;
+    margin-bottom: 0;
 }
 .texto-sobre2 h3{
     font-size: 22px;
@@ -3156,6 +3166,7 @@ form {
     width: 360px;
     height: auto;
     margin: 10px;
+    margin-bottom: 0;
 }
 .texto-sobre2 {
     margin: 20px;
@@ -3539,6 +3550,7 @@ form {
     width: 330px;
     height: 480px;
     margin: 10px;
+    margin-bottom: 0;
 }
 .texto-sobre2 {
     margin: 20px;
@@ -3998,6 +4010,7 @@ form {
     width: 320px;
     height: 480px;
     margin: 10px;
+    margin-bottom: 0;
 }
 .texto-sobre2 {
     margin: 20px;
